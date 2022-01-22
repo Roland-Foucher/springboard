@@ -35,7 +35,7 @@ public class TrackRepository extends GlobalRepository<Track> implements ITrackRe
     }
 
     @Override
-    public void injectParamatersToAddStatement(Track track) {
+    public void injectParamatersToSaveStatement(Track track) {
         try {
             stmt.setString(1, track.getName());
             stmt.setString(2, track.getUrl());
@@ -44,7 +44,7 @@ public class TrackRepository extends GlobalRepository<Track> implements ITrackRe
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            System.out.println("error on inject parameters to add statement");
+            System.out.println("error on inject parameters to save statement");
         }
 
     }
@@ -52,9 +52,7 @@ public class TrackRepository extends GlobalRepository<Track> implements ITrackRe
     @Override
     public void injectParamatersToUpdateStatement(Track track) {
         try {
-            stmt.setString(1, track.getName());
-            stmt.setString(2, track.getUrl());
-            stmt.setInt(3, track.getArtistId());
+            injectParamatersToSaveStatement(track);
             stmt.setInt(4, track.getId());
         } catch (SQLException e) {
             System.out.println("error on inject parameters to update statement");

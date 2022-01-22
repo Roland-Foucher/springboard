@@ -14,6 +14,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import co.simplon.p16.springboard.configuration.JdbcConfiguration.JdbcConfiguration;
 
+
 public class GlobalRepository<T> implements IGlobalRepository<T> {
 
     // Connections attributs
@@ -39,7 +40,7 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
 
         List<T> list = new ArrayList<>();
         try {
-            setConnection();
+            connection = dataSource.getConnection();
             stmt = connection.prepareStatement(findAllQuery);
             ResultSet result = stmt.executeQuery();
             while (result.next()) {
@@ -61,7 +62,7 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
     public T findById(Integer id) {
 
         try {
-            setConnection();
+            connection = dataSource.getConnection();
             stmt = connection.prepareStatement(findByIdQuery);
             stmt.setInt(1, id);
             ResultSet result = stmt.executeQuery();
@@ -81,9 +82,9 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
     @Override
     public boolean save(T object) {
         try {
-            setConnection();
+            connection = dataSource.getConnection();
             stmt = connection.prepareStatement(saveQuery, PreparedStatement.RETURN_GENERATED_KEYS);
-            injectParamatersToAddStatement(object);
+            injectParamatersToSaveStatement(object);
 
             if (stmt.executeUpdate() == 1) {
                 ResultSet result = stmt.getGeneratedKeys();
@@ -108,7 +109,7 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
     @Override
     public boolean update(T object) {
          try {
-            setConnection();
+            connection = dataSource.getConnection();
             stmt = connection.prepareStatement(updateQuery);
             injectParamatersToUpdateStatement(object);
 
@@ -127,7 +128,7 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
     @Override
     public boolean deleteById(Integer id) {
         try {
-            setConnection();
+            connection = dataSource.getConnection();
             stmt = connection.prepareStatement(deleteQuery);
             stmt.setInt(1, id);
 
@@ -142,42 +143,33 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
         return false;
     }
 
-    @Override
-    public T instanciateObject(ResultSet result) {
+   
+    protected T instanciateObject(ResultSet result) {
 
         return null;
     }
 
-    @Override
-    public Connection getConnection() {
 
-        return connection;
-    }
-
-    @Override
-    public void setConnection() {
-
-        try {
-            connection = dataSource.getConnection();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    
+    protected void injectParamatersToSaveStatement(T object) {
 
     }
 
-    @Override
-    public void injectParamatersToAddStatement(T object) {
+    
+    protected void injectParamatersToUpdateStatement(T object) {
+    }
+
+   
+    protected void injectGeneratedKey(T object, int generatedId) {
 
     }
 
-    @Override
-    public void injectParamatersToUpdateStatement(T object) {
+    public DataSource getDataSource() {
+        return dataSource;
     }
 
-    @Override
-    public void injectGeneratedKey(T object, int generatedId) {
-
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
 }
