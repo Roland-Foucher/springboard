@@ -11,17 +11,8 @@ import java.util.List;
  */
 public interface IGlobalRepository <T> {
 
-    /**
-     * List all object in the table
-     * @return list of Object
-     */
-    List<T> findAll();
 
-    /**
-     * Find an object by this Id
-     * @param id 
-     * @return
-     */
+    List<T> findAll();
     T findById(Integer id);
     boolean save(T object);
     boolean update (T object);

@@ -5,9 +5,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import co.simplon.p16.springboard.entity.Artist;
+import co.simplon.p16.springboard.entity.Show;
 
 public interface IArtistRepository extends IGlobalRepository<Artist> {
-
     List <Artist> findAllSortedByVotes();
     List <Artist> findAllSortedByListenCount();
     List <Artist> findAllHaveShow(Integer styleId);
@@ -17,8 +17,10 @@ public interface IArtistRepository extends IGlobalRepository<Artist> {
     List <Artist> findByShowCity(String showCity);
     List <Artist> findByShowVenue(String showVenue);
     List <Artist> findByShowDate(LocalDate date);
-    List <Artist> findByUser(Integer userId);
+    Artist findByUserId(Integer userId);
     List <Artist> findByFavorites(Integer userId);
+
+    boolean saveShow(Artist artist);
 
 
 }

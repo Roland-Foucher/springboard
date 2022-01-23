@@ -6,5 +6,8 @@ import co.simplon.p16.springboard.entity.User;
 
 public interface IUserRepository extends IGlobalRepository<User> {
     User findByEmail(String email);
+    boolean setUpvote(Integer artistId);
+    boolean setFavoriteArtist(Integer artistId);
+    
 
 }

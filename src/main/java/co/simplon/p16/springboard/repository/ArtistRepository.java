@@ -5,9 +5,22 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.stereotype.Repository;
+
 import co.simplon.p16.springboard.entity.Artist;
 
+@Repository
 public class ArtistRepository extends GlobalRepository<Artist> implements IArtistRepository {
+
+    @Autowired
+    private SocialNetworkRepository socialNetworkRepository;
+    @Autowired
+    private TrackRepository trackRepository;
+    
+    
+    private final String findByUserId =  "SELECT * FROM artists WHERE userId=?";
 
     public ArtistRepository() {
         this.findAllQuery = "SELECT * FROM artists";
@@ -83,6 +96,7 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
         return null;
     }
 
+
     @Override
     public List<Artist> findAllSortedByVotes() {
         // TODO Auto-generated method stub
@@ -138,8 +152,22 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
     }
 
     @Override
-    public List<Artist> findByUser(Integer userId) {
-        // TODO Auto-generated method stub
+    public Artist findByUserId(Integer userId) {
+        try {
+            connection = dataSource.getConnection();
+            stmt = connection.prepareStatement(findByUserId);
+            stmt.setInt(1, userId);
+            ResultSet result = stmt.executeQuery();
+            if (result.next()) {
+                return instanciateObject(result);
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+
         return null;
     }
 
@@ -147,6 +175,36 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
     public List<Artist> findByFavorites(Integer userId) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+
+    @Override
+    public boolean deleteById(Integer id) {
+        socialNetworkRepository.deleteByArtistId(id);
+        trackRepository.deleteByArtistId(id);
+        return super.deleteById(id);
+    }
+
+    public SocialNetworkRepository getSocialNetworkRepository() {
+        return socialNetworkRepository;
+    }
+
+    public void setSocialNetworkRepository(SocialNetworkRepository socialNetworkRepository) {
+        this.socialNetworkRepository = socialNetworkRepository;
+    }
+
+    public TrackRepository getTrackRepository() {
+        return trackRepository;
+    }
+
+    public void setTrackRepository(TrackRepository trackRepository) {
+        this.trackRepository = trackRepository;
+    }
+
+    @Override
+    public boolean saveShow(Artist artist) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
   

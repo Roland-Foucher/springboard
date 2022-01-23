@@ -1,33 +1,30 @@
 package co.simplon.p16.springboard.repository;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.springframework.stereotype.Repository;
 
 import co.simplon.p16.springboard.entity.MusicalStyle;
 
+@Repository
 public class MusicalStyleRepository extends GlobalRepository<MusicalStyle> implements IMusicalStyleRepository  {
 
-    @Override
-    protected void injectGeneratedKey(MusicalStyle object, int generatedId) {
-        // TODO Auto-generated method stub
-        super.injectGeneratedKey(object, generatedId);
-    }
-
-    @Override
-    protected void injectParamatersToSaveStatement(MusicalStyle object) {
-        // TODO Auto-generated method stub
-        super.injectParamatersToSaveStatement(object);
-    }
-
-    @Override
-    protected void injectParamatersToUpdateStatement(MusicalStyle object) {
-        // TODO Auto-generated method stub
-        super.injectParamatersToUpdateStatement(object);
+    public MusicalStyleRepository() {
+        this.findAllQuery = "SELECT * FROM musicalStyle";
+        this.findByIdQuery = "SELECT * FROM musicalStyle WHERE id=?";
+       
     }
 
     @Override
     protected MusicalStyle instanciateObject(ResultSet result) {
-        // TODO Auto-generated method stub
-        return super.instanciateObject(result);
+        try {
+            return new MusicalStyle(result.getInt("id"), result.getString("styleName"));
+        } catch (SQLException e) {
+            System.out.println("error when instanciate MusicalStyle");
+            e.printStackTrace();
+        }
+        return null;
     }
     
 }
