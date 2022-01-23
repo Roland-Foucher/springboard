@@ -1,7 +1,9 @@
 package co.simplon.p16.springboard.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.sql.DataSource;
@@ -64,6 +66,8 @@ public class ProRepositoryTest {
 
     @Test
     void testFindByUser() {
-
+        assertNotNull(proRepository.findByUser(1));
     }
+
+ 
 }

@@ -1,5 +1,6 @@
 package co.simplon.p16.springboard.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -66,6 +67,26 @@ public class ShowRepositoryTest {
 
     @Test
     void testFindByArtist() {
+       assertEquals(2, showRepository.findByArtist(1).size());
+    }
 
+    @Test
+    void testFindByAdress(){
+        assertEquals(2, showRepository.findByAdress("test").size());
+    }
+
+    @Test 
+    void testFindByVenue(){
+        assertEquals(2, showRepository.findByVenue("venue").size());
+    }
+
+    @Test
+    void testFindByDate(){
+        assertEquals(1, showRepository.findByDate(LocalDate.of(2021, 01, 01)).size());
+    }
+
+    @Test
+    void deleteShowInArtistsShowTable(){
+        assertEquals(2, showRepository.deleteShowInArtistsShowTable(1));
     }
 }

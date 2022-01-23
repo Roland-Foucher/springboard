@@ -1,5 +1,6 @@
 package co.simplon.p16.springboard.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -61,14 +62,23 @@ class SocialNetworkRepositoryTest {
 
     @Test
      void testDeleteByArtistId(){
-         assertTrue(socialNetworkRepository.deleteByArtistId(1));
+         assertNotNull(socialNetworkRepository.deleteByArtistId(1));
      }
 
      @Test
      void testDeleteMultipleSocialNetworkByArtistId(){
-         SocialNetwork socialNetwork = new SocialNetwork(2, "url", 1);
-         socialNetworkRepository.save(socialNetwork);
-         socialNetworkRepository.deleteByArtistId(1);
-         assertNull(socialNetworkRepository.findByArtistId(1));
+
+         assertNotNull(socialNetworkRepository.deleteByArtistId(1));
+         assertEquals(0,socialNetworkRepository.findByArtistId(1).size());
+     }
+
+     @Test
+     void testFindByArtistId(){
+        assertNotNull(socialNetworkRepository.findByArtistId(1));
+        
+     }
+     @Test
+     void testFindMultipleSocialNetworkByArtiste(){
+        assertEquals(2, socialNetworkRepository.findByArtistId(1).size()); 
      }
 }

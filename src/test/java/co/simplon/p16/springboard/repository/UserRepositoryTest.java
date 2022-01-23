@@ -23,27 +23,26 @@ public class UserRepositoryTest {
 
     @BeforeEach
     public void init() {
-            userRepository = new UserRepository();
-            artistRepository = new ArtistRepository();
-            proRepository = new ProRepository();
-            socialNetworkRepository = new SocialNetworkRepository();
-            trackRepository = new TrackRepository();
+        userRepository = new UserRepository();
+        artistRepository = new ArtistRepository();
+        proRepository = new ProRepository();
+        socialNetworkRepository = new SocialNetworkRepository();
+        trackRepository = new TrackRepository();
 
-            artistRepository.setSocialNetworkRepository(socialNetworkRepository);
-            artistRepository.setTrackRepository(trackRepository);
-            userRepository.setArtistRepository(artistRepository);
-            userRepository.setProRepository(proRepository);
+        artistRepository.setSocialNetworkRepository(socialNetworkRepository);
+        artistRepository.setTrackRepository(trackRepository);
+        userRepository.setArtistRepository(artistRepository);
+        userRepository.setProRepository(proRepository);
 
-
-            DataSource dataSource = new EmbeddedDatabaseBuilder()
-                    .setType(EmbeddedDatabaseType.H2)
-                    .addScript("springboard-test.sql")
-                    .build();
-            userRepository.setDataSource(dataSource);
-            artistRepository.setDataSource(dataSource);
-            proRepository.setDataSource(dataSource);
-            trackRepository.setDataSource(dataSource);
-            socialNetworkRepository.setDataSource(dataSource);
+        DataSource dataSource = new EmbeddedDatabaseBuilder()
+                .setType(EmbeddedDatabaseType.H2)
+                .addScript("springboard-test.sql")
+                .build();
+        userRepository.setDataSource(dataSource);
+        artistRepository.setDataSource(dataSource);
+        proRepository.setDataSource(dataSource);
+        trackRepository.setDataSource(dataSource);
+        socialNetworkRepository.setDataSource(dataSource);
     }
 
     @Test
@@ -55,32 +54,70 @@ public class UserRepositoryTest {
     class testBasicCRUD {
 
         @Test
-        public void testSaveUser() {
+        void testSaveUser() {
             User user = new User("firstName", "lastName", "email", "password", "role");
             assertTrue(userRepository.save(user));
             assertNotNull(user.getId());
         }
 
-
         @Test
-        public void testFindUser() {
+        void testFindUser() {
             assertNotNull(userRepository.findById(1));
         }
 
         @Test
-        public void testFindAllUser() {
+        void testFindAllUser() {
             assertNotNull(userRepository.findAll());
         }
 
         @Test
-        public void testUpdateUser() {
+        void testUpdateUser() {
             User user = new User("firstName", "lastName", "email", "password", "role");
             user.setId(1);
             assertTrue(userRepository.update(user));
         }
+
         @Test
-        public void deleteUser(){
+        void deleteUser() {
             assertTrue(userRepository.deleteById(1));
         }
     }
+
+    @Test
+    void findByEmail() {
+        assertNotNull(userRepository.findByEmail("test"));
+    }
+
+    @Nested
+    class testFavoritesQueries {
+        @Test
+        void setFavoriteArtist() {
+
+            assertTrue(userRepository.setFavoriteArtist(2, 2));
+        }
+
+        @Test
+        void deleteAllUserFavoriteArtist() {
+            assertNotNull(userRepository.deleteAllFavoriteArtist(1));
+        }
+
+        @Test
+        void deleteSingleUserFavoriteArtist() {
+            assertTrue(userRepository.deleteSingleFavoriteArtist(1, 1));
+        }
+    }
+
+    @Nested
+    class testUpvotesQueries {
+        @Test
+        void setUpvoteArtist() {
+            assertTrue(userRepository.setUpvote(2, 2));
+        }
+
+        @Test
+        void deleteAllUserUpvotes() {
+            assertNotNull(userRepository.deleteAllUserUpvote(1));
+        }
+    }
+
 }

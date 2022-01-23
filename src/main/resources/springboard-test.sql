@@ -35,7 +35,7 @@ CREATE Table artists(
   bio VARCHAR(255),
   listenCount INT NOT NULL,
   musicalStyleId INT NOT NULL,
-  userId INT NOT NULL
+  userId INT UNIQUE NOT NULL
 );
 CREATE Table tracks(
   id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -65,7 +65,7 @@ CREATE Table pro(
   contact VARCHAR(100) NOT NULL,
   city VARCHAR(50) NOT NULL,
   siret VARCHAR(100) NOT NULL,
-  userId INT NOT NULL
+  userId INT UNIQUE NOT NULL
 );
 CREATE Table favoritsArtists(userId INT NOT NULL, artistId INT NOT NULL);
 CREATE Table upVotes(userId INT NOT NULL, artistId INT NOT NULL);
@@ -128,22 +128,71 @@ INSERT INTO
  VALUES
   (1, 'test', 'test', 'test', 'test', 'test');
 INSERT INTO
+  `users`
+ VALUES
+  (2, 'test', 'test', 'test2', 'test', 'test');
+INSERT INTO
+  `users`
+ VALUES
+  (3, 'test', 'test', 'test3', 'test', 'test');
+INSERT INTO
   `artists`
 VALUES
-  (1, 'test', NULL, NULL, NULL, 'test', 0, NULL, 0, 1, 1);
+  (1, 'test', NULL, NULL, NULL, 'city', 0, NULL, 0, 1, 1);
+INSERT INTO
+  `artists`
+VALUES
+  (2, 'test2', NULL, NULL, NULL, 'city2', 100, NULL, 100, 1, 2);
 INSERT INTO
   `tracks`
   VALUES
   (1, 'name', 'url', 1);
+INSERT INTO
+  `tracks`
+  VALUES
+  (2, 'name', 'url', 1);
 INSERT INTO 
   `socialNetwork` 
   VALUES 
   (1,'url', 1);
 INSERT INTO 
+  `socialNetwork` 
+  VALUES 
+  (2,'url', 1);
+INSERT INTO 
   `shows` 
   VALUES 
-  (1,'2020-10-10', 'test', 'test');
+  (1,'2020-10-10', 'venue', 'test');
+INSERT INTO 
+  `shows` 
+  VALUES 
+  (2,'2021-10-10', 'venue', 'test');
 INSERT INTO 
   `pro` 
   VALUES 
   (1,'test', 'test', 'test','test','test', 1);
+INSERT INTO 
+  `pro` 
+  VALUES 
+  (2,'test', 'test', 'test','test','test', 2);
+INSERT INTO
+  `upVotes`
+    VALUES
+    (1,1);
+  
+INSERT INTO
+  `favoritsArtists`
+    VALUES
+    (1,1);
+INSERT INTO
+  `artistsShows`
+    VALUES
+    (1,1);
+INSERT INTO
+  `artistsShows`
+    VALUES
+    (2,1);
+INSERT INTO
+  `artistsShows`
+    VALUES
+    (1,2);
