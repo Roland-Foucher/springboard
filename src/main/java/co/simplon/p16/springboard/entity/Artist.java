@@ -1,5 +1,7 @@
 package co.simplon.p16.springboard.entity;
 
+import java.util.List;
+
 /**
  * artist is the page of an artist user. 
  * artist is link to an User by id.
@@ -8,40 +10,48 @@ package co.simplon.p16.springboard.entity;
 public class Artist {
     private Integer id;
     private String artistName;
-    private String CoverUrl;
+    private String coverUrl;
     private String contact;
     private String webSite;
     private String city;
     private String bio;
     private Integer listenCount;
-    private Integer UserId;
+    private Integer voteCount;
+    private Integer musicalStyleId;
+    private Integer userId;
+    private List <Show> listOfShow;
 
     //
     // CONSTRUCTORS
     //
     
+
+
     public Artist(String artistName, String coverUrl, String contact, String webSite, String city, String bio,
-            Integer listenCount) {
+            Integer listenCount, Integer voteCount) {
         this.artistName = artistName;
-        CoverUrl = coverUrl;
+        this.coverUrl = coverUrl;
         this.contact = contact;
         this.webSite = webSite;
         this.city = city;
         this.bio = bio;
         this.listenCount = listenCount;
+        this.voteCount = voteCount;
     }
 
     public Artist(Integer id, String artistName, String coverUrl, String contact, String webSite, String city,
-            String bio, Integer listenCount, Integer userId) {
+            String bio, Integer listenCount, Integer voteCount, Integer musicalStyleId, Integer userId) {
         this.id = id;
         this.artistName = artistName;
-        CoverUrl = coverUrl;
+        this.coverUrl = coverUrl;
         this.contact = contact;
         this.webSite = webSite;
         this.city = city;
         this.bio = bio;
         this.listenCount = listenCount;
-        UserId = userId;
+        this.voteCount = voteCount;
+        this.musicalStyleId = musicalStyleId;
+        this.userId = userId;
     }
 
     public Artist() {
@@ -63,10 +73,10 @@ public class Artist {
         this.artistName = artistName;
     }
     public String getCoverUrl() {
-        return CoverUrl;
+        return this.coverUrl;
     }
     public void setCoverUrl(String coverUrl) {
-        CoverUrl = coverUrl;
+        this.coverUrl = coverUrl;
     }
     public String getContact() {
         return contact;
@@ -99,20 +109,43 @@ public class Artist {
         this.listenCount = listenCount;
     }
     public Integer getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(Integer userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
-    //
-    // TO STRING
-    //
+
+    public Integer getMusicalStyleId() {
+        return musicalStyleId;
+    }
+
+    public void setMusicalStyleId(Integer musicalStyleId) {
+        this.musicalStyleId = musicalStyleId;
+    }
+
+    public Integer getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
+
     @Override
     public String toString() {
-        return "Artist [CoverUrl=" + CoverUrl + ", artistName=" + artistName + ", bio=" + bio + ", city=" + city
-                + ", contact=" + contact + ", id=" + id + ", listenCount=" + listenCount + ", webSite=" + webSite + "]";
+        return "Artist [artistName=" + artistName + ", bio=" + bio + ", city=" + city + ", contact=" + contact
+                + ", coverUrl=" + coverUrl + ", id=" + id + ", listenCount=" + listenCount + ", musicalStyleId="
+                + musicalStyleId + ", userId=" + userId + ", voteCount=" + voteCount + ", webSite=" + webSite + "]";
+    }
+
+    public List<Show> getListOfShow() {
+        return listOfShow;
+    }
+
+    public void setListOfShow(List<Show> listOfShow) {
+        this.listOfShow = listOfShow;
     }
 
 

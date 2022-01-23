@@ -7,7 +7,7 @@ package co.simplon.p16.springboard.entity;
  */
 public class Pro {
     private Integer id;
-    private String comagnieName;
+    private String comagnyName;
     private String activity;
     private String contact;
     private String city;
@@ -18,17 +18,17 @@ public class Pro {
     // Constructors
     //
     
-    public Pro(String comagnieName, String activity, String contact, String city, String siret) {
-        this.comagnieName = comagnieName;
+    public Pro(String comagnyName, String activity, String contact, String city, String siret) {
+        this.comagnyName = comagnyName;
         this.activity = activity;
         this.contact = contact;
         this.city = city;
         this.siret = siret;
     }
-    public Pro(Integer id, String comagnieName, String activity, String contact, String city, String siret,
+    public Pro(Integer id, String comagnyName, String activity, String contact, String city, String siret,
             Integer userId) {
         this.id = id;
-        this.comagnieName = comagnieName;
+        this.comagnyName = comagnyName;
         this.activity = activity;
         this.contact = contact;
         this.city = city;
@@ -48,11 +48,11 @@ public class Pro {
     public void setId(Integer id) {
         this.id = id;
     }
-    public String getComagnieName() {
-        return comagnieName;
+    public String getComagnyName() {
+        return comagnyName;
     }
-    public void setComagnieName(String comagnieName) {
-        this.comagnieName = comagnieName;
+    public void setComagnyName(String comagnyName) {
+        this.comagnyName = comagnyName;
     }
     public String getActivity() {
         return activity;
@@ -90,7 +90,7 @@ public class Pro {
     //
     @Override
     public String toString() {
-        return "Pro [activity=" + activity + ", city=" + city + ", comagnieName=" + comagnieName + ", contact="
+        return "Pro [activity=" + activity + ", city=" + city + ", comagnyName=" + comagnyName + ", contact="
                 + contact + ", id=" + id + ", siret=" + siret + ", userId=" + userId + "]";
     }
 

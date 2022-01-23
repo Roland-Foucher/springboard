@@ -17,7 +17,7 @@ public class User implements UserDetails {
     private Integer id;
     private String firstName;
     private String lastName;
-    private String mail;
+    private String email;
     private String password;
     private String role;
 
@@ -25,19 +25,19 @@ public class User implements UserDetails {
     // CONSTRUCTORS
     //
     
-    public User(Integer id, String firstName, String lastName, String mail, String password, String role) {
+    public User(Integer id, String firstName, String lastName, String email, String password, String role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.mail = mail;
+        this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    public User(String firstName, String lastName, String mail, String password, String role) {
+    public User(String firstName, String lastName, String email, String password, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.mail = mail;
+        this.email = email;
         this.password = password;
         this.role = role;
     }
@@ -73,12 +73,12 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -102,7 +102,7 @@ public class User implements UserDetails {
     //
     @Override
     public String toString() {
-        return "User [firstName=" + firstName + ", id=" + id + ", lastName=" + lastName + ", mail=" + mail
+        return "User [firstName=" + firstName + ", id=" + id + ", lastName=" + lastName + ", email=" + email
                 + ", password=" + password + ", role=" + role + "]";
     }
     
@@ -120,7 +120,7 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
 
-        return this.getMail();
+        return this.getEmail();
     }
 
     @Override
