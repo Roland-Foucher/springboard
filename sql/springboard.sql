@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS shows;
 DROP TABLE IF EXISTS upVotes;
 DROP TABLE IF EXISTS artists;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS test;
 CREATE Table users (
   id INTEGER PRIMARY KEY AUTO_INCREMENT,
   firstName VARCHAR(50) NOT NULL,
@@ -26,8 +27,8 @@ CREATE Table artists(
   voteCount INT NOT NULL,
   bio VARCHAR(255),
   listenCount INT NOT NULL,
-  MusicalStyleId INT NOT NULL,
-  userId INT NOT NULL
+  musicalStyleId INT NOT NULL,
+  userId INT UNIQUE NOT NULL
 );
 CREATE Table tracks(
   id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -52,12 +53,12 @@ CREATE Table shows(
 );
 CREATE Table pro(
   id INTEGER PRIMARY KEY AUTO_INCREMENT,
-  companieName VARCHAR(50) NOT NULL,
+  companyName VARCHAR(50) NOT NULL,
   activity VARCHAR(50) NOT NULL,
   contact VARCHAR(100) NOT NULL,
   city VARCHAR(50) NOT NULL,
   siret VARCHAR(100) NOT NULL,
-  userId INT NOT NULL
+  userId INT NOT NULL UNIQUE
 );
 CREATE Table favoritsArtists(
   userId INT NOT NULL,
@@ -71,6 +72,7 @@ CREATE Table artistsShows(
   artistId INT NOT NULL,
   showId INT NOT NULL
 );
+
 ALTER TABLE
   artists
 ADD
@@ -105,3 +107,4 @@ ADD
   FOREIGN KEY (userId) REFERENCES users (id),
 ADD
   FOREIGN KEY (artistId) REFERENCES artists (id);
+  INSERT INTO musicalstyle VALUES (1,'Rock'),(2,'Pop'),(3,'Electronic'),(4,'Alternative'),(5,'Ambiant'),(6,'Metal'),(7,'Hip-Hop/Rap'),(8,'Experimental'),(9,'Punk');
