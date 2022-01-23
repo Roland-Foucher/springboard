@@ -12,15 +12,22 @@ import co.simplon.p16.springboard.entity.SocialNetwork;
 @Repository
 public class SocialNetworkRepository extends GlobalRepository<SocialNetwork> implements ISocialNetworkRepository {
 
-    private final String deleteByArtistQuery = this.deleteQuery = "DELETE FROM socialNetwork WHERE artistId=?";
+    // Define specifics query
+    private final String deleteByArtistQuery = "DELETE FROM socialNetwork WHERE artistId=?";
+    private final String findByArtistQuery = "SELECT * FROM socialNetwork WHERE artistId=?";
 
+    // define query from global repository
     public SocialNetworkRepository() {
         this.findAllQuery = "SELECT * FROM socialNetwork";
         this.findByIdQuery = "SELECT * FROM socialNetwork WHERE id=?";
-        this.saveQuery = "INSERT INTO socialNetwork (url,artistId) VALUES(?,?)" ;
+        this.saveQuery = "INSERT INTO socialNetwork (url,artistId) VALUES(?,?)";
         this.updateQuery = "UPDATE socialNetwork SET url=?, artistId=? WHERE id=?";
         this.deleteQuery = "DELETE FROM socialNetwork WHERE id=?";
-       }
+    }
+
+    //
+    // Override GlobalRepository methodes
+    //
 
     @Override
     protected void injectGeneratedKey(SocialNetwork socialNetwork, int generatedId) {
@@ -54,9 +61,9 @@ public class SocialNetworkRepository extends GlobalRepository<SocialNetwork> imp
     @Override
     protected SocialNetwork instanciateObject(ResultSet result) {
         try {
-            return new SocialNetwork(result.getInt("id"), 
-                                    result.getString("url"), 
-                                    result.getInt("artistId"));
+            return new SocialNetwork(result.getInt("id"),
+                    result.getString("url"),
+                    result.getInt("artistId"));
         } catch (SQLException e) {
             System.out.println("error when instanciate socialNetwork object on find query");
             // TODO Auto-generated catch block
@@ -65,29 +72,20 @@ public class SocialNetworkRepository extends GlobalRepository<SocialNetwork> imp
         return null;
     }
 
+    //
+    // Add specifics methods
+    //
+
     @Override
-    public boolean deleteByArtistId(Integer artistId) {
-        
-        try {
-            connection = dataSource.getConnection();
-            stmt = connection.prepareStatement(deleteByArtistQuery);
-            stmt.setInt(1, artistId);
+    public Integer deleteByArtistId(Integer artistId) {
 
-            return stmt.executeUpdate() == 1;
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
-
-        return false;
+        return super.deleteByForeignId(artistId, deleteByArtistQuery);
     }
 
     @Override
     public List<SocialNetwork> findByArtistId(Integer artistId) {
-        // TODO Auto-generated method stub
-        return null;
+
+        return super.findListByforeignId(artistId, findByArtistQuery);
     }
-    
+
 }

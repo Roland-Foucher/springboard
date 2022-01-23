@@ -13,8 +13,11 @@ import co.simplon.p16.springboard.entity.Track;
 @Repository
 public class TrackRepository extends GlobalRepository<Track> implements ITrackRepository {
      
-    private final String deleteByArtistQuery = "DELETE FROM tracks WHERE ArtistId=?";
+    // Define specifics query
+    private final String deleteByArtistQuery = "DELETE FROM tracks WHERE artistId=?";
+    private final String findByArtistIdQuery = "SELECT * FROM tracks WHERE artistId=?";
 
+    // define query from global repository
     public TrackRepository() {
         this.findAllQuery = "SELECT * FROM tracks";
         this.findByIdQuery = "SELECT * FROM tracks WHERE id=?";
@@ -22,6 +25,10 @@ public class TrackRepository extends GlobalRepository<Track> implements ITrackRe
         this.updateQuery = "UPDATE tracks SET name=?, url=?, artistId=? WHERE id=?";
         this.deleteQuery = "DELETE FROM tracks WHERE id=?";
     }
+
+    //
+    // Override GlobalRepository methodes
+    //
 
     @Override
     public Track instanciateObject(ResultSet result) {
@@ -69,30 +76,20 @@ public class TrackRepository extends GlobalRepository<Track> implements ITrackRe
 
     }
 
+    //
+    // Add specifics methods
+    //
+
     @Override
     public List<Track> findByArtistId(Integer artistId) {
-        // TODO Auto-generated method stub
-        return null;
+
+        return super.findListByforeignId(artistId, findByArtistIdQuery);
     }
     
     @Override
-    public boolean deleteByArtistId(Integer artistId){
+    public Integer deleteByArtistId(Integer artistId){
 
-        try {
-            connection = dataSource.getConnection();
-            stmt = connection.prepareStatement(deleteByArtistQuery);
-            stmt.setInt(1, artistId);
-
-            return stmt.executeUpdate() == 1;
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
-
-        return false;
-    
+       return super.deleteByForeignId(artistId, deleteByArtistQuery);
     }
 
 }

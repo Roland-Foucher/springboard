@@ -10,18 +10,64 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import co.simplon.p16.springboard.entity.Artist;
+import co.simplon.p16.springboard.entity.Show;
 
 @Repository
 public class ArtistRepository extends GlobalRepository<Artist> implements IArtistRepository {
 
+    // get other repository for delete user
     @Autowired
     private SocialNetworkRepository socialNetworkRepository;
     @Autowired
     private TrackRepository trackRepository;
+    @Autowired
+    private ShowRepository showRepository;
     
-    
-    private final String findByUserId =  "SELECT * FROM artists WHERE userId=?";
+    // Define specifics query
+    private final String findByUserIdQuery =  "SELECT * FROM artists WHERE userId=?";
+    private final String findAllSortedByVoteQuery =  "SELECT * FROM artists ORDER BY voteCount DESC";
+    private final String findAllSortedByLisenCountQuery =  "SELECT * FROM artists ORDER BY listenCount DESC";
+    private final String findByArtistNameQuery =  "SELECT * FROM artists WHERE artistName = ?";
+    private final String findByCityQuery =  "SELECT * FROM artists WHERE city = ?";
 
+    private final String findAllHaveShowQuery =  """
+        SELECT DISTINCT a.* 
+        FROM artists AS a, artistsShows AS as 
+        WHERE a.id = as.artistId""";
+    private final String findByFavoritsQuery =  """
+        SELECT a.* 
+        FROM artists AS a, favoritsArtists AS fa
+        WHERE fa.userId=? AND fa.artistId = a.id""";
+    private final String findByMusicalStyleQuery =  """
+        SELECT a.* 
+        FROM artists AS a, musicalStyle AS m 
+        WHERE a.musicalStyleId = ? AND m.Id = a.musicalStyleId""";
+
+    private final String findByShowAdressQuery =  """
+        SELECT DISTINCT a.* 
+        FROM artists AS a, artistsShows AS as, shows AS s
+        WHERE s.id = as.showId AND as.artistId = a.id AND s.adress = ?""";
+
+    private final String findByShowVenueQuery =  """
+        SELECT DISTINCT artists.* 
+        FROM artists, artistsShows, shows 
+        WHERE shows.id = artistsShows.showId AND artistsShows.artistId = artists.id AND shows.venue = ?""";
+
+    private final String findByShowDateQuery =  """
+        SELECT DISTINCT artists.* 
+        FROM artists, artistsShows, shows 
+        WHERE shows.id = artistsShows.showId AND artistsShows.artistId = artists.id AND shows.date > ?""";
+    
+    private final String deleteAllFavoritsByArtistId = "DELETE FROM favoritsArtists WHERE artistId=?";
+    private final String deleteAllUpVoteByArtistId = "DELETE FROM upVotes WHERE artistId=?";
+    private final String deleteAllShowByArtistId = "DELETE FROM artistsShows WHERE artistId=?";
+
+    private final String saveShowQuery = "INSERT INTO artistsShows VALUES (?,?)";
+    
+    
+
+
+     // define query from global repository
     public ArtistRepository() {
         this.findAllQuery = "SELECT * FROM artists";
         this.findByIdQuery = "SELECT * FROM artists WHERE id=?";
@@ -31,7 +77,7 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
     }
 
     //
-    // add values for findAll, findById, save, update, delete
+    // Override GlobalRepository methodes
     //
 
     @Override
@@ -96,93 +142,103 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
         return null;
     }
 
+    @Override
+    public boolean deleteById(Integer id) {
+        deleteAllFavorits(id);
+        deleteAllupVote(id);
+        deleteAllShows(id);
+        socialNetworkRepository.deleteByArtistId(id);
+        trackRepository.deleteByArtistId(id);
+        return super.deleteById(id);
+    }
+
+    //
+    // Add specifics methods
+    //
 
     @Override
     public List<Artist> findAllSortedByVotes() {
-        // TODO Auto-generated method stub
-        return null;
+
+        return super.findAllWithParamQuery(findAllSortedByVoteQuery);
     }
 
     @Override
     public List<Artist> findAllSortedByListenCount() {
-        // TODO Auto-generated method stub
-        return null;
+
+        return super.findAllWithParamQuery(findAllSortedByLisenCountQuery);
     }
 
     @Override
-    public List<Artist> findAllHaveShow(Integer styleId) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Artist> findAllHaveShow() {
+
+        return super.findAllWithParamQuery(findAllHaveShowQuery);
     }
 
     @Override
-    public List<Artist> findByArtistName(String ArtistName) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Artist> findByArtistName(String artistName) {
+
+        return super.findListByString(artistName, findByArtistNameQuery);
     }
 
     @Override
     public List<Artist> findByCity(String city) {
-        // TODO Auto-generated method stub
-        return null;
+
+        return super.findListByString(city, findByCityQuery);
     }
 
     @Override
     public List<Artist> findByMusicalStyle(Integer styleId) {
-        // TODO Auto-generated method stub
-        return null;
+
+        return super.findListByforeignId(styleId, findByMusicalStyleQuery);
     }
 
     @Override
-    public List<Artist> findByShowCity(String showCity) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Artist> findByShowCity(String adress) {
+        
+        return super.findListByString(adress, findByShowAdressQuery);
+
     }
 
     @Override
     public List<Artist> findByShowVenue(String showVenue) {
-        // TODO Auto-generated method stub
-        return null;
+
+        return super.findListByString(showVenue, findByShowVenueQuery);
+        
     }
 
     @Override
     public List<Artist> findByShowDate(LocalDate date) {
-        // TODO Auto-generated method stub
-        return null;
+        return super.findListByDate(date, findByShowDateQuery);
     }
 
     @Override
     public Artist findByUserId(Integer userId) {
-        try {
-            connection = dataSource.getConnection();
-            stmt = connection.prepareStatement(findByUserId);
-            stmt.setInt(1, userId);
-            ResultSet result = stmt.executeQuery();
-            if (result.next()) {
-                return instanciateObject(result);
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
-
-        return null;
+        return super.findOneByForeignId(userId, findByUserIdQuery);
     }
 
     @Override
     public List<Artist> findByFavorites(Integer userId) {
-        // TODO Auto-generated method stub
-        return null;
+
+       return super.findListByforeignId(userId, findByFavoritsQuery);
     }
 
-
     @Override
-    public boolean deleteById(Integer id) {
-        socialNetworkRepository.deleteByArtistId(id);
-        trackRepository.deleteByArtistId(id);
-        return super.deleteById(id);
+    public boolean saveShow(Integer artistId, Show show) {
+        showRepository.save(show);
+        return super.saveOrDeleteOnManyToManyTable(artistId, show.getId(), saveShowQuery);
+        
+    }
+
+    public Integer deleteAllFavorits(Integer ArtistId){
+        return super.deleteByForeignId(ArtistId, deleteAllFavoritsByArtistId);
+    } 
+
+    public Integer deleteAllupVote(Integer ArtistId){
+        return super.deleteByForeignId(ArtistId, deleteAllUpVoteByArtistId);
+    }
+
+    public Integer deleteAllShows(Integer ArtistId){
+        return super.deleteByForeignId(ArtistId, deleteAllShowByArtistId);
     }
 
     public SocialNetworkRepository getSocialNetworkRepository() {
@@ -201,11 +257,16 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
         this.trackRepository = trackRepository;
     }
 
-    @Override
-    public boolean saveShow(Artist artist) {
-        // TODO Auto-generated method stub
-        return false;
+    public ShowRepository getShowRepository() {
+        return showRepository;
     }
+
+    public void setShowRepository(ShowRepository showRepository) {
+        this.showRepository = showRepository;
+    }
+
+    
+
 
   
 

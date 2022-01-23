@@ -3,6 +3,7 @@ package co.simplon.p16.springboard.repository;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,14 @@ import co.simplon.p16.springboard.entity.Show;
 @Repository
 public class ShowRepository extends GlobalRepository<Show> implements IShowRepository {
 
+    // Define specifics query
+    private final String findByAdressQuery = "SELECT * FROM shows WHERE adress=?";
+    private final String findByVenueQuery = "SELECT * FROM shows WHERE venue=?";
+    private final String findByDateQuery = "SELECT * FROM shows WHERE date>?";
+    private final String findByArtistIdQuery = "SELECT * FROM shows, artistsShows WHERE artistsShows.artistId = ? AND shows.id = artistsShows.showId";
+    private final String deleteShowInArtistsShowTable = "DELETE FROM artistsShows WHERE showId=?";
+
+    // define query from global repository
     public ShowRepository() {
         this.findAllQuery = "SELECT * FROM shows";
         this.findByIdQuery = "SELECT * FROM shows WHERE id=?";
@@ -66,10 +75,35 @@ public class ShowRepository extends GlobalRepository<Show> implements IShowRepos
     }
 
     @Override
-    public List<Show> findByArtist(Integer artistId) {
-        // TODO Auto-generated method stub
-        return null;
+    public boolean deleteById(Integer id) {
+        this.deleteShowInArtistsShowTable(id);
+        return super.deleteById(id);
     }
+
+    @Override
+    public List<Show> findByArtist(Integer artistId) {
+        return super.findListByforeignId(artistId, findByArtistIdQuery);
+    }
+
+    @Override
+    public List<Show> findByAdress(String adress) {
+        return super.findListByString(adress, findByAdressQuery);
+    }
+
+    @Override
+    public List<Show> findByVenue(String venue) {
+        return super.findListByString(venue, findByVenueQuery);
+    }
+
+    @Override
+    public List<Show> findByDate(LocalDate date) {
+        return super.findListByDate(date, findByDateQuery);
+    }
+
+    protected Integer deleteShowInArtistsShowTable(Integer showId){
+        return super.deleteByForeignId(showId, deleteShowInArtistsShowTable);
+    }
+
 
 
 }

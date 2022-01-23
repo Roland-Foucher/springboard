@@ -17,21 +17,32 @@ import co.simplon.p16.springboard.entity.User;
 @Repository
 public class UserRepository extends GlobalRepository<User> implements IUserRepository, UserDetailsService {
 
+    // Define specifics query
     private final String findByEmailQuery = "SELECT * FROM users WHERE email=?";
-   
+    private final String setUpVoteQuery = "INSERT INTO upVotes VALUES(?,?)";
+    private final String deleteAllUsersUpvotesQuery = "DELETE FROM upVotes WHERE userId=?";
+    private final String setFavoritQuery = "INSERT INTO favoritsArtists VALUES(?,?)";
+    private final String deleteSingleFavoritQuery = "DELETE FROM favoritsArtists WHERE userId=? AND artistId=?";
+    private final String deleteAllUserFavoritQuery = "DELETE FROM favoritsArtists WHERE userId=?";
+
+    // get other repository for delete user
     @Autowired
     private ArtistRepository artistRepository;
-
     @Autowired
     private ProRepository proRepository;
 
+    // define query from global repository
     public UserRepository() {
         this.findAllQuery = "SELECT * FROM users";
         this.findByIdQuery = "SELECT * FROM users WHERE id=?";
-        this.saveQuery = "INSERT INTO users (firstName, lastName, email, password, role) VALUES(?,?,?,?,?)" ;
+        this.saveQuery = "INSERT INTO users (firstName, lastName, email, password, role) VALUES(?,?,?,?,?)";
         this.updateQuery = "UPDATE users SET firstName=?, lastName=?, email=?, password=?, role=? WHERE id=?";
         this.deleteQuery = "DELETE FROM users WHERE id=?";
-       }
+    }
+
+    //
+    // Override GlobalRepository methodes
+    //
 
     @Override
     protected void injectGeneratedKey(User user, int generatedId) {
@@ -67,14 +78,14 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
 
     @Override
     protected User instanciateObject(ResultSet result) {
-        
+
         try {
-            return new User(result.getInt("id"), 
-                            result.getString("firstName"),
-                            result.getString("lastName"),
-                            result.getString("email"),
-                            result.getString("password"),
-                            result.getString("role"));
+            return new User(result.getInt("id"),
+                    result.getString("firstName"),
+                    result.getString("lastName"),
+                    result.getString("email"),
+                    result.getString("password"),
+                    result.getString("role"));
         } catch (SQLException e) {
             System.out.println("error when instanciate User object on find query");
             // TODO Auto-generated catch block
@@ -82,43 +93,74 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
         }
         return null;
     }
+
+    @Override
+    public boolean deleteById(Integer id) {
+        this.deleteAllFavoriteArtist(id);
+        this.deleteAllUserUpvote(id);
+        Artist artist = artistRepository.findByUserId(id);
+        artistRepository.deleteById(artist.getId());
+        Pro pro = proRepository.findByUser(id);
+        proRepository.deleteById(pro.getId());
+        return super.deleteById(id);
+
+    }
+
+    //
+    // add specifics methods for User
+    //
+
     @Override
     public User findByEmail(String email) {
-        try {
-            connection = dataSource.getConnection();
-            stmt = connection.prepareStatement(findByEmailQuery);
-            stmt.setString(1, email);
-            ResultSet result = stmt.executeQuery();
-            if (result.next()) {
-                return instanciateObject(result);
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
-        return null;
+        return super.findByString(email, findByEmailQuery);
     }
+
+    @Override
+    public boolean setUpvote(Integer artistId, Integer userId) {
+
+       return super.saveOrDeleteOnManyToManyTable(artistId, userId, setUpVoteQuery);
+    }
+
+    @Override
+    public boolean setFavoriteArtist(Integer artistId, Integer userId) {
+
+        return super.saveOrDeleteOnManyToManyTable(artistId, userId, setFavoritQuery);
+    }
+
+    @Override
+    public Integer deleteAllUserUpvote(Integer userId) {
+
+        return super.deleteByForeignId(userId, deleteAllUsersUpvotesQuery);
+    }
+
+    @Override
+    public boolean deleteSingleFavoriteArtist(Integer userId, Integer artistId) {
+
+        return super.saveOrDeleteOnManyToManyTable(userId, artistId, deleteSingleFavoritQuery);
+    }
+
+    @Override
+    public Integer deleteAllFavoriteArtist(Integer userId) {
+
+        return super.deleteByForeignId(userId, deleteAllUserFavoritQuery);
+    }
+
+    //
+    // Configure user security
+    //
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.findByEmail(username);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         return user;
     }
 
-    @Override
-    public boolean deleteById(Integer id) {
-        Artist artist =  artistRepository.findByUserId(id);
-        artistRepository.deleteById(artist.getId());
-        Pro pro = proRepository.findById(id);
-        proRepository.deleteById(pro.getId());
-        return super.deleteById(id);
-        
-    }
+    //
+    // GETTER AND SETTER
+    //
 
     public ArtistRepository getArtistRepository() {
         return artistRepository;
@@ -136,16 +178,4 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
         this.proRepository = proRepository;
     }
 
-    @Override
-    public boolean setUpvote(Integer artistId) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean setFavoriteArtist(Integer artistId) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    
 }

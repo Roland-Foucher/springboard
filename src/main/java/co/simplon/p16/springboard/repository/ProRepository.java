@@ -11,19 +11,25 @@ import co.simplon.p16.springboard.entity.Pro;
 @Repository
 public class ProRepository extends GlobalRepository<Pro> implements IProRepository {
 
-    private final String findByUserId =  "SELECT * FROM pro WHERE userId=?";
+    // Define specifics query
+    private final String findByUserId = "SELECT * FROM pro WHERE userId=?";
 
+    // define query from global repository
     public ProRepository() {
         this.findAllQuery = "SELECT * FROM pro";
         this.findByIdQuery = "SELECT * FROM pro WHERE id=?";
-        this.saveQuery = "INSERT INTO pro (companyName, activity, contact, city, siret, userId) VALUES(?,?,?,?,?,?)" ;
+        this.saveQuery = "INSERT INTO pro (companyName, activity, contact, city, siret, userId) VALUES(?,?,?,?,?,?)";
         this.updateQuery = "UPDATE pro SET companyName=?, activity=?, contact=?, city=?, siret=?, userId=?  WHERE id=?";
         this.deleteQuery = "DELETE FROM pro WHERE id=?";
-       }
+    }
+
+    //
+    // Override GlobalRepository methodes
+    //
 
     @Override
     protected void injectGeneratedKey(Pro pro, int generatedId) {
-       pro.setId(generatedId);
+        pro.setId(generatedId);
     }
 
     @Override
@@ -35,7 +41,7 @@ public class ProRepository extends GlobalRepository<Pro> implements IProReposito
             stmt.setString(4, pro.getCity());
             stmt.setString(5, pro.getSiret());
             stmt.setInt(6, pro.getUserId());
-            
+
         } catch (SQLException e) {
             System.out.println("error when inject parameters to save query");
             // TODO Auto-generated catch block
@@ -58,13 +64,13 @@ public class ProRepository extends GlobalRepository<Pro> implements IProReposito
     @Override
     protected Pro instanciateObject(ResultSet result) {
         try {
-            return new Pro(result.getInt("id"), 
-                            result.getString("companyName"), 
-                            result.getString("activity"), 
-                            result.getString("contact"), 
-                            result.getString("city"), 
-                            result.getString("siret"), 
-                            result.getInt("userId"));
+            return new Pro(result.getInt("id"),
+                    result.getString("companyName"),
+                    result.getString("activity"),
+                    result.getString("contact"),
+                    result.getString("city"),
+                    result.getString("siret"),
+                    result.getInt("userId"));
         } catch (SQLException e) {
             System.out.println("error on instanciate pro object");
             // TODO Auto-generated catch block
@@ -73,25 +79,13 @@ public class ProRepository extends GlobalRepository<Pro> implements IProReposito
         return null;
     }
 
+    //
+    // Add specifics methods
+    //
+
     @Override
     public Pro findByUser(Integer userId) {
-        try {
-            connection = dataSource.getConnection();
-            stmt = connection.prepareStatement(findByUserId);
-            stmt.setInt(1, userId);
-            ResultSet result = stmt.executeQuery();
-            if (result.next()) {
-                return instanciateObject(result);
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
 
-        return null;
+        return this.findOneByForeignId(userId, findByUserId);
     }
-
-
 }
