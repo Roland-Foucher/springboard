@@ -1,3 +1,7 @@
+-- database to make test
+--
+-- drop tables before create
+--
 DROP TABLE IF EXISTS tracks;
 DROP TABLE IF EXISTS musicalStyle;
 DROP TABLE IF EXISTS socialNetwork;
@@ -9,6 +13,9 @@ DROP TABLE IF EXISTS upVotes;
 DROP TABLE IF EXISTS artists;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS test;
+--
+-- Create tables
+--
 CREATE Table users (
   id INTEGER PRIMARY KEY AUTO_INCREMENT,
   firstName VARCHAR(50) NOT NULL,
@@ -58,20 +65,14 @@ CREATE Table pro(
   contact VARCHAR(100) NOT NULL,
   city VARCHAR(50) NOT NULL,
   siret VARCHAR(100) NOT NULL,
-  userId INT NOT NULL UNIQUE
+  userId INT UNIQUE NOT NULL
 );
-CREATE Table favoritsArtists(
-  userId INT NOT NULL,
-  artistId INT NOT NULL
-);
-CREATE Table upVotes(
-  userId INT NOT NULL,
-  artistId INT NOT NULL
-);
-CREATE Table artistsShows(
-  artistId INT NOT NULL,
-  showId INT NOT NULL
-);
+CREATE Table favoritsArtists(userId INT NOT NULL, artistId INT NOT NULL);
+CREATE Table upVotes(userId INT NOT NULL, artistId INT NOT NULL);
+CREATE Table artistsShows(artistId INT NOT NULL, showId INT NOT NULL);
+--
+-- Take foreign keys
+--
 ALTER TABLE
   artists
 ADD
@@ -91,19 +92,107 @@ ADD
 ALTER TABLE
   artistsShows
 ADD
-  FOREIGN KEY (showId) REFERENCES shows (id),
+  FOREIGN KEY (showId) REFERENCES shows (id);
+ALTER TABLE
+  artistsShows
 ADD
   FOREIGN KEY (artistId) REFERENCES artists (id);
 ALTER TABLE
   favoritsArtists
 ADD
-  FOREIGN KEY (userId) REFERENCES users (id),
+  FOREIGN KEY (userId) REFERENCES users (id);
+ALTER TABLE
+  favoritsArtists
 ADD
   FOREIGN KEY (artistId) REFERENCES artists (id);
 ALTER TABLE
   upVotes
 ADD
-  FOREIGN KEY (userId) REFERENCES users (id),
+  FOREIGN KEY (userId) REFERENCES users (id);
+  ALTER TABLE
+  upVotes
 ADD
   FOREIGN KEY (artistId) REFERENCES artists (id);
-  INSERT INTO musicalstyle VALUES (1,'Rock'),(2,'Pop'),(3,'Electronic'),(4,'Alternative'),(5,'Ambiant'),(6,'Metal'),(7,'Hip-Hop/Rap'),(8,'Experimental'),(9,'Punk');
+--
+-- Insert values to musicalStyle
+--
+INSERT INTO
+  musicalstyle
+VALUES
+  (1, 'Rock'),(2, 'Pop'),(3, 'Electronic'),(4, 'Alternative'),(5, 'Ambiant'),(6, 'Metal'),(7, 'Hip-Hop/Rap'),(8, 'Experimental'),(9, 'Punk');
+--
+-- Insert defaults values to make tests
+--
+INSERT INTO
+  `users`
+ VALUES
+  (1, 'test', 'test', 'test', 'test', 'test');
+INSERT INTO
+  `users`
+ VALUES
+  (2, 'test', 'test', 'test2', 'test', 'test');
+INSERT INTO
+  `users`
+ VALUES
+  (3, 'test', 'test', 'test3', 'test', 'test');
+INSERT INTO
+  `artists`
+VALUES
+  (1, 'test', NULL, NULL, NULL, 'city', 0, NULL, 0, 1, 1);
+INSERT INTO
+  `artists`
+VALUES
+  (2, 'test2', NULL, NULL, NULL, 'city2', 100, NULL, 100, 1, 2);
+INSERT INTO
+  `tracks`
+  VALUES
+  (1, 'name', 'url', 1);
+INSERT INTO
+  `tracks`
+  VALUES
+  (2, 'name', 'url', 1);
+INSERT INTO 
+  `socialNetwork` 
+  VALUES 
+  (1,'url', 1);
+INSERT INTO 
+  `socialNetwork` 
+  VALUES 
+  (2,'url', 1);
+INSERT INTO 
+  `shows` 
+  VALUES 
+  (1,'2020-10-10', 'venue', 'test');
+INSERT INTO 
+  `shows` 
+  VALUES 
+  (2,'2021-10-10', 'venue', 'test');
+INSERT INTO 
+  `pro` 
+  VALUES 
+  (1,'test', 'test', 'test','test','test', 1);
+INSERT INTO 
+  `pro` 
+  VALUES 
+  (2,'test', 'test', 'test','test','test', 2);
+INSERT INTO
+  `upVotes`
+    VALUES
+    (1,1);
+  
+INSERT INTO
+  `favoritsArtists`
+    VALUES
+    (1,1);
+INSERT INTO
+  `artistsShows`
+    VALUES
+    (1,1);
+INSERT INTO
+  `artistsShows`
+    VALUES
+    (2,1);
+INSERT INTO
+  `artistsShows`
+    VALUES
+    (1,2);
