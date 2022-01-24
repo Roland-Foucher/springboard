@@ -1,9 +1,6 @@
 package co.simplon.p16.springboard.repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.sql.DataSource;
@@ -21,7 +18,7 @@ public class ProRepositoryTest {
     ProRepository proRepository;
 
     @BeforeEach
-     void init() {
+    void init() {
         proRepository = new ProRepository();
         DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
@@ -35,31 +32,32 @@ public class ProRepositoryTest {
     class testBasicCRUD {
 
         @Test
-         void testSaveArtist() {
+        void testSaveArtist() {
             Pro artist = new Pro("companyName", "activity", "contact", "city", "siret");
-            artist.setUserId(1);
-            
+            artist.setUserId(3);
+
             assertTrue(proRepository.save(artist));
             assertNotNull(artist.getId());
         }
 
         @Test
-         void testFindArtist() {
+        void testFindArtist() {
             assertNotNull(proRepository.findById(1));
         }
 
         @Test
-         void testFindAllArtist() {
+        void testFindAllArtist() {
             assertNotNull(proRepository.findAll());
         }
 
         @Test
-         void testUpdateArtist() {
-            Pro artist = new Pro(1,"companyName", "activity", "contact", "city", "siret",1);
+        void testUpdateArtist() {
+            Pro artist = new Pro(1, "companyName", "activity", "contact", "city", "siret", 1);
             assertTrue(proRepository.update(artist));
         }
+
         @Test
-         void deleteArtistById(){
+        void deleteArtistById() {
             assertTrue(proRepository.deleteById(1));
         }
     }
@@ -69,5 +67,4 @@ public class ProRepositoryTest {
         assertNotNull(proRepository.findByUser(1));
     }
 
- 
 }

@@ -1,21 +1,43 @@
 package co.simplon.p16.springboard.repository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.util.List;
 
-/**
- * Global repository have methodes that need for every repositry to make a CRUD : 
- * findAll, findById, save, update, deleteById.
- * Every child must overide methodes to make object(find), and implements query(update and save)
- */
-public interface IGlobalRepository <T> {
+public interface IGlobalRepository<T> {
 
-
+    /**
+     * Methode findAll is global methode to find all element in a table
+     * tell findAllWithParamQuery with a find all query type "SELECT * FROM x"
+     * (defined in child constructor)
+     */
     List<T> findAll();
+
+    /**
+     * Methode findAll is global methode to find an element in a table by his id
+     * tell findOneByForeignId with a find query type "SELECT * FROM x WHERE id=?"
+     * (defined in child constructor)
+     */
     T findById(Integer id);
+
+    /**
+     * Methode save is global methode to save an element to a table.
+     * Child need to define saveQuery in constructor,
+     * defined how to inject parameters to query and
+     * defined how to inject generated key to object (object.setId())
+     */
     boolean save(T object);
-    boolean update (T object);
-    boolean deleteById (Integer id);
+
+    /**
+     * Methode update is global methode to save an element to a table.
+     * Child need to define udateQuery in constructor and
+     * defined how to inject parameters to query
+     */
+    boolean update(T object);
+
+    /**
+     * Methode delete is global methode to delete an element to a table.
+     * Child need to define deleteQuery in constructor and
+     * defined how to inject parameters to query
+     */
+    boolean deleteById(Integer id);
 
 }

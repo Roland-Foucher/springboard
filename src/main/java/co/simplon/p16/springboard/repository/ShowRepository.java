@@ -82,7 +82,7 @@ public class ShowRepository extends GlobalRepository<Show> implements IShowRepos
 
     @Override
     public List<Show> findByArtist(Integer artistId) {
-        return super.findListByforeignId(artistId, findByArtistIdQuery);
+        return super.findListByInteger(artistId, findByArtistIdQuery);
     }
 
     @Override
@@ -100,10 +100,14 @@ public class ShowRepository extends GlobalRepository<Show> implements IShowRepos
         return super.findListByDate(date, findByDateQuery);
     }
 
-    protected Integer deleteShowInArtistsShowTable(Integer showId){
-        return super.deleteByForeignId(showId, deleteShowInArtistsShowTable);
+    /**
+     * methode to delete the show in function table artist-show
+     * 
+     * @param showId id of show to delete
+     * @return deleteByInteger() globalRepository methode
+     */
+    protected Integer deleteShowInArtistsShowTable(Integer showId) {
+        return super.deleteByInteger(showId, deleteShowInArtistsShowTable);
     }
-
-
 
 }

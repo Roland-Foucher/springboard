@@ -14,16 +14,25 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
+/**
+ * Because of DRY :
+ * GlobalRepository is the master repository with all globals methodes that
+ * makes queries to database.
+ * Childrens only implements these methodes with specifics queries
+ * and specifics injections of values in statements.
+ */
 public class GlobalRepository<T> implements IGlobalRepository<T> {
 
-    // Connections attributs
+    // add connection on attribut repository to be accessible by childrens
     protected Connection connection;
+
+    // add statement on attribut to be accessible by childrens
     protected PreparedStatement stmt;
 
     @Autowired
     protected DataSource dataSource;
 
-    // SQL query attribut
+    // SQL query attribut, need to be configurated in childrens
     protected String findAllQuery;
     protected String findByIdQuery;
     protected String saveQuery;
@@ -43,7 +52,7 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
     @Override
     public T findById(Integer id) {
 
-        return this.findOneByForeignId(id, findByIdQuery);
+        return this.findOneByInteger(id, findByIdQuery);
     }
 
     @Override
@@ -114,11 +123,18 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
     // Global methodes whith other query, other parametres,...
     //
 
-    protected T findByString(String element, String query) {
+    /**
+     * methode global to find a element by string on a table
+     * 
+     * @param string specific word to search elemenet in table
+     * @param query  string with the specific query to find the element
+     * @return methode instanciateObject(), defined in child, to make the object.
+     */
+    protected T findByString(String string, String query) {
         try {
             connection = dataSource.getConnection();
             stmt = connection.prepareStatement(query);
-            stmt.setString(1, element);
+            stmt.setString(1, string);
             ResultSet result = stmt.executeQuery();
             if (result.next()) {
                 return instanciateObject(result);
@@ -132,12 +148,20 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
         return null;
     }
 
-    protected List<T> findListByString(String element, String query) {
+    /**
+     * methode global to find a list of element by string on a table
+     * use methode instanciateObject(), defined in child class, to make one object
+     * 
+     * @param string specific word to search elemenet in table
+     * @param query  string with the specific query to find the element
+     * @return list of object
+     */
+    protected List<T> findListByString(String string, String query) {
         List<T> list = new ArrayList<>();
         try {
             connection = dataSource.getConnection();
             stmt = connection.prepareStatement(query);
-            stmt.setString(1, element);
+            stmt.setString(1, string);
             ResultSet result = stmt.executeQuery();
             while (result.next()) {
                 list.add(instanciateObject(result));
@@ -153,6 +177,16 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
 
         return null;
     }
+
+    /**
+     * methode global to find a list of element that be after a specific date on a
+     * table
+     * use methode instanciateObject(), defined in child class, to make one object
+     * 
+     * @param date  date which we start to search elements in table,
+     * @param query string with the specific query to find the element
+     * @return list of object
+     */
     protected List<T> findListByDate(LocalDate date, String query) {
         List<T> list = new ArrayList<>();
         try {
@@ -175,11 +209,18 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
         return null;
     }
 
-    protected T findOneByForeignId(Integer id, String query) {
+    /**
+     * methode global to find a element by Integer on a table
+     * 
+     * @param integer value to search element in table
+     * @param query   string with the specific query to find the element
+     * @return methode instanciateObject(), defined in child, to make the object.
+     */
+    protected T findOneByInteger(Integer integer, String query) {
         try {
             connection = dataSource.getConnection();
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, id);
+            stmt.setInt(1, integer);
             ResultSet result = stmt.executeQuery();
             if (result.next()) {
                 return instanciateObject(result);
@@ -194,12 +235,20 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
         return null;
     }
 
-    protected List<T> findListByforeignId(Integer id, String query) {
+    /**
+     * methode global to find a list of element by Integer
+     * use methode instanciateObject(), defined in child class, to make one object
+     * 
+     * @param integer value to search element in table,
+     * @param query   string with the specific query to find the element
+     * @return list of object
+     */
+    protected List<T> findListByInteger(Integer integer, String query) {
         List<T> list = new ArrayList<>();
         try {
             connection = dataSource.getConnection();
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, id);
+            stmt.setInt(1, integer);
             ResultSet result = stmt.executeQuery();
             while (result.next()) {
                 list.add(instanciateObject(result));
@@ -215,7 +264,15 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
 
         return null;
     }
-    protected List<T> findAllWithParamQuery(String query){
+
+    /**
+     * Globale methode to find all element in a table with a specifics query (to
+     * make an ORDER BY for exemeple)
+     * 
+     * @param query string with the specific query to find the element
+     * @return list of object
+     */
+    protected List<T> findAllWithParamQuery(String query) {
         List<T> list = new ArrayList<>();
         try {
             connection = dataSource.getConnection();
@@ -235,13 +292,20 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
 
         return null;
     }
-    
-    
-    protected Integer deleteByForeignId(Integer id, String query) {
+
+    /**
+     * Methode globale to delete one or multiples elements on a table defined by an
+     * integer
+     * 
+     * @param integer value to find the element to delete
+     * @param query   string with the specific query to delete the element
+     * @return the number of elements deleted
+     */
+    protected Integer deleteByInteger(Integer integer, String query) {
         try {
             connection = dataSource.getConnection();
             stmt = connection.prepareStatement(query);
-            stmt.setInt(1, id);
+            stmt.setInt(1, integer);
 
             return stmt.executeUpdate();
         } catch (SQLException e) {
@@ -256,8 +320,9 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
 
     /**
      * Save or delete line on a many to many table
-     * @param id1 id left to delete
-     * @param id2 id right to delete
+     * 
+     * @param id1   id left to delete
+     * @param id2   id right to delete
      * @param query string with SQL query
      * @return boolean if delete ok or not
      */
@@ -324,7 +389,7 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
     }
 
     /**
-     * set Datasource H2 to run test units
+     * set Datasource to run test units with H2 driver
      * 
      * @param dataSource datasource made for test inject with H2 driver
      */
@@ -332,7 +397,7 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
         this.dataSource = dataSource;
     }
 
-    public DataSource getDataSource() {
+    protected DataSource getDataSource() {
         return dataSource;
     }
 

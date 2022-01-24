@@ -1,8 +1,8 @@
 package co.simplon.p16.springboard.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.sql.DataSource;
@@ -11,16 +11,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.test.context.ActiveProfiles;
 
 import co.simplon.p16.springboard.entity.Track;
 
 public class TrackRepositoryTest {
 
-    TrackRepository trackRepository;
+    private TrackRepository trackRepository;
 
     @BeforeEach
     void init() {
@@ -33,7 +31,7 @@ public class TrackRepositoryTest {
     }
 
     @Nested
-    class testBasicCrud{
+    class testBasicCrud {
 
         @Test
         void testSaveTrack() {
@@ -66,28 +64,29 @@ public class TrackRepositoryTest {
         @Test
         void testFindAll() {
 
-            assertNotNull(trackRepository.findAll());
+            assertNotEquals(0, trackRepository.findAll().size());
         }
     }
 
     @Test
-    void testDeleteByArtist(){
+    void testDeleteByArtist() {
         assertNotNull(trackRepository.deleteByArtistId(1));
     }
 
     @Test
-    void testDeleteMultipleTracksByArtist(){
+    void testDeleteMultipleTracksByArtist() {
         assertNotNull(trackRepository.deleteByArtistId(1));
         assertEquals(0, trackRepository.findByArtistId(1).size());
     }
+
     @Test
-    void testFindByArtistId(){
-        assertNotNull(trackRepository.findByArtistId(1));
+    void testFindByArtistId() {
+        assertNotEquals(0, trackRepository.findByArtistId(1).size());
     }
 
     @Test
-    void testFindMultiplesTracksByArtistId(){
-       
+    void testFindMultiplesTracksByArtistId() {
+
         assertEquals(2, trackRepository.findByArtistId(1).size());
     }
 

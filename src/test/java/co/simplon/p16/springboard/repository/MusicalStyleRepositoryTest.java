@@ -1,8 +1,6 @@
 package co.simplon.p16.springboard.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.sql.DataSource;
 
@@ -11,14 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-
-
 public class MusicalStyleRepositoryTest {
 
     MusicalStyleRepository musicalStyleRepository;
 
     @BeforeEach
-     void init() {
+    void init() {
         musicalStyleRepository = new MusicalStyleRepository();
         DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
@@ -29,14 +25,13 @@ public class MusicalStyleRepositoryTest {
     }
 
     @Test
-    void testFindById(){
+    void testFindById() {
         assertNotNull(musicalStyleRepository.findById(1));
     }
 
     @Test
-    void testFindAll(){
+    void testFindAll() {
         assertNotNull(musicalStyleRepository.findAll());
     }
-
 
 }

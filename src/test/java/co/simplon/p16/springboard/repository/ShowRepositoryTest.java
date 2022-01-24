@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.sql.DataSource;
@@ -22,7 +21,7 @@ public class ShowRepositoryTest {
     ShowRepository showRepository;
 
     @BeforeEach
-     void init() {
+    void init() {
         showRepository = new ShowRepository();
         DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
@@ -31,7 +30,7 @@ public class ShowRepositoryTest {
         showRepository.setDataSource(dataSource);
 
     }
-    
+
     @Nested
     class testBasicCRUD {
 
@@ -41,7 +40,6 @@ public class ShowRepositoryTest {
             assertTrue(showRepository.save(show));
             assertNotNull(show.getId());
         }
-
 
         @Test
         public void testFindShow() {
@@ -59,34 +57,35 @@ public class ShowRepositoryTest {
             show.setId(1);
             assertTrue(showRepository.update(show));
         }
+
         @Test
-        public void deleteShow(){
+        public void deleteShow() {
             assertTrue(showRepository.deleteById(1));
         }
     }
 
     @Test
     void testFindByArtist() {
-       assertEquals(2, showRepository.findByArtist(1).size());
+        assertEquals(2, showRepository.findByArtist(1).size());
     }
 
     @Test
-    void testFindByAdress(){
+    void testFindByAdress() {
         assertEquals(2, showRepository.findByAdress("test").size());
     }
 
-    @Test 
-    void testFindByVenue(){
+    @Test
+    void testFindByVenue() {
         assertEquals(2, showRepository.findByVenue("venue").size());
     }
 
     @Test
-    void testFindByDate(){
+    void testFindByDate() {
         assertEquals(1, showRepository.findByDate(LocalDate.of(2021, 01, 01)).size());
     }
 
     @Test
-    void deleteShowInArtistsShowTable(){
+    void deleteShowInArtistsShowTable() {
         assertEquals(2, showRepository.deleteShowInArtistsShowTable(1));
     }
 }

@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -98,10 +97,16 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
     public boolean deleteById(Integer id) {
         this.deleteAllFavoriteArtist(id);
         this.deleteAllUserUpvote(id);
+
         Artist artist = artistRepository.findByUserId(id);
-        artistRepository.deleteById(artist.getId());
+        if (artist != null) {
+            artistRepository.deleteById(artist.getId());
+        }
+
         Pro pro = proRepository.findByUser(id);
-        proRepository.deleteById(pro.getId());
+        if (pro != null) {
+            proRepository.deleteById(pro.getId());
+        }
         return super.deleteById(id);
 
     }
@@ -118,7 +123,7 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
     @Override
     public boolean setUpvote(Integer artistId, Integer userId) {
 
-       return super.saveOrDeleteOnManyToManyTable(artistId, userId, setUpVoteQuery);
+        return super.saveOrDeleteOnManyToManyTable(artistId, userId, setUpVoteQuery);
     }
 
     @Override
@@ -130,7 +135,7 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
     @Override
     public Integer deleteAllUserUpvote(Integer userId) {
 
-        return super.deleteByForeignId(userId, deleteAllUsersUpvotesQuery);
+        return super.deleteByInteger(userId, deleteAllUsersUpvotesQuery);
     }
 
     @Override
@@ -142,7 +147,7 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
     @Override
     public Integer deleteAllFavoriteArtist(Integer userId) {
 
-        return super.deleteByForeignId(userId, deleteAllUserFavoritQuery);
+        return super.deleteByInteger(userId, deleteAllUserFavoritQuery);
     }
 
     //

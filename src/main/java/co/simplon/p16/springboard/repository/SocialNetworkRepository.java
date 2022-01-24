@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import co.simplon.p16.springboard.entity.SocialNetwork;
@@ -79,13 +78,13 @@ public class SocialNetworkRepository extends GlobalRepository<SocialNetwork> imp
     @Override
     public Integer deleteByArtistId(Integer artistId) {
 
-        return super.deleteByForeignId(artistId, deleteByArtistQuery);
+        return super.deleteByInteger(artistId, deleteByArtistQuery);
     }
 
     @Override
     public List<SocialNetwork> findByArtistId(Integer artistId) {
 
-        return super.findListByforeignId(artistId, findByArtistQuery);
+        return super.findListByInteger(artistId, findByArtistQuery);
     }
 
 }

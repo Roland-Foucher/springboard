@@ -3,7 +3,6 @@ package co.simplon.p16.springboard.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import co.simplon.p16.springboard.entity.Pro;
@@ -86,6 +85,6 @@ public class ProRepository extends GlobalRepository<Pro> implements IProReposito
     @Override
     public Pro findByUser(Integer userId) {
 
-        return this.findOneByForeignId(userId, findByUserId);
+        return this.findOneByInteger(userId, findByUserId);
     }
 }

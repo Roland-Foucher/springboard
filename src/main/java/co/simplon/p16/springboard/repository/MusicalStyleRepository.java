@@ -8,13 +8,13 @@ import org.springframework.stereotype.Repository;
 import co.simplon.p16.springboard.entity.MusicalStyle;
 
 @Repository
-public class MusicalStyleRepository extends GlobalRepository<MusicalStyle> implements IMusicalStyleRepository  {
+public class MusicalStyleRepository extends GlobalRepository<MusicalStyle> implements IMusicalStyleRepository {
 
     // define query from global repository
     public MusicalStyleRepository() {
         this.findAllQuery = "SELECT * FROM musicalStyle";
         this.findByIdQuery = "SELECT * FROM musicalStyle WHERE id=?";
-       
+
     }
 
     //
@@ -31,5 +31,5 @@ public class MusicalStyleRepository extends GlobalRepository<MusicalStyle> imple
         }
         return null;
     }
-    
+
 }

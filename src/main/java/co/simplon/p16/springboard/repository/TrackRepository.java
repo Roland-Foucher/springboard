@@ -4,15 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
-import co.simplon.p16.springboard.entity.Artist;
 import co.simplon.p16.springboard.entity.Track;
 
 @Repository
 public class TrackRepository extends GlobalRepository<Track> implements ITrackRepository {
-     
+
     // Define specifics query
     private final String deleteByArtistQuery = "DELETE FROM tracks WHERE artistId=?";
     private final String findByArtistIdQuery = "SELECT * FROM tracks WHERE artistId=?";
@@ -83,13 +81,13 @@ public class TrackRepository extends GlobalRepository<Track> implements ITrackRe
     @Override
     public List<Track> findByArtistId(Integer artistId) {
 
-        return super.findListByforeignId(artistId, findByArtistIdQuery);
+        return super.findListByInteger(artistId, findByArtistIdQuery);
     }
-    
-    @Override
-    public Integer deleteByArtistId(Integer artistId){
 
-       return super.deleteByForeignId(artistId, deleteByArtistQuery);
+    @Override
+    public Integer deleteByArtistId(Integer artistId) {
+
+        return super.deleteByInteger(artistId, deleteByArtistQuery);
     }
 
 }

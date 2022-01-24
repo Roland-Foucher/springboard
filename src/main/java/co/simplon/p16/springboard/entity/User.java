@@ -100,6 +100,7 @@ public class User implements UserDetails {
     //
     //TO STRING
     //
+    
     @Override
     public String toString() {
         return "User [firstName=" + firstName + ", id=" + id + ", lastName=" + lastName + ", email=" + email
@@ -110,7 +111,7 @@ public class User implements UserDetails {
     // configuration of user authentification
     //
 
-   
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
@@ -143,7 +144,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        // TODO Auto-generated method stub
+    
         return true;
     }
 
