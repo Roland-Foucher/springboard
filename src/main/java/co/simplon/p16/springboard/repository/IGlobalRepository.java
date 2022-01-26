@@ -12,7 +12,7 @@ public interface IGlobalRepository<T> {
     List<T> findAll();
 
     /**
-     * Methode findAll is global methode to find an element in a table by his id
+     * Methode findVyId is global methode to find an element in a table by his id
      * tell findOneByForeignId with a find query type "SELECT * FROM x WHERE id=?"
      * (defined in child constructor)
      */

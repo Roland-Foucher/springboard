@@ -3,7 +3,7 @@ package co.simplon.p16.springboard.entity;
 import java.util.List;
 
 /**
- * artist is the page of an artist user. 
+ * artist is the page of an artist user.
  * artist is link to an User by id.
  * 
  */
@@ -19,13 +19,14 @@ public class Artist {
     private Integer voteCount;
     private Integer musicalStyleId;
     private Integer userId;
-    private List <Show> listOfShow;
+    private List<Show> showList;
+    private List<SocialNetwork> SocialNetworkList;
+    private List<Track> TrackList;
+    private String styleName;
 
     //
     // CONSTRUCTORS
     //
-    
-
 
     public Artist(String artistName, String coverUrl, String contact, String webSite, String city, String bio,
             Integer listenCount, Integer voteCount) {
@@ -56,58 +57,74 @@ public class Artist {
 
     public Artist() {
     }
-   
+
     //
     // GETTERS AND SETTERS
     //
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getArtistName() {
         return artistName;
     }
+
     public void setArtistName(String artistName) {
         this.artistName = artistName;
     }
+
     public String getCoverUrl() {
         return this.coverUrl;
     }
+
     public void setCoverUrl(String coverUrl) {
         this.coverUrl = coverUrl;
     }
+
     public String getContact() {
         return contact;
     }
+
     public void setContact(String contact) {
         this.contact = contact;
     }
+
     public String getWebSite() {
         return webSite;
     }
+
     public void setWebSite(String webSite) {
         this.webSite = webSite;
     }
+
     public String getCity() {
         return city;
     }
+
     public void setCity(String city) {
         this.city = city;
     }
+
     public String getBio() {
         return bio;
     }
+
     public void setBio(String bio) {
         this.bio = bio;
     }
+
     public Integer getListenCount() {
         return listenCount;
     }
+
     public void setListenCount(Integer listenCount) {
         this.listenCount = listenCount;
     }
+
     public Integer getUserId() {
         return userId;
     }
@@ -115,7 +132,6 @@ public class Artist {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-
 
     public Integer getMusicalStyleId() {
         return musicalStyleId;
@@ -133,20 +149,43 @@ public class Artist {
         this.voteCount = voteCount;
     }
 
+    public String getStyleName() {
+        return styleName;
+    }
+
+    public void setStyleName(String styleName) {
+        this.styleName = styleName;
+    }
+
+    public List<Show> getShowList() {
+        return showList;
+    }
+
+    public void setShowList(List<Show> showList) {
+        this.showList = showList;
+    }
+
+    public List<SocialNetwork> getSocialNetworkList() {
+        return SocialNetworkList;
+    }
+
+    public void setSocialNetworkList(List<SocialNetwork> socialNetworkList) {
+        SocialNetworkList = socialNetworkList;
+    }
+
+    public List<Track> getTrackList() {
+        return TrackList;
+    }
+
+    public void setTrackList(List<Track> trackList) {
+        TrackList = trackList;
+    }
+
     @Override
     public String toString() {
         return "Artist [artistName=" + artistName + ", bio=" + bio + ", city=" + city + ", contact=" + contact
                 + ", coverUrl=" + coverUrl + ", id=" + id + ", listenCount=" + listenCount + ", musicalStyleId="
                 + musicalStyleId + ", userId=" + userId + ", voteCount=" + voteCount + ", webSite=" + webSite + "]";
     }
-
-    public List<Show> getListOfShow() {
-        return listOfShow;
-    }
-
-    public void setListOfShow(List<Show> listOfShow) {
-        this.listOfShow = listOfShow;
-    }
-
 
 }
