@@ -45,18 +45,16 @@ public class ArtistServiceTest {
     ShowRepository showRepository;
     TrackRepository trackRepository;
 
-    
-
     @BeforeEach
     public void init() {
-        artist = new Artist(1, "artistName", "coverUrl", "contact", "webSite", "city", "bio", 0, 0, 1, 1);
+        artist = new Artist(1, "artistName", "coverUrl", "contact", "webSite", "city", "bio", 0, 0, true, 1, 1);
         artistsList = new ArrayList<>(List.of(
-                new Artist(1, "artistName", "coverUrl", " contact", "webSite", "city", "bio", 1, 1, 1, 1),
-                new Artist(2, "artistName", "coverUrl", " contact", "webSite", "city", "bio", 1, 1, 1, 2)));
+                new Artist(1, "artistName", "coverUrl", " contact", "webSite", "city", "bio", 1, 1,true, 1, 1),
+                new Artist(2, "artistName", "coverUrl", " contact", "webSite", "city", "bio", 1, 1,true, 1, 2)));
 
         musicalStyle = new MusicalStyle(1, "rock");
         showList = new ArrayList<>(List.of(new Show(LocalDate.of(2021, 10, 10), "venue", "adress")));
-        socialNetworksList = new ArrayList<>(List.of(new SocialNetwork("url"), new SocialNetwork("url2")));
+        socialNetworksList = new ArrayList<>(List.of(new SocialNetwork("url", "name"), new SocialNetwork("url2","name2")));
         trackList = new ArrayList<>(List.of(new Track("name", "url")));
 
         artistService = new ArtistService();
@@ -99,5 +97,11 @@ public class ArtistServiceTest {
         assertEquals(1, artist.getShowList().size());
         assertEquals(1, artist.getTrackList().size());
 
+    }
+
+    @Test
+    void testSaveArtistPage(){
+        
+        
     }
 }

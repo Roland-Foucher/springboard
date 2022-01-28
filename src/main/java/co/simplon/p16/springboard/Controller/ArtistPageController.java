@@ -19,11 +19,11 @@ public class ArtistPageController {
     
     
     @GetMapping("/artistPage/{id}")
-    public ModelAndView getArtistPageById(@PathVariable(name = "id") int id){
-        ModelAndView modelAndView = new ModelAndView("artistPage");
-        Artist artist = artistService.displayArtistPage(id);
-        modelAndView.addObject("artist", artist);
+    public String getArtistPageById(@PathVariable(name = "id") int id, Model model){
         
-        return modelAndView;
+        Artist artist = artistService.displayArtistPage(id);
+        model.addAttribute("artist", artist);
+        
+        return "artistPage";
     }
 }

@@ -13,10 +13,11 @@
       crossorigin="anonymous"
     />
   </head>
-  <body>
+  <body class="bg-dark">
+    <main >
 
 
-    <div class="container-fluid w-75">
+    <article class="container-fluid w-75">
       <div class="row ">
         <div class="col-md-3 p-3" th:each="artist : ${artists}">
           <div class="card" style="max-width: 18rem">
@@ -34,7 +35,8 @@
           </div>
         </div>
       </div>
-    </div>
+    </article>
+  </main>
 
     <!-- Bootstrap JS -->
     <script

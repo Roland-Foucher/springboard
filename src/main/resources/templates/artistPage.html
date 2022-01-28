@@ -12,24 +12,126 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+    <!-- Font AweSome -->
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
   </head>
-  <body>
-    <h1 class="text-center pt-5" th:text="${artist.artistName}"></h1>
-    <div class="container-fluid mt-5">
-      <div class="row">
-        <div class="col-md-6">
-          <figure th:each="track : ${artist.trackList}" class="p-2">
-            <figcaption th:text="${track.name}"></figcaption>
-            <audio controls th:src="${track.url}" class="w-100 p-2">
-              Your browser does not support the
-              <code>audio</code> element.
-            </audio>
-          </figure>
+  <body class="bg-dark text-white">
+    <main>
+      <h1
+        class="text-center m-auto p-5 w-75 border-bottom border-info text-danger"
+        th:text="${artist.artistName}"
+      ></h1>
+      <section class="container-fluid m-md-5 pt-3">
+        <div class="row">
+          <!-- Left part -->
+          <article class="col-md-6">
+            <div class="container-fluid">
+              <div class="row">
+                <!-- Lecteur audio -->
+                <div class="col-12 mb-5">
+                  <figure th:each="track : ${artist.trackList}">
+                    <figcaption th:text="${track.name}"></figcaption>
+                    <audio controls th:src="${track.url}" class="w-100 p-2">
+                      Your browser does not support the
+                      <code>audio</code> element.
+                    </audio>
+                  </figure>
+                </div>
+                <!-- Bio -->
+                <div class="col-12 pt-5 border-info">
+                  <p
+                    th:text="${artist.bio}"
+                    class="p-2"
+                    style="text-align: justify"
+                  ></p>
+                </div>
+              </div>
+            </div>
+          </article>
+          <!-- right part -->
+          <aside class="col-md-6 p-0">
+            <div
+              class="card border-0 m-auto bg-dark text-muted small"
+              style="width: 18rem"
+            >
+              <!-- image -->
+              <img
+                th:src="${artist.coverUrl}"
+                th:alt='${artist.artistName + " cover"}'
+              />
+
+              <!-- info -->
+              <div class="card-body px-0">
+                <div class="d-flex justify-content-between">
+                  <div class="">
+                    <!-- artist Name -->
+                    <p
+                      class="card-text mb-0 font-italic text-white"
+                      th:text="${artist.artistName}"
+                    ></p>
+                    <!-- style -->
+                    <p
+                      class="card-text mb-0 font-italic"
+                      th:text="${artist.styleName}"
+                    ></p>
+                    <!-- city -->
+                    <p
+                      class="card-text mb-0 font-italic"
+                      th:text="${artist.city}"
+                    ></p>
+                  </div>
+                  <!-- favoris/like  -->
+                  <div class="text-end pt-2" style="font-size: x-large">
+                    <a
+                      href=""
+                      class="fas fa-heart text-decoration-none link-danger px-2"
+                    ></a>
+                    <a
+                      href=""
+                      class="fas fa-star text-decoration-none link-danger"
+                    ></a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- social network -->
+              <div class="card-body px-0">
+                <p>
+                  <a
+                    th:href="${artist.webSite}"
+                    th:text="${artist.webSite}"
+                  ></a>
+                </p>
+                <p
+                  class="m-0 card-text"
+                  th:each="socialNetwork : ${artist.SocialNetworkList}"
+                >
+                  <a
+                    th:href="@{socialNetwork.url}"
+                    th:text="${socialNetwork.name}"
+                  ></a>
+                </p>
+              </div>
+              <!-- shows -->
+              <div class="card-body px-0">
+                <p class="text-white">spectacles :</p>
+                <div th:each="show : ${artist.showList}">
+                  <p class="m-0"><em th:text="${show.date}"></em></p>
+                  <p
+                    class="m-0 pb-2"
+                    th:text="${show.venue + ' / ' + show.adress}"
+                  ></p>
+                </div>
+              </div>
+            </div>
+          </aside>
         </div>
-        <div class="col-md-6">
-            test
-        </div>
-      </div>
-    </div>
+      </section>
+    </main>
   </body>
 </html>
