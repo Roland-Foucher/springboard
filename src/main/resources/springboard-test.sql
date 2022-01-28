@@ -34,6 +34,7 @@ CREATE Table artists(
   voteCount INT NOT NULL,
   bio VARCHAR(255),
   listenCount INT NOT NULL,
+  isOnArtistList BOOLEAN NOT NULL,
   musicalStyleId INT NOT NULL,
   userId INT UNIQUE NOT NULL
 );
@@ -50,6 +51,7 @@ CREATE Table musicalStyle(
 CREATE Table socialNetwork(
   id INTEGER PRIMARY KEY AUTO_INCREMENT,
   url VARCHAR(100) NOT NULL,
+  name VARCHAR(50) NOT NULL,
   artistId INT NOT NULL
 );
 CREATE Table shows(
@@ -138,11 +140,11 @@ INSERT INTO
 INSERT INTO
   `artists`
 VALUES
-  (1, 'test', NULL, NULL, NULL, 'city', 0, NULL, 0, 1, 1);
+  (1, 'test', NULL, NULL, NULL, 'city', 0, NULL, 0,true, 3, 1);
 INSERT INTO
   `artists`
 VALUES
-  (2, 'test2', NULL, NULL, NULL, 'city2', 100, NULL, 100, 1, 2);
+  (2, 'test2', NULL, NULL, NULL, 'city2', 100, NULL, 100, true, 2, 2);
 INSERT INTO
   `tracks`
   VALUES
@@ -154,11 +156,11 @@ INSERT INTO
 INSERT INTO 
   `socialNetwork` 
   VALUES 
-  (1,'url', 1);
+  (1,'url', 'name', 1);
 INSERT INTO 
   `socialNetwork` 
   VALUES 
-  (2,'url', 1);
+  (2,'url', 'name', 1);
 INSERT INTO 
   `shows` 
   VALUES 
