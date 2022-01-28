@@ -83,12 +83,12 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
         this.findByIdQuery = "SELECT * FROM artists WHERE id=?";
         this.saveQuery = """
                 INSERT INTO artists
-                (artistName, coverUrl, contact, webSite, city, voteCount, bio, listenCount, musicalStyleId, UserId)
-                VALUES(?,?,?,?,?,?,?,?,?,?)""";
+                (artistName, coverUrl, contact, webSite, city, voteCount, bio, listenCount, isOnArtistList, musicalStyleId, UserId)
+                VALUES(?,?,?,?,?,?,?,?,?,?,?)""";
         this.updateQuery = """
                 UPDATE artists
                 SET artistName=?, coverUrl=?, contact=?, webSite=?, city=?,
-                voteCount=?, bio=?, listenCount=?, musicalStyleId=?, userId = ?
+                voteCount=?, bio=?, listenCount=?,isOnArtistList=?, musicalStyleId=?, userId = ?
                 WHERE id=?""";
         this.deleteQuery = "DELETE FROM artists WHERE id=?";
     }
@@ -113,8 +113,9 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
             stmt.setInt(6, artist.getVoteCount());
             stmt.setString(7, artist.getBio());
             stmt.setInt(8, artist.getListenCount());
-            stmt.setInt(9, artist.getMusicalStyleId());
-            stmt.setInt(10, artist.getUserId());
+            stmt.setBoolean(9, artist.getIsOnArtistList());
+            stmt.setInt(10, artist.getMusicalStyleId());
+            stmt.setInt(11, artist.getUserId());
 
         } catch (SQLException e) {
             System.out.println("error on inject parameters on statement for save artist");
@@ -128,7 +129,7 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
 
         try {
             injectParamatersToSaveStatement(artist);
-            stmt.setInt(11, artist.getId());
+            stmt.setInt(12, artist.getId());
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             System.out.println("error on inject parameters in statement for update artist");
@@ -149,6 +150,7 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
                     result.getString("bio"),
                     result.getInt("listenCount"),
                     result.getInt("voteCount"),
+                    result.getBoolean("isOnArtistList"),
                     result.getInt("musicalStyleId"),
                     result.getInt("userId"));
         } catch (SQLException e) {

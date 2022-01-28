@@ -1,5 +1,7 @@
 package co.simplon.p16.springboard.entity;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  * Track assigned to an artist page, artist can have 3 tracks.
  */
@@ -8,6 +10,7 @@ public class Track {
     private String name;
     private String url;
     private Integer artistId;
+    private MultipartFile data;
 
     //
     // CONSTRUCTORS
@@ -59,5 +62,11 @@ public class Track {
     @Override
     public String toString() {
         return "Track [artistId=" + artistId + ", id=" + id + ", name=" + name + ", url=" + url + "]";
+    }
+    public MultipartFile getData() {
+        return data;
+    }
+    public void setData(MultipartFile data) {
+        this.data = data;
     }
 }

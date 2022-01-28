@@ -8,16 +8,19 @@ public class SocialNetwork {
     private Integer id;
     private String url;
     private Integer artistId;
+    private String name;
 
     //
     // CONSTRUCTORS
     //
-    public SocialNetwork(String url) {
+    public SocialNetwork(String url, String name) {
+        this.name = name;
         this.url = url;
     }
-    public SocialNetwork(Integer id, String url, Integer artistId) {
+    public SocialNetwork(Integer id, String url, String name, Integer artistId) {
         this.id = id;
         this.url = url;
+        this.name = name;
         this.artistId = artistId;
     }
     public SocialNetwork() {
@@ -45,9 +48,10 @@ public class SocialNetwork {
         this.artistId = artistId;
     }
 
-    // TO STRING
-    @Override
-    public String toString() {
-        return "SocialNetwork [artistId=" + artistId + ", id=" + id + ", url=" + url + "]";
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }

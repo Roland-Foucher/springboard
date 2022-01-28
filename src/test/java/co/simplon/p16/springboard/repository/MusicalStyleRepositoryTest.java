@@ -1,5 +1,6 @@
 package co.simplon.p16.springboard.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import javax.sql.DataSource;
@@ -27,7 +28,9 @@ public class MusicalStyleRepositoryTest {
     @Test
     void testFindById() {
         assertNotNull(musicalStyleRepository.findById(1));
+        assertEquals(3, musicalStyleRepository.findById(3).getId());
     }
+
 
     @Test
     void testFindAll() {

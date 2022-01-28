@@ -23,15 +23,17 @@ public class RepositoryIntegrationTest {
     @Test
     void testCRUDWithArtistandUser(){
         User user = new User("firstName", "lastName", "emailTest", "password", "role");
-        Artist artist = new Artist("artistName", "coverUrl", "contact", "webSite", "city", "bio", 0, 0);
+        Artist artist = new Artist("artistName", "coverUrl", "contact", "webSite", "city", "bio", 0, 0, true);
         artist.setMusicalStyleId(1);
         assertTrue(userRepository.save(user));
         artist.setUserId(user.getId());
         assertTrue(artistRepository.save(artist));
         assertNotEquals(0, artistRepository.findById(artist.getId()));
         assertNotEquals(0,artistRepository.findAll());
-        assertTrue(artistRepository.update(artist));
+        boolean isok = artistRepository.update(artist);
+        assertTrue(isok);
         assertTrue(artistRepository.deleteById(artist.getId()));
         assertTrue(userRepository.deleteById(user.getId()));
     }
+    
 }

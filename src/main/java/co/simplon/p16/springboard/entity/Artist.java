@@ -2,6 +2,8 @@ package co.simplon.p16.springboard.entity;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  * artist is the page of an artist user.
  * artist is link to an User by id.
@@ -11,25 +13,28 @@ public class Artist {
     private Integer id;
     private String artistName;
     private String coverUrl;
+    private MultipartFile coverData;
     private String contact;
     private String webSite;
     private String city;
     private String bio;
     private Integer listenCount;
     private Integer voteCount;
+    private boolean isOnArtistList;
     private Integer musicalStyleId;
     private Integer userId;
     private List<Show> showList;
-    private List<SocialNetwork> SocialNetworkList;
+    private List<SocialNetwork> socialNetworkList;
     private List<Track> TrackList;
     private String styleName;
+    
 
     //
     // CONSTRUCTORS
     //
 
     public Artist(String artistName, String coverUrl, String contact, String webSite, String city, String bio,
-            Integer listenCount, Integer voteCount) {
+            Integer listenCount, Integer voteCount, boolean isOnArtistList) {
         this.artistName = artistName;
         this.coverUrl = coverUrl;
         this.contact = contact;
@@ -38,10 +43,11 @@ public class Artist {
         this.bio = bio;
         this.listenCount = listenCount;
         this.voteCount = voteCount;
+        this.isOnArtistList = isOnArtistList;
     }
 
     public Artist(Integer id, String artistName, String coverUrl, String contact, String webSite, String city,
-            String bio, Integer listenCount, Integer voteCount, Integer musicalStyleId, Integer userId) {
+            String bio, Integer listenCount, Integer voteCount, boolean isOnArtistList, Integer musicalStyleId, Integer userId) {
         this.id = id;
         this.artistName = artistName;
         this.coverUrl = coverUrl;
@@ -51,6 +57,7 @@ public class Artist {
         this.bio = bio;
         this.listenCount = listenCount;
         this.voteCount = voteCount;
+        this.isOnArtistList = isOnArtistList;
         this.musicalStyleId = musicalStyleId;
         this.userId = userId;
     }
@@ -166,11 +173,11 @@ public class Artist {
     }
 
     public List<SocialNetwork> getSocialNetworkList() {
-        return SocialNetworkList;
+        return socialNetworkList;
     }
 
     public void setSocialNetworkList(List<SocialNetwork> socialNetworkList) {
-        SocialNetworkList = socialNetworkList;
+        this.socialNetworkList = socialNetworkList;
     }
 
     public List<Track> getTrackList() {
@@ -186,6 +193,22 @@ public class Artist {
         return "Artist [artistName=" + artistName + ", bio=" + bio + ", city=" + city + ", contact=" + contact
                 + ", coverUrl=" + coverUrl + ", id=" + id + ", listenCount=" + listenCount + ", musicalStyleId="
                 + musicalStyleId + ", userId=" + userId + ", voteCount=" + voteCount + ", webSite=" + webSite + "]";
+    }
+
+    public boolean getIsOnArtistList() {
+        return isOnArtistList;
+    }
+
+    public void setOnArtistList(boolean isOnArtistList) {
+        this.isOnArtistList = isOnArtistList;
+    }
+
+    public MultipartFile getCoverData() {
+        return coverData;
+    }
+
+    public void setCoverData(MultipartFile coverData) {
+        this.coverData = coverData;
     }
 
 }

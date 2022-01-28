@@ -42,6 +42,7 @@ public class ProRepositoryTest {
 
         @Test
         void testFindArtist() {
+    
             assertNotNull(proRepository.findById(1));
         }
 

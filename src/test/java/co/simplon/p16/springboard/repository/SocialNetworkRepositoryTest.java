@@ -30,7 +30,7 @@ class SocialNetworkRepositoryTest {
     @Test
     void testSaveTrack() {
 
-        SocialNetwork socialNetwork = new SocialNetwork("url");
+        SocialNetwork socialNetwork = new SocialNetwork("url", "name");
         socialNetwork.setArtistId(1);
         assertTrue(socialNetworkRepository.save(socialNetwork));
         assertNotNull(socialNetwork.getId());
@@ -39,7 +39,7 @@ class SocialNetworkRepositoryTest {
     @Test
     void testupdateTrack() {
 
-        SocialNetwork socialNetwork = new SocialNetwork(1, "url", 1);
+        SocialNetwork socialNetwork = new SocialNetwork(1, "url", "name", 1);
         assertTrue(socialNetworkRepository.update(socialNetwork));
     }
 

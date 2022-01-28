@@ -19,8 +19,8 @@ public class SocialNetworkRepository extends GlobalRepository<SocialNetwork> imp
     public SocialNetworkRepository() {
         this.findAllQuery = "SELECT * FROM socialNetwork";
         this.findByIdQuery = "SELECT * FROM socialNetwork WHERE id=?";
-        this.saveQuery = "INSERT INTO socialNetwork (url,artistId) VALUES(?,?)";
-        this.updateQuery = "UPDATE socialNetwork SET url=?, artistId=? WHERE id=?";
+        this.saveQuery = "INSERT INTO socialNetwork (url,name,artistId) VALUES(?,?,?)";
+        this.updateQuery = "UPDATE socialNetwork SET url=?, name=?, artistId=? WHERE id=?";
         this.deleteQuery = "DELETE FROM socialNetwork WHERE id=?";
     }
 
@@ -37,7 +37,8 @@ public class SocialNetworkRepository extends GlobalRepository<SocialNetwork> imp
     protected void injectParamatersToSaveStatement(SocialNetwork socialNetwork) {
         try {
             stmt.setString(1, socialNetwork.getUrl());
-            stmt.setInt(2, socialNetwork.getArtistId());
+            stmt.setString(2, socialNetwork.getName());
+            stmt.setInt(3, socialNetwork.getArtistId());
         } catch (SQLException e) {
             System.out.println("error when inject parameters in query on save socialNetwork");
             // TODO Auto-generated catch block
@@ -49,7 +50,7 @@ public class SocialNetworkRepository extends GlobalRepository<SocialNetwork> imp
     protected void injectParamatersToUpdateStatement(SocialNetwork socialNetwork) {
         injectParamatersToSaveStatement(socialNetwork);
         try {
-            stmt.setInt(3, socialNetwork.getId());
+            stmt.setInt(4, socialNetwork.getId());
         } catch (SQLException e) {
             System.out.println("error when inject parameters in query on update socialNetwork");
             // TODO Auto-generated catch block
@@ -62,6 +63,7 @@ public class SocialNetworkRepository extends GlobalRepository<SocialNetwork> imp
         try {
             return new SocialNetwork(result.getInt("id"),
                     result.getString("url"),
+                    result.getString("name"),
                     result.getInt("artistId"));
         } catch (SQLException e) {
             System.out.println("error when instanciate socialNetwork object on find query");

@@ -29,7 +29,7 @@ public class TrackRepository extends GlobalRepository<Track> implements ITrackRe
     //
 
     @Override
-    public Track instanciateObject(ResultSet result) {
+    protected Track instanciateObject(ResultSet result) {
         try {
             return new Track(result.getInt("id"), result.getString("name"), result.getString("url"),
                     result.getInt("artistId"));
@@ -42,7 +42,7 @@ public class TrackRepository extends GlobalRepository<Track> implements ITrackRe
     }
 
     @Override
-    public void injectParamatersToSaveStatement(Track track) {
+    protected void injectParamatersToSaveStatement(Track track) {
         try {
             stmt.setString(1, track.getName());
             stmt.setString(2, track.getUrl());
@@ -57,7 +57,7 @@ public class TrackRepository extends GlobalRepository<Track> implements ITrackRe
     }
 
     @Override
-    public void injectParamatersToUpdateStatement(Track track) {
+    protected void injectParamatersToUpdateStatement(Track track) {
         try {
             injectParamatersToSaveStatement(track);
             stmt.setInt(4, track.getId());
@@ -69,7 +69,7 @@ public class TrackRepository extends GlobalRepository<Track> implements ITrackRe
     }
 
     @Override
-    public void injectGeneratedKey(Track track, int generatedId) {
+    protected void injectGeneratedKey(Track track, int generatedId) {
         track.setId(generatedId);
 
     }
