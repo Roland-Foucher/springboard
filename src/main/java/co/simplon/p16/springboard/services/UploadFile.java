@@ -1,23 +1,12 @@
 package co.simplon.p16.springboard.services;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.tomcat.jni.File;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -26,9 +15,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class UploadFile {
     /**
      * Methode to saveFile in server folder
-     * @param file file to save in databade in MultiPartFile format
-     * @param uri real path from drive (ex : c:/SpringBoard/springboard/src/main/resources/static/img/covers/)
-     * @param shortUri short path from static folder (will be save in database entity) ex: /img/covers/
+     * 
+     * @param file     file to save in databade in MultiPartFile format
+     * @param uri      real path from drive (ex :
+     *                 c:/SpringBoard/springboard/src/main/resources/static/img/covers/)
+     * @param shortUri short path from static folder (will be save in database
+     *                 entity) ex: /img/covers/
      * @return the shortUri whith fileName to store in database entity
      */
     public String saveFile(MultipartFile file, String uri, String shortUri) {
@@ -41,7 +33,7 @@ public class UploadFile {
                     .path("/files/download/")
                     .path(fileName)
                     .toUriString();
-            
+
             return shortUri + fileName;
 
         } catch (IOException e) {

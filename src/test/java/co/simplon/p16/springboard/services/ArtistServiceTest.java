@@ -1,10 +1,7 @@
 package co.simplon.p16.springboard.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 
@@ -14,7 +11,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import co.simplon.p16.springboard.entity.Artist;
 import co.simplon.p16.springboard.entity.MusicalStyle;
@@ -26,7 +22,6 @@ import co.simplon.p16.springboard.repository.MusicalStyleRepository;
 import co.simplon.p16.springboard.repository.ShowRepository;
 import co.simplon.p16.springboard.repository.SocialNetworkRepository;
 import co.simplon.p16.springboard.repository.TrackRepository;
-import co.simplon.p16.springboard.repository.UserRepository;
 
 public class ArtistServiceTest {
 

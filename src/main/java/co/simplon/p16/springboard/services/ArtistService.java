@@ -1,30 +1,28 @@
 package co.simplon.p16.springboard.services;
 
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.simplon.p16.springboard.entity.Artist;
-import co.simplon.p16.springboard.entity.MusicalStyle;
+
 import co.simplon.p16.springboard.entity.SocialNetwork;
 import co.simplon.p16.springboard.entity.Track;
-import co.simplon.p16.springboard.repository.ArtistRepository;
+
 import co.simplon.p16.springboard.repository.IArtistRepository;
 import co.simplon.p16.springboard.repository.IMusicalStyleRepository;
 import co.simplon.p16.springboard.repository.IShowRepository;
 import co.simplon.p16.springboard.repository.ISocialNetworkRepository;
-import co.simplon.p16.springboard.repository.MusicalStyleRepository;
+
 import co.simplon.p16.springboard.repository.TrackRepository;
 
 @Service
 public class ArtistService {
-    private String photoPath = "/Volumes/DATA/Simplon_Java/chef_doeuvre/SpringBoard/springboard/src/main/resources/static/img/covers/";
-    private String soundPath = "/Volumes/DATA/Simplon_Java/chef_doeuvre/SpringBoard/springboard/src/main/resources/static/sound/";
 
     @Autowired
     IArtistRepository artistRepository;
