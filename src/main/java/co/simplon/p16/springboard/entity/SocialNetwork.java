@@ -1,13 +1,17 @@
 package co.simplon.p16.springboard.entity;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * List of the socials networks by artists to display on artist page.
  * Artist can have 3 socialNetworks
  */
 public class SocialNetwork {
     private Integer id;
+    @NotBlank
     private String url;
     private Integer artistId;
+    @NotBlank
     private String name;
 
     //

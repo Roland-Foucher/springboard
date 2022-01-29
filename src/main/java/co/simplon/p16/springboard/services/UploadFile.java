@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -13,6 +15,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Service
 public class UploadFile {
+
+    private String photoPath = "/Volumes/DATA/Simplon_Java/chef_doeuvre/SpringBoard/springboard/src/main/resources/static/img/covers/";
+    private String soundPath = "/Volumes/DATA/Simplon_Java/chef_doeuvre/SpringBoard/springboard/src/main/resources/static/sound/";
+    private String shortPhotoPath = "/img/covers/";
+    private String shortAudioPath = "/sound/";
+
     /**
      * Methode to saveFile in server folder
      * 
@@ -42,6 +50,24 @@ public class UploadFile {
         }
         return null;
 
+    }
+
+    public List<String> checkAudioAndImageFiles(MultipartFile[] audioFiles, MultipartFile imageFile) {
+
+        List<String> urlFileList = new ArrayList<>();
+
+        for (MultipartFile audioFile : audioFiles) {
+            
+
+            if (audioFile.getContentType().matches("^audio/.*") && audioFile.getSize() != 0) {
+                urlFileList.add(saveFile(audioFile, soundPath, shortAudioPath));
+            }
+        }
+
+        if (imageFile.getContentType().matches("^image/.*") && imageFile.getSize() != 0) {
+            urlFileList.add(saveFile(imageFile, photoPath, shortPhotoPath));
+        }
+        return urlFileList;
     }
 
 }

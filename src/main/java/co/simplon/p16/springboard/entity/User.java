@@ -3,28 +3,43 @@ package co.simplon.p16.springboard.entity;
 import java.util.Collection;
 import java.util.List;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * User have identity and password to connect to the website
- * Can have 3 roles : ROLE_INTERNAUT / ROLE_ARTIST / ROLE_PRO that define some displays mode
+ * Can have 3 roles : ROLE_INTERNAUT / ROLE_ARTIST / ROLE_PRO that define some
+ * displays mode
  * User is use to connect with Spring Boot
  * 
  */
 public class User implements UserDetails {
     private Integer id;
+
+    @NotBlank
     private String firstName;
+
+    @NotBlank
     private String lastName;
+
+    @NotBlank
+    @Email
     private String email;
+    
+    @NotBlank
+    @Min(6)
     private String password;
     private String role;
 
     //
     // CONSTRUCTORS
     //
-    
+
     public User(Integer id, String firstName, String lastName, String email, String password, String role) {
         this.id = id;
         this.firstName = firstName;
@@ -98,26 +113,25 @@ public class User implements UserDetails {
     }
 
     //
-    //TO STRING
+    // TO STRING
     //
-    
+
     @Override
     public String toString() {
         return "User [firstName=" + firstName + ", id=" + id + ", lastName=" + lastName + ", email=" + email
                 + ", password=" + password + ", role=" + role + "]";
     }
-    
+
     //
     // configuration of user authentification
     //
 
-    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         return List.of(new SimpleGrantedAuthority(role));
     }
-  
+
     @Override
     public String getUsername() {
 
@@ -126,25 +140,25 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        
+
         return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        
+
         return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        
+
         return true;
     }
 
     @Override
     public boolean isEnabled() {
-    
+
         return true;
     }
 

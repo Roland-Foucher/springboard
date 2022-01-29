@@ -2,6 +2,12 @@ package co.simplon.p16.springboard.entity;
 
 import java.util.List;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -11,21 +17,32 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class Artist {
     private Integer id;
+
+    @NotBlank
     private String artistName;
     private String coverUrl;
     private MultipartFile coverData;
+
+    @NotBlank
+    @Email
     private String contact;
     private String webSite;
+
+    @NotBlank
     private String city;
+    @NotBlank
     private String bio;
     private Integer listenCount;
     private Integer voteCount;
     private boolean isOnArtistList;
+    @NotNull
     private Integer musicalStyleId;
     private Integer userId;
     private List<Show> showList;
     private List<SocialNetwork> socialNetworkList;
+
     private List<Track> TrackList;
+    
     private String styleName;
     
 
@@ -65,6 +82,16 @@ public class Artist {
     public Artist() {
     }
 
+   /**
+    * increase or decrease the count of upvote
+    * @param value  must be between +1 to increase/ -1 to decrease
+    */
+    public void takeUpVote(int value){
+        if (value == 1 || value == -1){
+            this.voteCount += value;
+        }
+        
+    }
     //
     // GETTERS AND SETTERS
     //

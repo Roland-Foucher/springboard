@@ -1,5 +1,7 @@
 package co.simplon.p16.springboard.entity;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -7,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class Track {
     private Integer id;
+    @NotBlank
     private String name;
     private String url;
     private Integer artistId;
