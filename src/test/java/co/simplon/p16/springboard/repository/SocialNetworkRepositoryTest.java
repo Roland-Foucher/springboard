@@ -1,6 +1,7 @@
 package co.simplon.p16.springboard.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,7 +23,8 @@ class SocialNetworkRepositoryTest {
         socialNetworkRepository = new SocialNetworkRepository();
         DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("springboard-test.sql")
+                .addScript("schema.sql")
+                .addScript("data.sql")
                 .build();
         socialNetworkRepository.setDataSource(dataSource);
     }
@@ -56,7 +58,7 @@ class SocialNetworkRepositoryTest {
     @Test
     void testFindAll() {
 
-        assertNotNull(socialNetworkRepository.findAll());
+        assertNotEquals(0,socialNetworkRepository.findAll());
     }
 
     @Test

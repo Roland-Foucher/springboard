@@ -1,7 +1,10 @@
 package co.simplon.p16.springboard.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
@@ -42,7 +45,8 @@ import co.simplon.p16.springboard.entity.Show;
        
         DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("springboard-test.sql")
+                .addScript("schema.sql")
+                .addScript("data.sql")
                 .build();
 
         artistRepository.setDataSource(dataSource);
@@ -68,12 +72,13 @@ import co.simplon.p16.springboard.entity.Show;
         @Test
          void testFindArtist() {
             assertNotNull(artistRepository.findById(1));
+            
         }
 
         @Test
          void testFindAllArtist() {
             
-            assertNotNull(artistRepository.findAll());
+            assertNotEquals(0,artistRepository.findAll().size());
 
         }
 

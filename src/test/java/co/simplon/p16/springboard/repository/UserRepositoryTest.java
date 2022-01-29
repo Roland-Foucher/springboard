@@ -1,6 +1,10 @@
 package co.simplon.p16.springboard.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.sql.DataSource;
@@ -36,7 +40,8 @@ public class UserRepositoryTest {
 
         DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("springboard-test.sql")
+                .addScript("schema.sql")
+                .addScript("data.sql")
                 .build();
         userRepository.setDataSource(dataSource);
         artistRepository.setDataSource(dataSource);
@@ -63,11 +68,12 @@ public class UserRepositoryTest {
         @Test
         void testFindUser() {
             assertNotNull(userRepository.findById(1));
+            assertNull(userRepository.findById(100));
         }
 
         @Test
         void testFindAllUser() {
-            assertNotNull(userRepository.findAll());
+            assertNotEquals(0,userRepository.findAll());
         }
 
         @Test
@@ -80,13 +86,22 @@ public class UserRepositoryTest {
         @Test
         void deleteUser() {
             assertTrue(userRepository.deleteById(1));
+            
         }
     }
 
     @Test
     void findByEmail() {
-        assertNotNull(userRepository.findByEmail("test"));
+        assertEquals("test",userRepository.findByEmail("test").getEmail());
+        assertNull(userRepository.findByEmail(""));
+        
     }
+    @Test
+    void findInvalideUserLoadByUserNameThrowException(){
+        assertThrows(Exception.class, () ->{
+            userRepository.loadUserByUsername("username");
+        });
+    }   
 
     @Nested
     class testFavoritesQueries {
