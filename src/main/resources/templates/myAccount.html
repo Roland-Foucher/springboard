@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta th:replace="@{/head/meta}" />
+    <title>springboard</title>
+    <link th:replace="@{/head/link}" />
+  </head>
+  <body class="bg-dark text-white">
+    <header th:include="@{/header/navbar}"></header>
+    <main>
+      <div class="d-flex justify-content-between">
+        <div>
+          <h2 class="fas fa-star m-5">Mes favoris</h2>
+        </div>
+        <div class= "px-5">
+          <a th:href="@{user/newArtistPage}" sec:authorize="hasRole('ROLE_USER')">🎸 Vous êtes musicien ? Créer une page artiste ! 🎸</a>
+          <a th:href="@{artist/modifyArtistPage}" sec:authorize="hasRole('ROLE_ARTIST')">🎸 Modifier Votre Page Artiste 🎸</a>
+          <a th:href="@{artist/deleteArtistPage}" sec:authorize="hasRole('ROLE_ARTIST')">Supprimer definitivement la page? 😥</a>
+        </div>
+        
+      </div>
+      
+      <div class="text-dark">
+        <article th:replace="@{/artistCard/artistCard}"></article>
+      </div>
+    </main>
+    <footer th:replace="@{footer/footer}"></footer>
+    <script th:replace="@{footer/script}"></script>
+  </body>
+</html>
