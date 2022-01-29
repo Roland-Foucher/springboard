@@ -1,0 +1,28 @@
+<div class="text-end pt-2 d-flex" style="font-size: x-large">
+    <!-- favorites -->
+    <form
+      th:action="@{/artistPage/} + ${artist.id} + '/favorite'"
+      method="post"
+    >
+      <button
+        class="btn text-danger btn-lg bg-dark px-2"
+        th:classappend="${favorite} ? 'fas fa-star' : 'far fa-star'"
+        type="submit"
+      ></button>
+    </form>
+    <!-- upvote -->
+    <form
+      th:action="@{/artistPage/} + ${artist.id} + '/upVote'"
+      method="post"
+    >
+      <button
+        class="btn text-danger btn-lg bg-dark"
+        th:classappend="${upVote} ? 'fas fa-heart' : 'far fa-heart'"
+        type="submit"
+      ></button>
+    </form>
+    <!-- upvotes count -->
+    <div>
+      <p th:text="${artist.voteCount}">upVotes :</p>
+    </div>
+</div>

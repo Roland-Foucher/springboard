@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta th:replace="@{/head/meta}" />
+    <title th:text="${artist.artistName}"></title>
+    <link th:replace="@{/head/link}" />
+  </head>
+  <body class="bg-dark text-white">
+    <header th:include="@{/header/navbar}"></header>
+    <main>
+      <h1
+        class="text-center m-auto pt-5   text-danger"
+        th:text="${artist.artistName}"
+      ></h1>
+      <section class="container-fluid mt-5 mb-5 pt-3">
+        <div class="row">
+          <!-- Left part -->
+          <article th:replace="@{/artistPage/leftPart}"></article>
+          <!-- right part -->
+          <aside th:replace="@{/artistPage/rightPart}"></aside>
+        </div>
+      </section>
+    </main>
+    <footer th:replace="@{footer/footer}"></footer>
+    <script th:replace="@{footer/script}"></script>
+  </body>
+</html>

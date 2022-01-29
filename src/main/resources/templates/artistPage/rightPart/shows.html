@@ -1,0 +1,7 @@
+<div class="card-body px-0">
+    <p class="text-white">spectacles :</p>
+    <div th:each="show : ${artist.showList}">
+      <p class="m-0"><em th:text="${show.date}"></em></p>
+      <p class="m-0 pb-2" th:text="${show.venue + ' / ' + show.adress}"></p>
+    </div>
+  </div>
