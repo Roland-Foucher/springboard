@@ -29,6 +29,8 @@ public interface IArtistRepository extends IGlobalRepository<Artist> {
 
     List<Artist> findByFavorites(Integer userId);
 
+    List<Artist> findByUpVotes(Integer userId);
+
     boolean saveShow(Integer artistId, Show show);
 
 }

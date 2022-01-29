@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +51,15 @@ public class ArtistService {
         return tenArtistsList;
     }
 
+    public List<Artist> displayFavoritArtistCards(Integer userId) {
+        List<Artist> artistsList = artistRepository.findByFavorites(userId);
+        artistsList.forEach((el) -> {
+            el.setStyleName(musicalStyleRepository.findById(el.getMusicalStyleId()).getStyle());
+        });
+
+        return artistsList;
+    }
+
     public Artist displayArtistPage(Integer id) {
         Artist artist = artistRepository.findById(id);
         artist.setStyleName(musicalStyleRepository.findById(artist.getMusicalStyleId()).getStyle());
@@ -59,10 +67,11 @@ public class ArtistService {
         artist.setSocialNetworkList(socialNetworkRepository.findByArtistId(id));
         artist.setTrackList(trackRepository.findByArtistId(id));
 
+
         return artist;
     }
-
-    public Artist setListInUser() {
+    
+    public Artist setListInArtist() {
         Artist artist = new Artist();
         List<SocialNetwork> socialNetworks = new ArrayList<>(
                 List.of(new SocialNetwork(), new SocialNetwork(), new SocialNetwork(), new SocialNetwork()));
@@ -79,7 +88,9 @@ public class ArtistService {
         artist.setListenCount(0);
         artist.setVoteCount(0);
         artist.setUserId(userId);
+
         boolean AllOk = true;
+
         List<Track> trackList = artist.getTrackList();
         if (!artistRepository.save(artist)) {
             AllOk = false;
@@ -88,13 +99,10 @@ public class ArtistService {
 
             trackList.get(i).setUrl(urlList.get(i));
             trackList.get(i).setArtistId(artist.getId());
-            System.out.println(trackList.get(i));
             if (!trackRepository.save(trackList.get(i))) {
                 AllOk = false;
             }
-            ;
         }
-
         List<SocialNetwork> socialNetworksList = artist.getSocialNetworkList();
         for (SocialNetwork socialNetwork : socialNetworksList) {
             if (!socialNetwork.getName().equals("") || !socialNetwork.getUrl().equals("")) {
@@ -103,7 +111,6 @@ public class ArtistService {
                     AllOk = false;
                 }
             }
-
         }
 
         return AllOk;

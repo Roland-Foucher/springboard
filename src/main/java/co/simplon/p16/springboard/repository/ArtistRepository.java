@@ -39,6 +39,12 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
             WHERE a.id = as.artistId""";
 
     // query to find artists linked to favorits table with artists id
+    private final String findByUpVotesQuery = """
+            SELECT a.*
+            FROM artists AS a, upVotes AS u
+            WHERE u.userId=? AND u.artistId = a.id""";
+
+    // query to find artists linked to upVotes table with artists id
     private final String findByFavoritsQuery = """
             SELECT a.*
             FROM artists AS a, favoritsArtists AS fa
@@ -252,6 +258,12 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
         return super.findListByInteger(userId, findByFavoritsQuery);
     }
 
+    @Override
+    public List<Artist> findByUpVotes(Integer userId) {
+        return super.findListByInteger(userId, findByUpVotesQuery);
+    }
+
+
     /**
      * methode to add a user show in database. call shwoRepository methode save()
      *  
@@ -305,5 +317,7 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
     public void setShowRepository(ShowRepository showRepository) {
         this.showRepository = showRepository;
     }
+
+
 
 }
