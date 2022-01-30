@@ -7,6 +7,8 @@ public interface IUserRepository extends IGlobalRepository<User> {
 
     boolean setUpvote(Integer artistId, Integer userId);
 
+    boolean deleteSingleUpvote(Integer userId, Integer artistId);
+
     Integer deleteAllUserUpvote(Integer userId);
 
     boolean setFavoriteArtist(Integer artistId, Integer userId);

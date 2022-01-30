@@ -25,7 +25,8 @@ public class TrackRepositoryTest {
         trackRepository = new TrackRepository();
         DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("springboard-test.sql")
+                .addScript("schema.sql")
+                .addScript("data.sql")
                 .build();
         trackRepository.setDataSource(dataSource);
     }

@@ -1,0 +1,8 @@
+
+    <figure th:each="track : ${artist.trackList}">
+      <figcaption th:text="${track.name}"></figcaption>
+      <audio controls th:src="${track.url}" class="w-100 p-2">
+        Your browser does not support the
+        <code>audio</code> element.
+      </audio>
+    </figure>

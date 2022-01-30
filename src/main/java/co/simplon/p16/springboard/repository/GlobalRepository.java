@@ -114,6 +114,7 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
             e.printStackTrace();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
+            
         }
 
         return false;

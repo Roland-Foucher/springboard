@@ -1,0 +1,24 @@
+<aside class="col-md-6 p-0">
+  <div
+    class="card border-0 m-auto bg-dark text-muted small"
+    style="width: 18rem"
+  >
+    <!-- image -->
+    <img th:src="${artist.coverUrl}" th:alt='${artist.artistName + " cover"}' />
+
+    <!-- info -->
+    <div class="card-body px-0">
+      <div class="d-flex justify-content-between">
+        <!-- globals inforamtions -->
+        <div th:replace="@{/artistPage/rightPart/info}"></div>
+        <!-- favoris/like  -->
+        <div th:replace="@{/artistPage/rightPart/favoritsAndVotes}"></div>
+      </div>
+    </div>
+
+    <!-- social network -->
+    <div th:replace="@{/artistPage/rightPart/socialNetworks}"></div>
+    <!-- shows -->
+    <div th:replace="@{/artistPage/rightPart/shows}"></div>
+  </div>
+</aside>

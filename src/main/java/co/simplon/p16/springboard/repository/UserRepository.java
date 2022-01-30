@@ -20,6 +20,7 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
     private final String findByEmailQuery = "SELECT * FROM users WHERE email=?";
     private final String setUpVoteQuery = "INSERT INTO upVotes VALUES(?,?)";
     private final String deleteAllUsersUpvotesQuery = "DELETE FROM upVotes WHERE userId=?";
+    private final String deleteSingleUsersUpvotesQuery = "DELETE FROM upVotes WHERE userId=? AND artistId=?";
     private final String setFavoritQuery = "INSERT INTO favoritsArtists VALUES(?,?)";
     private final String deleteSingleFavoritQuery = "DELETE FROM favoritsArtists WHERE userId=? AND artistId=?";
     private final String deleteAllUserFavoritQuery = "DELETE FROM favoritsArtists WHERE userId=?";
@@ -127,9 +128,9 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
     }
 
     @Override
-    public boolean setFavoriteArtist(Integer artistId, Integer userId) {
+    public boolean setFavoriteArtist(Integer userId, Integer artistId) {
 
-        return super.saveOrDeleteOnManyToManyTable(artistId, userId, setFavoritQuery);
+        return super.saveOrDeleteOnManyToManyTable(userId, artistId, setFavoritQuery);
     }
 
     @Override
@@ -149,6 +150,13 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
 
         return super.deleteByInteger(userId, deleteAllUserFavoritQuery);
     }
+
+    @Override
+    public boolean deleteSingleUpvote(Integer userId, Integer artistId) {
+
+        return super.saveOrDeleteOnManyToManyTable(userId, artistId, deleteSingleUsersUpvotesQuery );
+    }
+
 
     //
     // Configure user security
@@ -182,5 +190,7 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
     public void setProRepository(ProRepository proRepository) {
         this.proRepository = proRepository;
     }
+
+
 
 }

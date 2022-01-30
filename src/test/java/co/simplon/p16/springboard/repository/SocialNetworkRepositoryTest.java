@@ -1,6 +1,7 @@
 package co.simplon.p16.springboard.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,7 +23,8 @@ class SocialNetworkRepositoryTest {
         socialNetworkRepository = new SocialNetworkRepository();
         DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("springboard-test.sql")
+                .addScript("schema.sql")
+                .addScript("data.sql")
                 .build();
         socialNetworkRepository.setDataSource(dataSource);
     }
@@ -30,7 +32,7 @@ class SocialNetworkRepositoryTest {
     @Test
     void testSaveTrack() {
 
-        SocialNetwork socialNetwork = new SocialNetwork("url");
+        SocialNetwork socialNetwork = new SocialNetwork("url", "name");
         socialNetwork.setArtistId(1);
         assertTrue(socialNetworkRepository.save(socialNetwork));
         assertNotNull(socialNetwork.getId());
@@ -39,7 +41,7 @@ class SocialNetworkRepositoryTest {
     @Test
     void testupdateTrack() {
 
-        SocialNetwork socialNetwork = new SocialNetwork(1, "url", 1);
+        SocialNetwork socialNetwork = new SocialNetwork(1, "url", "name", 1);
         assertTrue(socialNetworkRepository.update(socialNetwork));
     }
 
@@ -56,7 +58,7 @@ class SocialNetworkRepositoryTest {
     @Test
     void testFindAll() {
 
-        assertNotNull(socialNetworkRepository.findAll());
+        assertNotEquals(0,socialNetworkRepository.findAll());
     }
 
     @Test

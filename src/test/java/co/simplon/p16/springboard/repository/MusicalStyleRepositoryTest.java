@@ -1,5 +1,7 @@
 package co.simplon.p16.springboard.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import javax.sql.DataSource;
@@ -18,7 +20,8 @@ public class MusicalStyleRepositoryTest {
         musicalStyleRepository = new MusicalStyleRepository();
         DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("springboard-test.sql")
+                .addScript("schema.sql")
+                .addScript("data.sql")
                 .build();
         musicalStyleRepository.setDataSource(dataSource);
 
@@ -27,11 +30,13 @@ public class MusicalStyleRepositoryTest {
     @Test
     void testFindById() {
         assertNotNull(musicalStyleRepository.findById(1));
+        assertEquals(3, musicalStyleRepository.findById(3).getId());
     }
+
 
     @Test
     void testFindAll() {
-        assertNotNull(musicalStyleRepository.findAll());
+        assertNotEquals(0,musicalStyleRepository.findAll());
     }
 
 }

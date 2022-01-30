@@ -1,0 +1,11 @@
+<div class="card-body px-0">
+    <p>
+      <a th:href="${artist.webSite}" th:text="${artist.webSite}"></a>
+    </p>
+    <p
+      class="m-0 card-text"
+      th:each="socialNetwork : ${artist.SocialNetworkList}"
+    >
+      <a th:href="@{socialNetwork.url}" th:text="${socialNetwork.name}"></a>
+    </p>
+  </div>

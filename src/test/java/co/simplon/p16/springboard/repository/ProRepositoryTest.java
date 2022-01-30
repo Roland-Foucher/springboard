@@ -1,5 +1,6 @@
 package co.simplon.p16.springboard.repository;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,7 +23,8 @@ public class ProRepositoryTest {
         proRepository = new ProRepository();
         DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("springboard-test.sql")
+                .addScript("schema.sql")
+                .addScript("data.sql")
                 .build();
         proRepository.setDataSource(dataSource);
 
@@ -42,12 +44,13 @@ public class ProRepositoryTest {
 
         @Test
         void testFindArtist() {
+    
             assertNotNull(proRepository.findById(1));
         }
 
         @Test
         void testFindAllArtist() {
-            assertNotNull(proRepository.findAll());
+            assertNotEquals(0,proRepository.findAll());
         }
 
         @Test

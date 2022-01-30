@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <ul th:each="track : ${tracks}">
-        <li th:text="${track.id}"></li>
-        
-    </ul>
-</body>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta th:replace="@{/head/meta}" />
+    <title>springboard</title>
+    <link th:replace="@{/head/link}" />
+  </head>
+  <body class="bg-dark">
+    <header th:include="@{/header/navbar}"></header>
+   
+    <main class="mx-4">
+      <article th:replace="@{/artistCard/artistCard}" ></article>
+    </main>
+
+    <footer th:replace="@{footer/footer}"></footer>
+    <script th:replace="@{footer/script}"></script>
+  </body>
 </html>

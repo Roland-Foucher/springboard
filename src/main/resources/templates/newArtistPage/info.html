@@ -1,0 +1,78 @@
+<!-- artist Name -->
+<div class="mb-3">
+  <label for="artistName">Nom de scene <span class="text-danger">*</span></label>
+  <input
+    type="text"
+    class="form-control"
+    id="artistName"
+    placeholder="Metallica"
+    th:field="${artist.artistName}"
+    th:classappend="${#fields.hasErrors('artist.artistName')}?'is-invalid'"
+    required
+  />
+  <p class="invalid-feedback" th:errors="${artist.artistName}"></p>
+</div>
+<!-- web Site -->
+<div class="mb-3">
+  <label for="webSite">site web</label>
+  <input
+    type="text"
+    class="form-control"
+    id="webSite"
+    placeholder="Metallica.com"
+    th:field="${artist.webSite}"
+  />
+</div>
+<!-- contact -->
+<div class="mb-3">
+  <label for="contact">Contact <span class="text-danger">*</span></label>
+  <input
+    type="text"
+    class="form-control"
+    id="contact"
+    placeholder="Metallica@gmail.fr"
+    th:field="${artist.contact}"
+    th:classappend="${#fields.hasErrors('artist.contact')}?'is-invalid'"
+    required
+  />
+  <p class="invalid-feedback" th:errors="${artist.contact}"></p>
+</div>
+<!-- styles -->
+<div class="mb-3">
+  <label for="style">Style <span class="text-danger">*</span></label>
+  <select class="form-control" id="style" th:field="${artist.musicalStyleId}">
+    <option
+      th:each=" musicalStyle : ${musicalStyles}"
+      th:value="${musicalStyle.id}"
+      th:text="${musicalStyle.style}"
+    ></option>
+  </select>
+</div>
+<!-- city -->
+<div class="mb-3">
+  <label for="siteWeb">Ville <span class="text-danger">*</span></label>
+  <input
+    type="text"
+    class="form-control"
+    id="artistName"
+    placeholder="Paris"
+    th:field="${artist.city}"
+    required
+    th:classappend="${#fields.hasErrors('artist.city')}?'is-invalid'"
+  />
+  </div>   
+  <p class="invalid-feedback" th:errors="${artist.city}"></p>
+  <!-- bio -->
+  <div>
+    <label for="bio">Présentation <span class="text-danger">*</span></label>
+    <textarea
+      class="form-control"
+      id="bio"
+      rows="6"
+      th:field="${artist.bio}"
+      required
+      th:classappend="${#fields.hasErrors('artist.bio')}?'is-invalid'"
+    ></textarea>
+    <p class="invalid-feedback" th:errors="${artist.bio}"></p>
+  </div>
+

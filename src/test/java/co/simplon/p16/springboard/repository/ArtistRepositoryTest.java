@@ -1,7 +1,10 @@
 package co.simplon.p16.springboard.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
@@ -13,10 +16,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-
 
 import co.simplon.p16.springboard.entity.Artist;
 import co.simplon.p16.springboard.entity.Show;
@@ -44,7 +45,8 @@ import co.simplon.p16.springboard.entity.Show;
        
         DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("springboard-test.sql")
+                .addScript("schema.sql")
+                .addScript("data.sql")
                 .build();
 
         artistRepository.setDataSource(dataSource);
@@ -60,7 +62,7 @@ import co.simplon.p16.springboard.entity.Show;
 
         @Test
          void testSaveArtist() {
-            Artist artist = new Artist("artistName", "coverUrl", "contact", "webSite", "city", "bio", 3, 1);
+            Artist artist = new Artist("artistName", "coverUrl", "contact", "webSite", "city", "bio", 3, 1, true);
             artist.setUserId(3);
             artist.setMusicalStyleId(1);
             assertTrue(artistRepository.save(artist));
@@ -70,16 +72,19 @@ import co.simplon.p16.springboard.entity.Show;
         @Test
          void testFindArtist() {
             assertNotNull(artistRepository.findById(1));
+            
         }
 
         @Test
          void testFindAllArtist() {
-            assertNotNull(artistRepository.findAll());
+            
+            assertNotEquals(0,artistRepository.findAll().size());
+
         }
 
         @Test
          void testUpdateArtist() {
-            Artist artist = new Artist("artistName", "coverUrl", "contact", "webSite", "city", "bio", 3, 1);
+            Artist artist = new Artist("artistName", "coverUrl", "contact", "webSite", "city", "bio", 3, 1, true);
             artist.setUserId(1);
             artist.setMusicalStyleId(1);
             artist.setId(1);
@@ -126,7 +131,7 @@ import co.simplon.p16.springboard.entity.Show;
 
     @Test
     void testFindByMusicalStyle() {
-        assertEquals(2, artistRepository.findByMusicalStyle(1).size());
+        assertEquals(1, artistRepository.findByMusicalStyle(3).size());
     }
 
     @Test
