@@ -13,9 +13,9 @@
           <h2 class="fas fa-star m-5">Mes favoris</h2>
         </div>
         <div class= "px-5">
-          <a th:href="@{user/newArtistPage}" sec:authorize="hasRole('ROLE_USER')">🎸 Vous êtes musicien ? Créer une page artiste ! 🎸</a>
-          <a th:href="@{artist/modifyArtistPage}" sec:authorize="hasRole('ROLE_ARTIST')">🎸 Modifier Votre Page Artiste 🎸</a>
-          <a th:href="@{artist/deleteArtistPage}" sec:authorize="hasRole('ROLE_ARTIST')">Supprimer definitivement la page? 😥</a>
+          <p><a th:href="@{user/newArtistPage}" sec:authorize="hasRole('ROLE_USER')">🎸 Vous êtes musicien ? Créer une page artiste ! 🎸</a></p>
+          <p><a th:href="@{artist/modifyArtistPage/} + ${artistId}" sec:authorize="hasRole('ROLE_ARTIST')">🎸 Modifier Votre Page Artiste 🎸</a></p>
+          <p><a th:href="@{artist/deleteArtistPage} + ${artistId}" sec:authorize="hasRole('ROLE_ARTIST')">Supprimer definitivement la page? 😥</a></p>
         </div>
         
       </div>

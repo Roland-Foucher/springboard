@@ -12,7 +12,7 @@
         accept="audio/*"
       />
       <label for="audio" class="form-label">Piste Audio</label>
-      <input class="form-control" type="file" id="audio" name="audioFiles" />
+      <input class="form-control" type="file" id="audio" name="audioFiles" th:placeholder=${artist.trackList[__${itemStat.index}__].name}/>
     </div>
   </div>
 </div>

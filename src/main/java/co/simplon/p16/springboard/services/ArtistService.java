@@ -67,17 +67,31 @@ public class ArtistService {
         artist.setSocialNetworkList(socialNetworkRepository.findByArtistId(id));
         artist.setTrackList(trackRepository.findByArtistId(id));
 
-
         return artist;
     }
-    
-    public Artist setListInArtist() {
+
+    public Artist setListInNewArtist() {
         Artist artist = new Artist();
         List<SocialNetwork> socialNetworks = new ArrayList<>(
                 List.of(new SocialNetwork(), new SocialNetwork(), new SocialNetwork(), new SocialNetwork()));
         List<Track> trackList = new ArrayList<>(
                 List.of(new Track(), new Track(), new Track(), new Track()));
 
+        artist.setSocialNetworkList(socialNetworks);
+        artist.setTrackList(trackList);
+        return artist;
+    }
+
+    public Artist setListToUpdateArtistPage(int id) {
+        Artist artist = artistRepository.findById(id);
+        List<SocialNetwork> socialNetworks = socialNetworkRepository.findByArtistId(id);
+        while (socialNetworks.size() < 4) {
+            socialNetworks.add(new SocialNetwork());
+        }
+        List<Track> trackList = trackRepository.findByArtistId(id);
+        while (trackList.size() < 4) {
+            trackList.add(new Track());
+        }
         artist.setSocialNetworkList(socialNetworks);
         artist.setTrackList(trackList);
         return artist;
