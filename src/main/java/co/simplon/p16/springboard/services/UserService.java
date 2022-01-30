@@ -6,11 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.simplon.p16.springboard.entity.Artist;
-import co.simplon.p16.springboard.entity.User;
-import co.simplon.p16.springboard.repository.ArtistRepository;
 import co.simplon.p16.springboard.repository.IArtistRepository;
 import co.simplon.p16.springboard.repository.IUserRepository;
-import co.simplon.p16.springboard.repository.UserRepository;
 
 @Service
 public class UserService {
