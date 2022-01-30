@@ -71,7 +71,7 @@ public class ArtistService {
         return artist;
     }
     
-    public Artist setListInArtist() {
+    public Artist setListInNewArtist() {
         Artist artist = new Artist();
         List<SocialNetwork> socialNetworks = new ArrayList<>(
                 List.of(new SocialNetwork(), new SocialNetwork(), new SocialNetwork(), new SocialNetwork()));
