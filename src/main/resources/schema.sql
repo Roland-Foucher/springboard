@@ -3,7 +3,6 @@
 -- drop tables before create
 --
 DROP TABLE IF EXISTS tracks;
-DROP TABLE IF EXISTS musicalStyle;
 DROP TABLE IF EXISTS socialNetwork;
 DROP TABLE IF EXISTS pro;
 DROP TABLE IF EXISTS favoritsArtists;
@@ -11,6 +10,7 @@ DROP TABLE IF EXISTS artistsShows;
 DROP TABLE IF EXISTS shows;
 DROP TABLE IF EXISTS upVotes;
 DROP TABLE IF EXISTS artists;
+DROP TABLE IF EXISTS musicalStyle;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS test;
 --
@@ -79,6 +79,10 @@ ALTER TABLE
   artists
 ADD
   FOREIGN KEY (userId) REFERENCES users (id);
+ALTER TABLE
+  artists
+ADD
+  FOREIGN KEY (musicalStyleId) REFERENCES musicalStyle (id);
 ALTER TABLE
   pro
 ADD
