@@ -69,7 +69,7 @@ public class ArtistService {
 
         return artist;
     }
-
+    
     public Artist setListInNewArtist() {
         Artist artist = new Artist();
         List<SocialNetwork> socialNetworks = new ArrayList<>(
