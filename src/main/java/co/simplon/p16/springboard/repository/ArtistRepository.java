@@ -60,8 +60,8 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
     // duplicated result
     private final String findByShowAdressQuery = """
             SELECT DISTINCT a.*
-            FROM artists AS a, artistsShows AS as, shows AS s
-            WHERE s.id = as.showId AND as.artistId = a.id AND s.adress = ?""";
+            FROM artists AS a, artistsShows AS ash, shows AS s
+            WHERE s.id = ash.showId AND ash.artistId = a.id AND s.adress = ?""";
 
     // querty to find artits linked to show table with the venue of show without
     // duplicated result
