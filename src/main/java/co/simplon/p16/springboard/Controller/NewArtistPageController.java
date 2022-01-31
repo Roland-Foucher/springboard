@@ -85,6 +85,6 @@ public class NewArtistPageController {
             model.addAttribute("savePageError", "Une erreur est survenue lors de la création de la page");
             return "newArtistPage/newArtistPage";
         }
-    }
+    }// TODO redirect + refresh
 
 }
