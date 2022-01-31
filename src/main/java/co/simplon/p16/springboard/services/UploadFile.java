@@ -16,10 +16,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @Service
 public class UploadFile {
 
-    private String photoPath = "/Volumes/DATA/Simplon_Java/chef_doeuvre/SpringBoard/springboard/src/main/resources/static/img/covers/";
-    private String soundPath = "/Volumes/DATA/Simplon_Java/chef_doeuvre/SpringBoard/springboard/src/main/resources/static/sound/";
-    private String shortPhotoPath = "/img/covers/";
-    private String shortAudioPath = "/sound/";
+    private String path = "/Volumes/DATA/Simplon_Java/chef_doeuvre/SpringBoard/springboard/src/main/resources/static";
+    
+    private String photoPath = "/img/covers/";
+    private String audioPath = "/sound/";
 
     /**
      * Methode to saveFile in server folder
@@ -37,16 +37,10 @@ public class UploadFile {
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             Path path = Paths.get(uri + fileName);
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-            ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/files/download/")
-                    .path(fileName)
-                    .toUriString();
-
             return shortUri + fileName;
 
         } catch (IOException e) {
             e.printStackTrace();
-
         }
         return null;
 
@@ -60,14 +54,16 @@ public class UploadFile {
             
 
             if (audioFile.getContentType().matches("^audio/.*") && audioFile.getSize() != 0) {
-                urlFileList.add(saveFile(audioFile, soundPath, shortAudioPath));
+                urlFileList.add(saveFile(audioFile, path + audioPath, audioPath));
             }
         }
 
         if (imageFile.getContentType().matches("^image/.*") && imageFile.getSize() != 0) {
-            urlFileList.add(saveFile(imageFile, photoPath, shortPhotoPath));
+            urlFileList.add(saveFile(imageFile, path + photoPath, photoPath));
         }
         return urlFileList;
     }
+
+    //TODO check path
 
 }
