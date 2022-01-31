@@ -1,0 +1,53 @@
+<!-- cover -->
+<div class="mb-3 col-md-5">
+  <div>
+    <label for="change">Voulez vous change votre photo de page ?</label>
+    <input
+      type="checkbox"
+      name="changeCover"
+      id="changeCover"
+      onclick="displayCoverInput()"
+      th:checked="${modifyCover}"
+    />
+  </div>
+  
+    <div class="d-none" id="coverBlock">
+      <label for="cover" class="form-label">Photo</label>
+      <input
+        class="form-control"
+        type="file"
+        id="cover"
+        name="imageFile"
+        accept="image/*"
+      />
+    </div>
+    <!-- check is in list -->
+    <div th:replace="@{/newArtistPage/checkIsInList}"></div>
+
+    <!-- submit -->
+    <div class="mt-2">
+      <button class="btn btn-lg btn-secondary" type="submit">
+        Valider la page
+      </button>
+    </div>
+  
+
+  <div class="col-md-5 p-auto">
+    <img id="output" class="d-block m-auto" />
+  </div>
+
+  <script>
+    function displayCoverInput() {
+      const checkBox = document.getElementById("changeCover");
+      const cover = document.getElementById("coverBlock");
+      cover.className = checkBox.checked ? "d-block" : "d-none";
+    }
+
+    cover.onchange = () => {
+      const [file] = cover.files;
+      if (file) {
+        output.src = URL.createObjectURL(file);
+      }
+    };
+  </script>
+</div>

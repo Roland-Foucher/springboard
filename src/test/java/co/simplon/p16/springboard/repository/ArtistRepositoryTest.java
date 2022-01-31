@@ -116,12 +116,12 @@ import co.simplon.p16.springboard.entity.Show;
 
     @Test
     void testFindByArtistName() {
-        assertEquals(1, artistRepository.findByArtistName("test").size());
+        assertEquals(1, artistRepository.findByArtistName("Amen Ra").size());
     }
 
     @Test
     void testFindByCity() {
-        assertEquals(1, artistRepository.findByCity("city").size());
+        assertEquals(1, artistRepository.findByCity("UK").size());
     }
 
     @Test
@@ -131,7 +131,7 @@ import co.simplon.p16.springboard.entity.Show;
 
     @Test
     void testFindByMusicalStyle() {
-        assertEquals(1, artistRepository.findByMusicalStyle(3).size());
+        assertEquals(1, artistRepository.findByMusicalStyle(1).size());
     }
 
     @Test

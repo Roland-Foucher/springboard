@@ -4,9 +4,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -53,36 +53,44 @@ public class NewArtistPageController {
 
     @PostMapping("newArtistPage/upload")
     public String saveNewArtistPage(Model model,
-                                    Authentication authentication,
-                                    @RequestParam MultipartFile imageFile,
-                                    @RequestParam MultipartFile[] audioFiles,
-                                    @Valid Artist artist,
-                                    BindingResult bindingResult) {
+            @AuthenticationPrincipal User user,
+            @RequestParam MultipartFile coverFile,
+            @RequestParam MultipartFile[] audioFiles,
+            @Valid Artist artist,
+            BindingResult bindingResult) {
 
+        // réinjection des styles
         List<MusicalStyle> styleList = musicalStyleRepository.findAll();
         model.addAttribute("musicalStyles", styleList);
 
+        // validation des données utilisateur
         if (bindingResult.hasErrors()) {
             return "newArtistPage/newArtistPage";
         }
-        if (imageFile.getSize() == 0) {
+        if (coverFile.getSize() == 0) {
             model.addAttribute("savePageError", "Merci de loader une image");
             return "newArtistPage/newArtistPage";
         }
         if (audioFiles[0].getSize() == 0) {
-            model.addAttribute("savePageError", "Merci de loader au moins un titre musical");
+            model.addAttribute("savePageError", "Merci de loader au moins un titre musical sur la première entrée");
             return "newArtistPage/newArtistPage";
         }
-        List<String> urlFileList = uploadFile.checkAudioAndImageFiles(audioFiles, imageFile);
-        User user = (User) authentication.getPrincipal();
 
-        if (urlFileList.size() > 1 && artistService.saveArtistPage(artist, urlFileList, user.getId())) {
-            user.setRole("ROLE_ARTIST");
-            userRepository.update(user);
-            return "redirect:/artistPage/" + artist.getId();
+        // enregistrement des fichiers
+        List<String> urlAudioFileList = uploadFile.SaveAudioFiles(audioFiles);
+        String urlCoverFile = uploadFile.saveImageFile(coverFile);
+
+        if (!urlAudioFileList.isEmpty() && !urlCoverFile.isEmpty()) {
+            if (artistService.saveArtistPage(artist, urlAudioFileList, urlCoverFile, user.getId())) {
+                user.setRole("ROLE_ARTIST");
+                userRepository.update(user);
+                return "redirect:/artistPage/" + artist.getId();
+            } else {
+                model.addAttribute("savePageError", "Une erreur est survenue lors de la création de la page");
+                return "newArtistPage/newArtistPage";
+            }
         } else {
-
-            model.addAttribute("savePageError", "Une erreur est survenue lors de la création de la page");
+            model.addAttribute("savePageError", "Un problème est survenu lors de la sauvegarde de vos fichier");
             return "newArtistPage/newArtistPage";
         }
     }// TODO redirect + refresh

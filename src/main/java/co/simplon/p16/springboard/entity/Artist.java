@@ -40,9 +40,8 @@ public class Artist {
     private List<SocialNetwork> socialNetworkList;
 
     private List<Track> TrackList;
-    
+
     private String styleName;
-    
 
     //
     // CONSTRUCTORS
@@ -62,7 +61,8 @@ public class Artist {
     }
 
     public Artist(Integer id, String artistName, String coverUrl, String contact, String webSite, String city,
-            String bio, Integer listenCount, Integer voteCount, boolean isOnArtistList, Integer musicalStyleId, Integer userId) {
+            String bio, Integer listenCount, Integer voteCount, boolean isOnArtistList, Integer musicalStyleId,
+            Integer userId) {
         this.id = id;
         this.artistName = artistName;
         this.coverUrl = coverUrl;
@@ -80,16 +80,18 @@ public class Artist {
     public Artist() {
     }
 
-   /**
-    * increase or decrease the count of upvote
-    * @param value  must be between +1 to increase/ -1 to decrease
-    */
-    public void takeUpVote(int value){
-        if (value == 1 || value == -1){
+    /**
+     * increase or decrease the count of upvote
+     * 
+     * @param value must be between +1 to increase/ -1 to decrease
+     */
+    public void takeUpVote(int value) {
+        if (value == 1 || value == -1) {
             this.voteCount += value;
         }
-        
+
     }
+
     //
     // GETTERS AND SETTERS
     //

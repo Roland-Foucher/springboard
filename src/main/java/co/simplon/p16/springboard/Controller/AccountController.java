@@ -27,8 +27,8 @@ public class AccountController {
     
     @GetMapping("/myAccount")
     public String showMyAccountPage(Model model, @AuthenticationPrincipal User user){
-
-        if(user.getRole() == "ROLE_ARTIST"){
+        System.out.println(user.getRole());
+        if(user.getRole().equals("ROLE_ARTIST")){
             model.addAttribute("artistId", artistRepository.findByUserId(user.getId()).getId());
         }
        

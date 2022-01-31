@@ -46,22 +46,25 @@ public class UploadFile {
 
     }
 
-    public List<String> checkAudioAndImageFiles(MultipartFile[] audioFiles, MultipartFile imageFile) {
+    public List<String> SaveAudioFiles(MultipartFile[] audioFiles) {
 
-        List<String> urlFileList = new ArrayList<>();
+        List<String> urlAudioFileList = new ArrayList<>();
 
         for (MultipartFile audioFile : audioFiles) {
-            
 
             if (audioFile.getContentType().matches("^audio/.*") && audioFile.getSize() != 0) {
-                urlFileList.add(saveFile(audioFile, path + audioPath, audioPath));
+                urlAudioFileList.add(saveFile(audioFile, path + audioPath, audioPath));
             }
         }
+        return urlAudioFileList;
+    }
+    public String saveImageFile(MultipartFile imageFile) {
 
         if (imageFile.getContentType().matches("^image/.*") && imageFile.getSize() != 0) {
-            urlFileList.add(saveFile(imageFile, path + photoPath, photoPath));
+            String urlImageFile = saveFile(imageFile, path + photoPath, photoPath);
+            return urlImageFile;
         }
-        return urlFileList;
+        return null;
     }
 
     //TODO check path
