@@ -23,6 +23,7 @@ import co.simplon.p16.springboard.repository.IMusicalStyleRepository;
 
 import co.simplon.p16.springboard.repository.UserRepository;
 import co.simplon.p16.springboard.services.ArtistService;
+import co.simplon.p16.springboard.services.FormArtistPageService;
 import co.simplon.p16.springboard.services.UploadFile;
 
 @RequestMapping("user/")
@@ -32,17 +33,17 @@ public class NewArtistPageController {
     @Autowired
     IMusicalStyleRepository musicalStyleRepository;
     @Autowired
-    ArtistService artistService;
-    @Autowired
     UploadFile uploadFile;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    FormArtistPageService formArtistPageService;
 
     @GetMapping("newArtistPage")
     public String showNewArtistPageForm(Model model) {
 
         List<MusicalStyle> styleList = musicalStyleRepository.findAll();
-        Artist artist = artistService.setListInNewArtist();
+        Artist artist = formArtistPageService.setListInNewArtist();
 
         model.addAttribute("musicalStyles", styleList);
         model.addAttribute("artist", artist);
@@ -76,11 +77,11 @@ public class NewArtistPageController {
         }
 
         // enregistrement des fichiers
-        List<String> urlAudioFileList = uploadFile.SaveAudioFiles(audioFiles);
-        String urlCoverFile = uploadFile.saveImageFile(imageFile);
+        List<String> urlAudioFileList = uploadFile.SaveAudioFiles(audioFiles, artist);
+        String urlCoverFile = uploadFile.saveImageFile(imageFile, artist);
 
         if (!urlAudioFileList.isEmpty() && !urlCoverFile.isEmpty()) {
-            if (artistService.saveArtistPage(artist, urlAudioFileList, urlCoverFile, user.getId())) {
+            if (formArtistPageService.saveArtistPage(artist, urlAudioFileList, urlCoverFile, user.getId())) {
                 user.setRole("ROLE_ARTIST");
                 userRepository.update(user);
                 return "redirect:/artistPage/" + artist.getId();

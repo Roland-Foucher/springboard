@@ -22,6 +22,7 @@ import co.simplon.p16.springboard.entity.User;
 import co.simplon.p16.springboard.repository.IMusicalStyleRepository;
 import co.simplon.p16.springboard.repository.TrackRepository;
 import co.simplon.p16.springboard.services.ArtistService;
+import co.simplon.p16.springboard.services.FormArtistPageService;
 import co.simplon.p16.springboard.services.UploadFile;
 
 @RequestMapping("artist/")
@@ -31,16 +32,16 @@ public class ModifyArtistPageController {
     @Autowired
     IMusicalStyleRepository musicalStyleRepository;
     @Autowired
-    ArtistService artistService;
-    @Autowired
     UploadFile uploadFile;
     @Autowired
     TrackRepository trackRepository;
+    @Autowired
+    FormArtistPageService formArtistPageService;
 
     @GetMapping("modifyArtistPage/{id}")
     public String modifyArtistPage(@PathVariable int id, Model model) {
         List<MusicalStyle> styleList = musicalStyleRepository.findAll();
-        Artist artist = artistService.setListToUpdateArtistPage(id);
+        Artist artist = formArtistPageService.setListToUpdateArtistPage(id);
 
         model.addAttribute("musicalStyles", styleList);
         model.addAttribute("artist", artist);
@@ -58,7 +59,9 @@ public class ModifyArtistPageController {
             @RequestParam(defaultValue = "false") Boolean modifyCover,
             @Valid Artist newArtist,
             BindingResult bindingResult) {
-
+        
+        // réinjection de l'id
+        newArtist.setId(id);
         // réinjection des styles
         List<MusicalStyle> styleList = musicalStyleRepository.findAll();
         model.addAttribute("musicalStyles", styleList);
@@ -78,12 +81,12 @@ public class ModifyArtistPageController {
 
         // enregistrement des fichiers s'il ont changés, sinon récupérationd es anciens
         // fichiers.
-        List<String> urlAudioFileList = artistService.updateAudioFiles(modifyTracks, audioFiles, newArtist.getId());
-        String urlCoverFile = artistService.updateCoverFile(modifyCover, imageFile, newArtist.getId());
+        List<String> urlAudioFileList = formArtistPageService.updateAudioFiles(modifyTracks, audioFiles, newArtist);
+        String urlCoverFile = formArtistPageService.updateCoverFile(modifyCover, imageFile, newArtist);
 
         // création des éléments dans la database
         if (!urlAudioFileList.isEmpty() && !urlCoverFile.isEmpty()) {
-            if (artistService.updateArtistPage(newArtist, urlAudioFileList, urlCoverFile, user.getId())) {
+            if (formArtistPageService.updateArtistPage(newArtist, urlAudioFileList, urlCoverFile, user.getId())) {
 
                 return "redirect:/artistPage/" + newArtist.getId();
             } else {
