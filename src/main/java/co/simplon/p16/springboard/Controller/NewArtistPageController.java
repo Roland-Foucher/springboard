@@ -54,7 +54,7 @@ public class NewArtistPageController {
     @PostMapping("newArtistPage/upload")
     public String saveNewArtistPage(Model model,
             @AuthenticationPrincipal User user,
-            @RequestParam MultipartFile coverFile,
+            @RequestParam MultipartFile imageFile,
             @RequestParam MultipartFile[] audioFiles,
             @Valid Artist artist,
             BindingResult bindingResult) {
@@ -67,7 +67,7 @@ public class NewArtistPageController {
         if (bindingResult.hasErrors()) {
             return "newArtistPage/newArtistPage";
         }
-        if (coverFile.getSize() == 0) {
+        if (imageFile.getSize() == 0) {
             model.addAttribute("savePageError", "Merci de loader une image");
             return "newArtistPage/newArtistPage";
         }
@@ -78,7 +78,7 @@ public class NewArtistPageController {
 
         // enregistrement des fichiers
         List<String> urlAudioFileList = uploadFile.SaveAudioFiles(audioFiles);
-        String urlCoverFile = uploadFile.saveImageFile(coverFile);
+        String urlCoverFile = uploadFile.saveImageFile(imageFile);
 
         if (!urlAudioFileList.isEmpty() && !urlCoverFile.isEmpty()) {
             if (artistService.saveArtistPage(artist, urlAudioFileList, urlCoverFile, user.getId())) {
