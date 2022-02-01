@@ -66,9 +66,21 @@ CREATE Table pro(
   siret VARCHAR(100) NOT NULL,
   userId INT NOT NULL UNIQUE
 );
-CREATE Table favoritsArtists(userId INT NOT NULL, artistId INT NOT NULL);
-CREATE Table upVotes(userId INT NOT NULL, artistId INT NOT NULL);
-CREATE Table artistsShows(artistId INT NOT NULL, showId INT NOT NULL);
+CREATE Table favoritsArtists(
+  userId INT NOT NULL, 
+  artistId INT NOT NULL,
+  PRIMARY KEY (userId, artistId)
+  );
+CREATE Table upVotes(
+  userId INT NOT NULL, 
+  artistId INT NOT NULL,
+  PRIMARY KEY (userId, artistId)
+  );
+CREATE Table artistsShows(
+  artistId INT NOT NULL,
+   showId INT NOT NULL,
+   PRIMARY KEY (artistId, showId)
+   );
 
 --  Create Foreign Keys
 ALTER TABLE

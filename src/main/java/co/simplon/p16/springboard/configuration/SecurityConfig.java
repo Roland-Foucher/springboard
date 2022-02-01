@@ -26,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Ici, rajouter des mvcMatcher("/route-a-proteger").authenticated() pour protéger des pages
         .mvcMatchers("/user/**").hasRole("USER")
         .mvcMatchers("/artist/**").hasRole("ARTIST")
+        .mvcMatchers("/myAccount").authenticated()
         .anyRequest().permitAll()
         .and().formLogin();
     
