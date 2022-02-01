@@ -1,9 +1,10 @@
 -- database to make test
+
 --
 -- drop tables before create
 --
+
 DROP TABLE IF EXISTS tracks;
-DROP TABLE IF EXISTS musicalStyle;
 DROP TABLE IF EXISTS socialNetwork;
 DROP TABLE IF EXISTS pro;
 DROP TABLE IF EXISTS favoritsArtists;
@@ -11,11 +12,13 @@ DROP TABLE IF EXISTS artistsShows;
 DROP TABLE IF EXISTS shows;
 DROP TABLE IF EXISTS upVotes;
 DROP TABLE IF EXISTS artists;
+DROP TABLE IF EXISTS musicalStyle;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS test;
---
--- Create tables
---
+
+-- Create all tables
+
+
 CREATE Table users (
   id INTEGER PRIMARY KEY AUTO_INCREMENT,
   firstName VARCHAR(50) NOT NULL,
@@ -27,12 +30,12 @@ CREATE Table users (
 CREATE Table artists(
   id INTEGER PRIMARY KEY AUTO_INCREMENT,
   artistName VARCHAR(50) NOT NULL,
-  coverURL VARCHAR(100),
-  contact VARCHAR(100),
+  coverURL VARCHAR(100)NOT NULL,
+  contact VARCHAR(100) NOT NULL,
   webSite VARCHAR(100),
   city VARCHAR(50) NOT NULL,
   voteCount INT NOT NULL,
-  bio VARCHAR(255),
+  bio TEXT NOT NULL,
   listenCount INT NOT NULL,
   isOnArtistList BOOLEAN NOT NULL,
   musicalStyleId INT NOT NULL,
@@ -67,11 +70,23 @@ CREATE Table pro(
   contact VARCHAR(100) NOT NULL,
   city VARCHAR(50) NOT NULL,
   siret VARCHAR(100) NOT NULL,
-  userId INT UNIQUE NOT NULL
+  userId INT NOT NULL UNIQUE
 );
-CREATE Table favoritsArtists(userId INT NOT NULL, artistId INT NOT NULL);
-CREATE Table upVotes(userId INT NOT NULL, artistId INT NOT NULL);
-CREATE Table artistsShows(artistId INT NOT NULL, showId INT NOT NULL);
+CREATE Table favoritsArtists(
+  userId INT NOT NULL, 
+  artistId INT NOT NULL,
+  PRIMARY KEY (userId, artistId)
+  );
+CREATE Table upVotes(
+  userId INT NOT NULL, 
+  artistId INT NOT NULL,
+  PRIMARY KEY (userId, artistId)
+  );
+CREATE Table artistsShows(
+  artistId INT NOT NULL,
+   showId INT NOT NULL,
+   PRIMARY KEY (artistId, showId)
+   );
 --
 -- Take foreign keys
 --
@@ -79,6 +94,10 @@ ALTER TABLE
   artists
 ADD
   FOREIGN KEY (userId) REFERENCES users (id);
+ALTER TABLE
+  artists
+ADD
+  FOREIGN KEY (musicalStyleId) REFERENCES musicalStyle (id);
 ALTER TABLE
   pro
 ADD

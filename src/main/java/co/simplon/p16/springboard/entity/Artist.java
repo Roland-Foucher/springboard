@@ -6,8 +6,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.web.multipart.MultipartFile;
-
 /**
  * artist is the page of an artist user.
  * artist is link to an User by id.
@@ -19,7 +17,6 @@ public class Artist {
     @NotBlank
     private String artistName;
     private String coverUrl;
-    private MultipartFile coverData;
 
     @NotBlank
     @Email
@@ -32,7 +29,7 @@ public class Artist {
     private String bio;
     private Integer listenCount;
     private Integer voteCount;
-    private boolean isOnArtistList;
+    private Boolean isOnArtistList;
     @NotNull
     private Integer musicalStyleId;
     private Integer userId;
@@ -40,9 +37,8 @@ public class Artist {
     private List<SocialNetwork> socialNetworkList;
 
     private List<Track> TrackList;
-    
+
     private String styleName;
-    
 
     //
     // CONSTRUCTORS
@@ -62,7 +58,8 @@ public class Artist {
     }
 
     public Artist(Integer id, String artistName, String coverUrl, String contact, String webSite, String city,
-            String bio, Integer listenCount, Integer voteCount, boolean isOnArtistList, Integer musicalStyleId, Integer userId) {
+            String bio, Integer listenCount, Integer voteCount, boolean isOnArtistList, Integer musicalStyleId,
+            Integer userId) {
         this.id = id;
         this.artistName = artistName;
         this.coverUrl = coverUrl;
@@ -80,16 +77,18 @@ public class Artist {
     public Artist() {
     }
 
-   /**
-    * increase or decrease the count of upvote
-    * @param value  must be between +1 to increase/ -1 to decrease
-    */
-    public void takeUpVote(int value){
-        if (value == 1 || value == -1){
+    /**
+     * increase or decrease the count of upvote
+     * 
+     * @param value must be between +1 to increase/ -1 to decrease
+     */
+    public void takeUpVote(int value) {
+        if (value == 1 || value == -1) {
             this.voteCount += value;
         }
-        
+
     }
+
     //
     // GETTERS AND SETTERS
     //
@@ -220,20 +219,13 @@ public class Artist {
                 + musicalStyleId + ", userId=" + userId + ", voteCount=" + voteCount + ", webSite=" + webSite + "]";
     }
 
-    public boolean getIsOnArtistList() {
+    public Boolean getIsOnArtistList() {
         return isOnArtistList;
     }
 
-    public void setOnArtistList(boolean isOnArtistList) {
+    public void setIsOnArtistList(Boolean isOnArtistList) {
         this.isOnArtistList = isOnArtistList;
     }
 
-    public MultipartFile getCoverData() {
-        return coverData;
-    }
-
-    public void setCoverData(MultipartFile coverData) {
-        this.coverData = coverData;
-    }
 
 }

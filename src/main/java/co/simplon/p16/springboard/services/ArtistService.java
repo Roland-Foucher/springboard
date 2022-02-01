@@ -1,23 +1,18 @@
 package co.simplon.p16.springboard.services;
 
 import java.util.ArrayList;
-
 import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import co.simplon.p16.springboard.entity.Artist;
-
-import co.simplon.p16.springboard.entity.SocialNetwork;
-import co.simplon.p16.springboard.entity.Track;
-
 import co.simplon.p16.springboard.repository.IArtistRepository;
 import co.simplon.p16.springboard.repository.IMusicalStyleRepository;
 import co.simplon.p16.springboard.repository.IShowRepository;
 import co.simplon.p16.springboard.repository.ISocialNetworkRepository;
-
 import co.simplon.p16.springboard.repository.TrackRepository;
 
 @Service
@@ -33,8 +28,7 @@ public class ArtistService {
     ISocialNetworkRepository socialNetworkRepository;
     @Autowired
     TrackRepository trackRepository;
-    @Autowired
-    UploadFile uploadFile;
+
 
     public List<Artist> display10ShuffleArtistsCards() {
         List<Artist> artistsList = artistRepository.findAll();
@@ -66,55 +60,7 @@ public class ArtistService {
         artist.setShowList(showRepository.findByArtist(id));
         artist.setSocialNetworkList(socialNetworkRepository.findByArtistId(id));
         artist.setTrackList(trackRepository.findByArtistId(id));
-
-
         return artist;
-    }
-    
-    public Artist setListInNewArtist() {
-        Artist artist = new Artist();
-        List<SocialNetwork> socialNetworks = new ArrayList<>(
-                List.of(new SocialNetwork(), new SocialNetwork(), new SocialNetwork(), new SocialNetwork()));
-        List<Track> trackList = new ArrayList<>(
-                List.of(new Track(), new Track(), new Track(), new Track()));
-
-        artist.setSocialNetworkList(socialNetworks);
-        artist.setTrackList(trackList);
-        return artist;
-    }
-
-    public boolean saveArtistPage(Artist artist, List<String> urlList, Integer userId) {
-        artist.setCoverUrl(urlList.get(urlList.size() - 1));
-        artist.setListenCount(0);
-        artist.setVoteCount(0);
-        artist.setUserId(userId);
-
-        boolean AllOk = true;
-
-        List<Track> trackList = artist.getTrackList();
-        if (!artistRepository.save(artist)) {
-            AllOk = false;
-        }
-        for (int i = 0; i < urlList.size() - 1; i++) {
-
-            trackList.get(i).setUrl(urlList.get(i));
-            trackList.get(i).setArtistId(artist.getId());
-            if (!trackRepository.save(trackList.get(i))) {
-                AllOk = false;
-            }
-        }
-        List<SocialNetwork> socialNetworksList = artist.getSocialNetworkList();
-        for (SocialNetwork socialNetwork : socialNetworksList) {
-            if (!socialNetwork.getName().equals("") || !socialNetwork.getUrl().equals("")) {
-                socialNetwork.setArtistId(artist.getId());
-                if (!socialNetworkRepository.save(socialNetwork)) {
-                    AllOk = false;
-                }
-            }
-        }
-
-        return AllOk;
-
     }
 
     protected void setArtistRepository(IArtistRepository artistRepository) {

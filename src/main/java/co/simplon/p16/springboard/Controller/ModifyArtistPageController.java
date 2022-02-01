@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,81 +18,84 @@ import org.springframework.web.multipart.MultipartFile;
 
 import co.simplon.p16.springboard.entity.Artist;
 import co.simplon.p16.springboard.entity.MusicalStyle;
-
 import co.simplon.p16.springboard.entity.User;
 import co.simplon.p16.springboard.repository.IMusicalStyleRepository;
-
-import co.simplon.p16.springboard.repository.UserRepository;
+import co.simplon.p16.springboard.repository.TrackRepository;
 import co.simplon.p16.springboard.services.FormArtistPageService;
 import co.simplon.p16.springboard.services.UploadFile;
 
-@RequestMapping("user/")
+@RequestMapping("artist/")
 @Controller
-public class NewArtistPageController {
+public class ModifyArtistPageController {
 
     @Autowired
     IMusicalStyleRepository musicalStyleRepository;
     @Autowired
     UploadFile uploadFile;
     @Autowired
-    UserRepository userRepository;
+    TrackRepository trackRepository;
     @Autowired
     FormArtistPageService formArtistPageService;
 
-    @GetMapping("newArtistPage")
-    public String showNewArtistPageForm(Model model) {
-
+    @GetMapping("modifyArtistPage/{id}")
+    public String modifyArtistPage(@PathVariable int id, Model model) {
         List<MusicalStyle> styleList = musicalStyleRepository.findAll();
-        Artist artist = formArtistPageService.setListInNewArtist();
+        Artist artist = formArtistPageService.setListToUpdateArtistPage(id);
 
         model.addAttribute("musicalStyles", styleList);
         model.addAttribute("artist", artist);
-
-        return "newArtistPage/newArtistPage";
+      
+        return "modifyArtistPage/modifyArtistPage";
     }
 
-    @PostMapping("newArtistPage/upload")
+    @PostMapping("modifyArtistPage/{id}")
     public String saveNewArtistPage(Model model,
+            @PathVariable int id,
             @AuthenticationPrincipal User user,
-            @RequestParam MultipartFile imageFile,
-            @RequestParam MultipartFile[] audioFiles,
-            @Valid Artist artist,
+            MultipartFile imageFile,
+            MultipartFile[] audioFiles,
+            @RequestParam(defaultValue = "false") Boolean modifyTracks,
+            @RequestParam(defaultValue = "false") Boolean modifyCover,
+            @Valid Artist newArtist,
             BindingResult bindingResult) {
-
+        
+        // réinjection de l'id
+        newArtist.setId(id);
         // réinjection des styles
         List<MusicalStyle> styleList = musicalStyleRepository.findAll();
         model.addAttribute("musicalStyles", styleList);
-
+                
         // validation des données utilisateur
         if (bindingResult.hasErrors()) {
-            return "newArtistPage/newArtistPage";
+            return "modifyArtistPage/modifyArtistPage";
         }
-        if (imageFile.getSize() == 0) {
+        if (imageFile.getSize() == 0 && modifyCover) {
             model.addAttribute("savePageError", "Merci de loader une image");
-            return "newArtistPage/newArtistPage";
+            return "modifyArtistPage/modifyArtistPage";
         }
-        if (audioFiles[0].getSize() == 0) {
+        if (audioFiles[0].getSize() == 0 && modifyTracks) {
             model.addAttribute("savePageError", "Merci de loader au moins un titre musical sur la première entrée");
-            return "newArtistPage/newArtistPage";
+            return "modifyArtistPage/modifyArtistPage";
         }
 
-        // enregistrement des fichiers
-        List<String> urlAudioFileList = uploadFile.SaveAudioFiles(audioFiles, artist);
-        String urlCoverFile = uploadFile.saveImageFile(imageFile, artist);
+        // enregistrement des fichiers s'il ont changés, sinon récupérationd es anciens
+        // fichiers.
+        List<String> urlAudioFileList = formArtistPageService.updateAudioFiles(modifyTracks, audioFiles, newArtist);
+        String urlCoverFile = formArtistPageService.updateCoverFile(modifyCover, imageFile, newArtist);
 
+        // création des éléments dans la database
         if (!urlAudioFileList.isEmpty() && !urlCoverFile.isEmpty()) {
-            if (formArtistPageService.saveArtistPage(artist, urlAudioFileList, urlCoverFile, user.getId())) {
-                user.setRole("ROLE_ARTIST");
-                userRepository.update(user);
-                return "redirect:/artistPage/" + artist.getId();
+            if (formArtistPageService.updateArtistPage(newArtist, urlAudioFileList, urlCoverFile, user.getId())) {
+
+                return "redirect:/artistPage/" + newArtist.getId();
             } else {
                 model.addAttribute("savePageError", "Une erreur est survenue lors de la création de la page");
-                return "newArtistPage/newArtistPage";
+                return "modifyArtistPage/modifyArtistPage";
             }
         } else {
             model.addAttribute("savePageError", "Un problème est survenu lors de la sauvegarde de vos fichier");
-            return "newArtistPage/newArtistPage";
+            return "modifyArtistPage/modifyArtistPage";
         }
-    }// TODO redirect + refresh
+    }
 
 }

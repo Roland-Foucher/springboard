@@ -2,18 +2,18 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta th:replace="@{/head/meta}" />
-    <title>Créer votre page artiste</title>
+    <title>Modifier ma page</title>
     <link th:replace="@{/head/link}" />
   </head>
   <body class="bg-dark text-white">
     <header th:include="@{/header/navbar}"></header>
   <body class=" ">
     <main>
-      <h1 class="text-center ">Créer votre page artiste ! 🎸</h1>
+      <h1 class="text-center ">Modifier ma page 🎸</h1>
       <article>
         
         <h2 class="text-danger" th:if="${savePageError}" th:text="${savePageError}"></h2>
-        <form class="p-5" th:action="@{/user/newArtistPage/upload}" method="POST" enctype="multipart/form-data" novalidate>
+        <form class="p-5" th:action="@{'/artist/modifyArtistPage/' + ${artist.id}}" method="post" enctype="multipart/form-data">
           
           <!-- bloc information -->
           <h3>Vos Informations <span class="text-danger">*</span></h3>
@@ -27,16 +27,19 @@
             </div>
           </div>
           <!-- bloc audio tracks -->
+          
           <h3 class="mt-5">Vos pistes audio <span class="text-danger">*</span></h3>
           <p>Merci d'enregistrer au moins une piste avec son titre </p>
-          <div th:replace="@{/newArtistPage/audioTracks}"></div>
+          
+          <div th:replace="@{/modifyArtistPage/modifyAudioTracks}"></div>
             
 
           <!-- bloc cover -->
           <h3 class="mt-5">Votre photo de page <span class="text-danger">*</span></h3>
           <div class="container">
             <div class="row">
-              <div th:replace="@{/newArtistPage/cover}"></div>
+              <div th:replace="@{/modifyArtistPage/modifyCover}"></div>
+              
             </div>
           </div>
             

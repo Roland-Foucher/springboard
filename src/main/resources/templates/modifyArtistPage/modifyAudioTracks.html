@@ -1,5 +1,19 @@
 <!-- audio tracks -->
-<div class="container">
+<div>
+  <label
+    for="changeTracks"
+  >voulez vous changer les pistes audio ?</label>
+  <input
+    type="checkbox"
+    id="changeTracks"
+    onclick="displayTracksInputs()"
+    name="modifyTracks"
+    value="true"
+    
+  />
+</div>
+<!-- audio tracks -->
+<div class="container d-none" id="audioTracks">
   <div class="row">
     <div class="mb-3 col-md-6" th:each="track, itemStat : ${artist.trackList}">
       <label for="audioName" class="form-label">Nom Titre</label>
@@ -16,3 +30,11 @@
     </div>
   </div>
 </div>
+
+<script>
+  function displayTracksInputs() {
+    const checkBox = document.getElementById("changeTracks");
+    const audioTrack = document.getElementById("audioTracks");
+    audioTrack.className = checkBox.checked ? "container d-block" : "container d-none";
+  }
+</script>
