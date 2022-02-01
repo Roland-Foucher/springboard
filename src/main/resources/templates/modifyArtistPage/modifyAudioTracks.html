@@ -5,10 +5,11 @@
   >voulez vous changer les pistes audio ?</label>
   <input
     type="checkbox"
-    name="changeTracks"
     id="changeTracks"
-    th:onclick="displayTracksInputs()"
-    th:checked="${modifyTracks}"
+    onclick="displayTracksInputs()"
+    th:field="${modifyTracksString}"
+    value="true"
+    
   />
 </div>
 <!-- audio tracks -->

@@ -4,10 +4,11 @@
     <label for="change">Voulez vous change votre photo de page ?</label>
     <input
       type="checkbox"
-      name="changeCover"
       id="changeCover"
       onclick="displayCoverInput()"
-      th:checked="${modifyCover}"
+      th:field= "${modifyCoverString}"
+      value="true"
+      
     />
   </div>
   
