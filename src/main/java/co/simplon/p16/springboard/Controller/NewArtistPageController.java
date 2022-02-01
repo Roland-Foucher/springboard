@@ -22,7 +22,6 @@ import co.simplon.p16.springboard.entity.User;
 import co.simplon.p16.springboard.repository.IMusicalStyleRepository;
 
 import co.simplon.p16.springboard.repository.UserRepository;
-import co.simplon.p16.springboard.services.ArtistService;
 import co.simplon.p16.springboard.services.FormArtistPageService;
 import co.simplon.p16.springboard.services.UploadFile;
 

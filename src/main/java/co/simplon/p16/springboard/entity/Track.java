@@ -2,7 +2,6 @@ package co.simplon.p16.springboard.entity;
 
 import javax.validation.constraints.NotBlank;
 
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Track assigned to an artist page, artist can have 3 tracks.

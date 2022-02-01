@@ -6,8 +6,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.web.multipart.MultipartFile;
-
 /**
  * artist is the page of an artist user.
  * artist is link to an User by id.
