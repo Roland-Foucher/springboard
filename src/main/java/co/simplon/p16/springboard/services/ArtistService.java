@@ -66,10 +66,9 @@ public class ArtistService {
         artist.setShowList(showRepository.findByArtist(id));
         artist.setSocialNetworkList(socialNetworkRepository.findByArtistId(id));
         artist.setTrackList(trackRepository.findByArtistId(id));
-
         return artist;
     }
-    
+
     public Artist setListInNewArtist() {
         Artist artist = new Artist();
         List<SocialNetwork> socialNetworks = new ArrayList<>(
@@ -88,10 +87,9 @@ public class ArtistService {
         while (socialNetworks.size() < 4) {
             socialNetworks.add(new SocialNetwork());
         }
-        List<Track> trackList = trackRepository.findByArtistId(id);
-        while (trackList.size() < 4) {
-            trackList.add(new Track());
-        }
+        List<Track> trackList = new ArrayList<>(
+                List.of(new Track(), new Track(), new Track(), new Track()));
+
         artist.setSocialNetworkList(socialNetworks);
         artist.setTrackList(trackList);
         return artist;
@@ -111,24 +109,86 @@ public class ArtistService {
         }
         for (int i = 0; i < urlList.size() - 1; i++) {
 
-            trackList.get(i).setUrl(urlList.get(i));
+        AllOk = saveTrackList(artist, urlAudioList);
+        AllOk = saveSocialNetwork(artist);
+
+        return AllOk;
+
+    }
+
+    public boolean updateArtistPage(Artist artist, List<String> urlAudioList, String urlCover, Integer userId) {
+        boolean AllOk = true;
+        Artist oldArtist = artistRepository.findById(artist.getId());
+        // save new artist
+        artist.setCoverUrl(urlCover);
+        artist.setListenCount(oldArtist.getListenCount());
+        artist.setVoteCount(oldArtist.getVoteCount());
+        artist.setUserId(userId);
+        if (!artistRepository.update(artist)) {
+            AllOk = false;
+        }
+        
+        // delete old tracks in datablase
+        trackRepository.deleteByArtistId(artist.getId());
+        // save trackList
+        AllOk = saveTrackList(artist, urlAudioList);
+        // delete old social Networks
+        socialNetworkRepository.deleteByArtistId(artist.getId());
+        // save social Networks
+        AllOk = saveSocialNetwork(artist);
+
+        return AllOk;
+
+    }
+
+    public boolean saveTrackList(Artist artist, List<String> urlAudioList) {
+        // save trackList
+        List<Track> trackList = artist.getTrackList();
+
+        for (int i = 0; i < urlAudioList.size(); i++) {
+            trackList.get(i).setUrl(urlAudioList.get(i));
             trackList.get(i).setArtistId(artist.getId());
             if (!trackRepository.save(trackList.get(i))) {
-                AllOk = false;
+                return false;
             }
         }
+        return true;
+    }
+
+    public boolean saveSocialNetwork(Artist artist) {
+        // save social Networks
         List<SocialNetwork> socialNetworksList = artist.getSocialNetworkList();
         for (SocialNetwork socialNetwork : socialNetworksList) {
             if (!socialNetwork.getName().equals("") || !socialNetwork.getUrl().equals("")) {
                 socialNetwork.setArtistId(artist.getId());
                 if (!socialNetworkRepository.save(socialNetwork)) {
-                    AllOk = false;
+                    return false;
                 }
             }
         }
+        return true;
+    }
 
-        return AllOk;
+    public String updateCoverFile(boolean modifyCover, MultipartFile coverFile, int artistId) {
 
+        if (modifyCover) {
+            return uploadFile.saveImageFile(coverFile);
+        } else {
+            return artistRepository.findById(artistId).getCoverUrl();
+        }
+    }
+
+    public List<String> updateAudioFiles(boolean modifyTracks, MultipartFile[] audioFiles, int artistId) {
+
+        if (modifyTracks) {
+            return uploadFile.SaveAudioFiles(audioFiles);
+        } else {
+            List<String> audioFilesUrlList = new ArrayList<>();
+            trackRepository.findByArtistId(artistId).forEach((el) -> {
+                audioFilesUrlList.add(el.getUrl());
+            });
+            return audioFilesUrlList;
+        }
     }
 
     protected void setArtistRepository(IArtistRepository artistRepository) {

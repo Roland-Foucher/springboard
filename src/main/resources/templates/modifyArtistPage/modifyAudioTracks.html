@@ -1,0 +1,40 @@
+<!-- audio tracks -->
+<div>
+  <label
+    for="changeTracks"
+  >voulez vous changer les pistes audio ?</label>
+  <input
+    type="checkbox"
+    id="changeTracks"
+    onclick="displayTracksInputs()"
+    th:field="${modifyTracksString}"
+    value="true"
+    
+  />
+</div>
+<!-- audio tracks -->
+<div class="container d-none" id="audioTracks">
+  <div class="row">
+    <div class="mb-3 col-md-6" th:each="track, itemStat : ${artist.trackList}">
+      <label for="audioName" class="form-label">Nom Titre</label>
+      <input
+        type="text"
+        class="form-control"
+        id="audioName"
+        placeholder="Master of Puppets"
+        th:field="${artist.trackList[__${itemStat.index}__].name}"
+        accept="audio/*"
+      />
+      <label for="audio" class="form-label">Piste Audio</label>
+      <input class="form-control" type="file" id="audio" name="audioFiles" th:placeholder=${artist.trackList[__${itemStat.index}__].name}/>
+    </div>
+  </div>
+</div>
+
+<script>
+  function displayTracksInputs() {
+    const checkBox = document.getElementById("changeTracks");
+    const audioTrack = document.getElementById("audioTracks");
+    audioTrack.className = checkBox.checked ? "container d-block" : "container d-none";
+  }
+</script>
