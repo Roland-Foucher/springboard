@@ -19,7 +19,6 @@ public class Artist {
     @NotBlank
     private String artistName;
     private String coverUrl;
-    private MultipartFile coverData;
 
     @NotBlank
     @Email
@@ -32,7 +31,7 @@ public class Artist {
     private String bio;
     private Integer listenCount;
     private Integer voteCount;
-    private boolean isOnArtistList;
+    private Boolean isOnArtistList;
     @NotNull
     private Integer musicalStyleId;
     private Integer userId;
@@ -222,20 +221,13 @@ public class Artist {
                 + musicalStyleId + ", userId=" + userId + ", voteCount=" + voteCount + ", webSite=" + webSite + "]";
     }
 
-    public boolean getIsOnArtistList() {
+    public Boolean getIsOnArtistList() {
         return isOnArtistList;
     }
 
-    public void setOnArtistList(boolean isOnArtistList) {
+    public void setIsOnArtistList(Boolean isOnArtistList) {
         this.isOnArtistList = isOnArtistList;
     }
 
-    public MultipartFile getCoverData() {
-        return coverData;
-    }
-
-    public void setCoverData(MultipartFile coverData) {
-        this.coverData = coverData;
-    }
 
 }

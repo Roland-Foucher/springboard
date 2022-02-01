@@ -13,7 +13,7 @@ public class Track {
     private String name;
     private String url;
     private Integer artistId;
-    private MultipartFile data;
+  
 
     //
     // CONSTRUCTORS
@@ -66,10 +66,5 @@ public class Track {
     public String toString() {
         return "Track [artistId=" + artistId + ", id=" + id + ", name=" + name + ", url=" + url + "]";
     }
-    public MultipartFile getData() {
-        return data;
-    }
-    public void setData(MultipartFile data) {
-        this.data = data;
-    }
+
 }

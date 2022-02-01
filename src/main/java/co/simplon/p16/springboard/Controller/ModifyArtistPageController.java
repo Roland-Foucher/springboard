@@ -12,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +21,6 @@ import co.simplon.p16.springboard.entity.MusicalStyle;
 import co.simplon.p16.springboard.entity.User;
 import co.simplon.p16.springboard.repository.IMusicalStyleRepository;
 import co.simplon.p16.springboard.repository.TrackRepository;
-import co.simplon.p16.springboard.repository.UserRepository;
 import co.simplon.p16.springboard.services.ArtistService;
 import co.simplon.p16.springboard.services.UploadFile;
 
@@ -43,15 +41,10 @@ public class ModifyArtistPageController {
     public String modifyArtistPage(@PathVariable int id, Model model) {
         List<MusicalStyle> styleList = musicalStyleRepository.findAll();
         Artist artist = artistService.setListToUpdateArtistPage(id);
-        
-        String modifyTracksString = "";
-        String modifyCoverString = "";
 
         model.addAttribute("musicalStyles", styleList);
         model.addAttribute("artist", artist);
-        model.addAttribute("modifyTracksString", modifyTracksString);
-        model.addAttribute("modifyCoverString", modifyCoverString);
-
+      
         return "modifyArtistPage/modifyArtistPage";
     }
 
@@ -61,17 +54,14 @@ public class ModifyArtistPageController {
             @AuthenticationPrincipal User user,
             MultipartFile imageFile,
             MultipartFile[] audioFiles,
-            String modifyTracksString,
-            String modifyCoverString,
+            @RequestParam(defaultValue = "false") Boolean modifyTracks,
+            @RequestParam(defaultValue = "false") Boolean modifyCover,
             @Valid Artist newArtist,
             BindingResult bindingResult) {
 
         // réinjection des styles
         List<MusicalStyle> styleList = musicalStyleRepository.findAll();
         model.addAttribute("musicalStyles", styleList);
-
-        boolean modifyCover = modifyCoverString.equals("true") ? true : false;
-        boolean modifyTracks = modifyTracksString.equals("true") ? true : false;
                 
         // validation des données utilisateur
         if (bindingResult.hasErrors()) {

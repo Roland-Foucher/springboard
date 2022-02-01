@@ -93,7 +93,7 @@ public class ArtistService {
     }
 
     public boolean saveArtistPage(Artist artist, List<String> urlAudioList, String urlCover, Integer userId) {
-        boolean AllOk = true;
+        boolean allOk = true;
 
         // save new artist
         artist.setCoverUrl(urlCover);
@@ -101,32 +101,12 @@ public class ArtistService {
         artist.setVoteCount(0);
         artist.setUserId(userId);
         if (!artistRepository.save(artist)) {
-            AllOk = false;
+            allOk = false;
         }
 
-        AllOk = saveTrackList(artist, urlAudioList);
-        AllOk = saveSocialNetwork(artist);
-
-    public String updateCoverFile(boolean modifyCover, MultipartFile coverFile, int artistId) {
-
-        if (modifyCover) {
-            return uploadFile.saveImageFile(coverFile);
-        } else {
-            return artistRepository.findById(artistId).getCoverUrl();
-        }
-    }
-
-    public List<String> updateAudioFiles(boolean modifyTracks, MultipartFile[] audioFiles, int artistId) {
-
-        if (modifyTracks) {
-            return uploadFile.SaveAudioFiles(audioFiles);
-        } else {
-            List<String> audioFilesUrlList = new ArrayList<>();
-            trackRepository.findByArtistId(artistId).forEach((el) -> {
-                audioFilesUrlList.add(el.getUrl());
-            });
-            return audioFilesUrlList;
-        }
+        allOk = saveTrackList(artist, urlAudioList);
+        allOk = saveSocialNetwork(artist);
+        return allOk;
     }
 
     public boolean updateArtistPage(Artist artist, List<String> urlAudioList, String urlCover, Integer userId) {
