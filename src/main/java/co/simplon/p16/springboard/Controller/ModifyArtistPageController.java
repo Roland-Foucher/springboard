@@ -48,6 +48,13 @@ public class ModifyArtistPageController {
         return "modifyArtistPage/modifyArtistPage";
     }
 
+    @GetMapping("modifyArtistPage/modifyOk/{id}")
+    public String saveArtsitPageOk(@PathVariable int id, Model model){
+        model.addAttribute("status", "Votre page à bien été Modifiée !");
+        model.addAttribute("id", id);
+        return "newArtistPage/savePageOk";
+    }
+
     @PostMapping("modifyArtistPage/{id}")
     public String saveNewArtistPage(Model model,
             @PathVariable int id,
@@ -87,7 +94,7 @@ public class ModifyArtistPageController {
         if (!urlAudioFileList.isEmpty() && !urlCoverFile.isEmpty()) {
             if (formArtistPageService.updateArtistPage(newArtist, urlAudioFileList, urlCoverFile, user.getId())) {
 
-                return "redirect:/artistPage/" + newArtist.getId();
+                return "redirect:/artist/modifyArtistPage/modifyOk/" + id;
             } else {
                 model.addAttribute("savePageError", "Une erreur est survenue lors de la création de la page");
                 return "modifyArtistPage/modifyArtistPage";

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,6 +51,13 @@ public class NewArtistPageController {
         return "newArtistPage/newArtistPage";
     }
 
+    @GetMapping("newArtistPage/saveOk/{id}")
+    public String saveArtsitPageOk(Model model, @PathVariable int id){
+        model.addAttribute("status", "Votre page à bien été créée !");
+        model.addAttribute("id", id);
+        return "newArtistPage/savePageOk";
+    }
+
     @PostMapping("newArtistPage/upload")
     public String saveNewArtistPage(Model model,
             @AuthenticationPrincipal User user,
@@ -83,7 +91,7 @@ public class NewArtistPageController {
             if (formArtistPageService.saveArtistPage(artist, urlAudioFileList, urlCoverFile, user.getId())) {
                 user.setRole("ROLE_ARTIST");
                 userRepository.update(user);
-                return "redirect:/artistPage/" + artist.getId();
+                return "redirect:/user/newArtistPage/saveOk/" + artist.getId();
             } else {
                 model.addAttribute("savePageError", "Une erreur est survenue lors de la création de la page");
                 return "newArtistPage/newArtistPage";
