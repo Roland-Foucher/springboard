@@ -29,6 +29,20 @@ public class AccountController {
         }
        
         model.addAttribute("artists", artistService.displayFavoritArtistCards(user.getId()));
-        return "myAccount";
+        return "account/myAccount";
     }
+
+    @GetMapping("/myAccount/profil")
+    public String showProfil(Model model, @AuthenticationPrincipal User user){
+        model.addAttribute("user", user);
+        return "account/profil";
+    }
+
+    @GetMapping("/myAccount/modify")
+    public String modifyProfil(Model model, @AuthenticationPrincipal User user){
+        model.addAttribute("user", user);
+        return "login/register";
+        // TODO redirect to other page or post diffente if user connected or not
+    }
+
 }

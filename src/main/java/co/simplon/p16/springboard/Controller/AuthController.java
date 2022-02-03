@@ -3,6 +3,7 @@ package co.simplon.p16.springboard.Controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,25 +28,35 @@ public class AuthController {
     public String showRegister(Model model) {
         model.addAttribute("user", new User());
 
-        return "register";
+        return "login/register";
     }
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute @Valid User user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "register";
+            return "login/register";
         }
 
         if (userRepository.findByEmail(user.getEmail()) != null) {
-            model.addAttribute("feedback", "User already exists");
-            return "register";
+            model.addAttribute("feedback", "L'email est déjà utilisé");
+            return "login/register";
         }
 
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
         user.setRole("ROLE_USER");
         userRepository.save(user);
-        return "redirect:/login";
+        return "redirect:/login/login";
     }
+
+    @GetMapping("/login")
+    public String showLogin(){
+        return "login/login";
+    }
+    @GetMapping("/logout")
+    public String showLogout(){
+        return "login/logout";
+    }
+
 
 }

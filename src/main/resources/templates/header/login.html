@@ -1,6 +1,7 @@
 
 <div class="d-flex align-items-end flex-column px-5 p-3 border-bottom border-secondary" >
     
+    <a sec:authorize="isAuthenticated()" th:href="@{/myAccount/profil}">Profil</a>
     <a sec:authorize="isAuthenticated()" th:href="@{/myAccount}">Mon Compte</a>
     <a sec:authorize="isAuthenticated()" th:href="@{/logout}" >Se Deconnecter</a>
     <a sec:authorize="isAnonymous()" th:href="@{/register}">créer un compte</a>
