@@ -34,7 +34,6 @@ public class TrackRepository extends GlobalRepository<Track> implements ITrackRe
             return new Track(result.getInt("id"), result.getString("name"), result.getString("url"),
                     result.getInt("artistId"));
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             System.out.println("error on instanciate object track when find query");
         }
@@ -49,7 +48,6 @@ public class TrackRepository extends GlobalRepository<Track> implements ITrackRe
             stmt.setInt(3, track.getArtistId());
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             System.out.println("error on inject parameters on track to save statement");
         }

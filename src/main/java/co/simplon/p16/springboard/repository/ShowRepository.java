@@ -42,7 +42,6 @@ public class ShowRepository extends GlobalRepository<Show> implements IShowRepos
             stmt.setString(3, show.getVenue());
         } catch (SQLException e) {
             System.out.println("error when inject parameters in query on save show");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -54,7 +53,6 @@ public class ShowRepository extends GlobalRepository<Show> implements IShowRepos
             stmt.setInt(4, show.getId());
         } catch (SQLException e) {
             System.out.println("error when inject parameters in query on update show");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -68,7 +66,6 @@ public class ShowRepository extends GlobalRepository<Show> implements IShowRepos
                     result.getString("adress"));
         } catch (SQLException e) {
             System.out.println("error on instanciate show object wen find query");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;

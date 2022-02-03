@@ -59,7 +59,6 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
             stmt.setString(5, user.getRole());
         } catch (SQLException e) {
             System.out.println("error on inject parameters on user to save statement");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -71,7 +70,6 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
             stmt.setInt(6, user.getId());
         } catch (SQLException e) {
             System.out.println("error on inject parameters on user to update statement");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -88,7 +86,6 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
                     result.getString("role"));
         } catch (SQLException e) {
             System.out.println("error when instanciate User object on find query");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
