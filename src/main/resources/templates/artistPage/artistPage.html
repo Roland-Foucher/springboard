@@ -1,10 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta th:replace="@{/head/meta}" />
-    <title th:text="${artist.artistName}"></title>
-    <link th:replace="@{/head/link}" />
-  </head>
+<html lang="fr">
+<head th:replace="head/head :: head('SpringBoard - ' + ${artist.artistName})">
   <body class="bg-dark text-white">
     <header th:include="@{/header/navbar}"></header>
     <main>
@@ -22,6 +18,5 @@
       </section>
     </main>
     <footer th:replace="@{footer/footer}"></footer>
-    <script th:replace="@{footer/script}"></script>
   </body>
 </html>

@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta th:replace="@{/head/meta}" />
-    <title>Register</title>
-    <link th:replace="@{/head/link}" />
+<html lang="fr">
+<head th:replace="head/head :: head('SpringBoard - Nouveau Compte')">
   </head>
   <body class="bg-dark">
     <header th:include="@{/header/navbar}"></header>
-    <div class="card w-75 m-auto bg-dark text-white" >
+    <div class="card w-75 m-auto bg-dark text-white">
       <div class="card-body">
         <p th:if="${feedback}" th:text="${feedback}"></p>
         <form th:action="@{/register}" method="post">
@@ -57,5 +54,6 @@
         </form>
       </div>
     </div>
+    <footer th:replace="@{footer/footer}"></footer>
   </body>
 </html>
