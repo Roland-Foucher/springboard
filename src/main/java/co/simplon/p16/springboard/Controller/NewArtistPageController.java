@@ -1,11 +1,19 @@
 package co.simplon.p16.springboard.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,7 +60,17 @@ public class NewArtistPageController {
     }
 
     @GetMapping("newArtistPage/saveOk/{id}")
-    public String saveArtsitPageOk(Model model, @PathVariable int id){
+    public String saveArtsitPageOk(Model model, @PathVariable int id, Authentication authentication){
+        //update user role in database
+        User user = (User)authentication.getPrincipal();
+        user.setRole("ROLE_ARTIST");
+        userRepository.update(user);
+        
+        //update user role connected to don't logout and re-login
+        List<GrantedAuthority> updatedAuthorities = new ArrayList<>(user.getAuthorities());
+        updatedAuthorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), updatedAuthorities);
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
         model.addAttribute("status", "Votre page à bien été créée !");
         model.addAttribute("id", id);
         return "newArtistPage/savePageOk";
@@ -69,16 +87,22 @@ public class NewArtistPageController {
         // réinjection des styles
         List<MusicalStyle> styleList = musicalStyleRepository.findAll();
         model.addAttribute("musicalStyles", styleList);
+                
+        // user form validation
 
-        // validation des données utilisateur
-        if (bindingResult.hasErrors()) {
+        // validation constraints starter validation I/O 
+        if (bindingResult.hasErrors()) { 
             return "newArtistPage/newArtistPage";
         }
-        if (imageFile.getSize() == 0) {
+
+        // check image file not null
+        if (imageFile.getSize() == 0) { 
             model.addAttribute("savePageError", "Merci de loader une image");
             return "newArtistPage/newArtistPage";
         }
-        if (audioFiles[0].getSize() == 0) {
+
+        // check first audio file not null
+        if (audioFiles[0].getSize() == 0) { 
             model.addAttribute("savePageError", "Merci de loader au moins un titre musical sur la première entrée");
             return "newArtistPage/newArtistPage";
         }
@@ -87,19 +111,23 @@ public class NewArtistPageController {
         List<String> urlAudioFileList = uploadFile.SaveAudioFiles(audioFiles, artist);
         String urlCoverFile = uploadFile.saveImageFile(imageFile, artist);
 
-        if (!urlAudioFileList.isEmpty() && !urlCoverFile.isEmpty()) {
+        // check files are save on server
+        if (!urlAudioFileList.isEmpty() || !urlCoverFile.isEmpty()) {
+            // save artist in databse
             if (formArtistPageService.saveArtistPage(artist, urlAudioFileList, urlCoverFile, user.getId())) {
-                user.setRole("ROLE_ARTIST");
-                userRepository.update(user);
+                
+                //redirect to success page if OK
                 return "redirect:/user/newArtistPage/saveOk/" + artist.getId();
             } else {
+                // display error if not OK
                 model.addAttribute("savePageError", "Une erreur est survenue lors de la création de la page");
                 return "newArtistPage/newArtistPage";
             }
         } else {
+            // display error if url are empty
             model.addAttribute("savePageError", "Un problème est survenu lors de la sauvegarde de vos fichier");
             return "newArtistPage/newArtistPage";
         }
-    }// TODO redirect + refresh
+    }
 
 }
