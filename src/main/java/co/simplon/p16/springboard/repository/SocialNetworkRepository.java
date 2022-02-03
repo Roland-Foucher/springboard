@@ -41,7 +41,6 @@ public class SocialNetworkRepository extends GlobalRepository<SocialNetwork> imp
             stmt.setInt(3, socialNetwork.getArtistId());
         } catch (SQLException e) {
             System.out.println("error when inject parameters in query on save socialNetwork");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -53,7 +52,6 @@ public class SocialNetworkRepository extends GlobalRepository<SocialNetwork> imp
             stmt.setInt(4, socialNetwork.getId());
         } catch (SQLException e) {
             System.out.println("error when inject parameters in query on update socialNetwork");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -67,7 +65,6 @@ public class SocialNetworkRepository extends GlobalRepository<SocialNetwork> imp
                     result.getInt("artistId"));
         } catch (SQLException e) {
             System.out.println("error when instanciate socialNetwork object on find query");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;

@@ -125,7 +125,6 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
 
         } catch (SQLException e) {
             System.out.println("error on inject parameters on statement for save artist");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -137,7 +136,6 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
             injectParamatersToSaveStatement(artist);
             stmt.setInt(12, artist.getId());
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             System.out.println("error on inject parameters in statement for update artist");
             e.printStackTrace();
         }
@@ -160,7 +158,6 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
                     result.getInt("musicalStyleId"),
                     result.getInt("userId"));
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             System.out.println("error on instanciate Artist Object");
             e.printStackTrace();
         }

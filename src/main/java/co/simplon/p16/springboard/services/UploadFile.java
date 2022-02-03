@@ -80,7 +80,5 @@ public class UploadFile {
             System.out.println("error when deleting file");
             e.printStackTrace();
         }
-
-        // TODO delete not work !!!
     }
 }

@@ -43,7 +43,6 @@ public class ProRepository extends GlobalRepository<Pro> implements IProReposito
 
         } catch (SQLException e) {
             System.out.println("error when inject parameters to save query");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -55,7 +54,6 @@ public class ProRepository extends GlobalRepository<Pro> implements IProReposito
             stmt.setInt(7, pro.getId());
         } catch (SQLException e) {
             System.out.println("error when inject parameters to update query");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -72,7 +70,6 @@ public class ProRepository extends GlobalRepository<Pro> implements IProReposito
                     result.getInt("userId"));
         } catch (SQLException e) {
             System.out.println("error on instanciate pro object");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;

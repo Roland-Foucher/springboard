@@ -92,7 +92,6 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
             return stmt.executeUpdate() == 1;
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
 
@@ -110,7 +109,6 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
 
             return stmt.executeUpdate() == 1;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
@@ -141,7 +139,6 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
                 return instanciateObject(result);
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
@@ -170,7 +167,6 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
             return list;
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
@@ -201,7 +197,6 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
             return list;
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
@@ -227,7 +222,6 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
                 return instanciateObject(result);
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
@@ -257,7 +251,6 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
             return list;
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
@@ -285,7 +278,6 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
             return list;
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
@@ -310,7 +302,6 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
 
             return stmt.executeUpdate();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
@@ -336,7 +327,6 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
 
             return stmt.executeUpdate() == 1;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
