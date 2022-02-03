@@ -1,10 +1,6 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta th:replace="@{/head/meta}" />
-    <title>springboard</title>
-    <link th:replace="@{/head/link}" />
-  </head>
+<html lang="fr">
+<head th:replace="head/head :: head('SpringBoard')">
   <body class="bg-dark">
     <header th:include="@{/header/navbar}"></header>
    
@@ -13,6 +9,6 @@
     </main>
 
     <footer th:replace="@{footer/footer}"></footer>
-    <script th:replace="@{footer/script}"></script>
+    
   </body>
 </html>

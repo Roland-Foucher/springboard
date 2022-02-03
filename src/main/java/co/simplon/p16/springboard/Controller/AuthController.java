@@ -45,7 +45,7 @@ public class AuthController {
         user.setPassword(hashedPassword);
         user.setRole("ROLE_USER");
         userRepository.save(user);
-        return "redirect:/";
+        return "redirect:/login";
     }
 
 }
