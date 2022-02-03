@@ -17,13 +17,13 @@
           
           <!-- bloc information -->
           <h3>Vos Informations <span class="text-danger">*</span></h3>
-          <div class="container">
+          <div class="container-fluid">
             <div class="row">
               
               <!-- info Block -->
-              <div class="card-body  col-md-5" th:include="@{/newArtistPage/info}"></div>
+              <div class="card-body  col-md-5 mx-3" th:include="@{/newArtistPage/info}"></div>
               <!-- socialNetworks -->
-              <div class="card-body col-md-5" th:include="@{/newArtistPage/socialNetworks}"></div>
+              <div class="card-body col-md-5 mx-3" th:include="@{/newArtistPage/socialNetworks}"></div>
             </div>
           </div>
           <!-- bloc audio tracks -->
@@ -36,12 +36,10 @@
 
           <!-- bloc cover -->
           <h3 class="mt-5">Votre photo de page <span class="text-danger">*</span></h3>
-          <div class="container">
-            <div class="row">
-              <div th:replace="@{/modifyArtistPage/modifyCover}"></div>
+          
+        <div th:replace="@{/modifyArtistPage/modifyCover}"></div>
               
-            </div>
-          </div>
+           
             
 
         </form>
