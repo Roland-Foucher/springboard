@@ -167,24 +167,6 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
         return null;
     }
 
-    /**
-     * overide the methode deleteByid to delete all the elements in tables have
-     * foreign key with artists when delete artist.
-     * Deletes all favorits, upVotes, Shows, socialNetworks, tracks on database.
-     * 
-     * @param id artist id to delete
-     * @return deleteById() globaleRepository methode
-     */
-    @Override
-    public boolean deleteById(Integer id) {
-        deleteAllFavorits(id);
-        deleteAllupVote(id);
-        deleteAllShows(id);
-        socialNetworkRepository.deleteByArtistId(id);
-        trackRepository.deleteByArtistId(id);
-        return super.deleteById(id);
-    }
-
     //
     // Add specifics methods
     //

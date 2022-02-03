@@ -86,39 +86,40 @@ CREATE Table artistsShows(
 ALTER TABLE
   artists
 ADD
-  FOREIGN KEY (userId) REFERENCES users (id),
+  FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE,
+
 ADD
   FOREIGN KEY (musicalStyleId) REFERENCES musicalStyle (id);
 ALTER TABLE
   pro
 ADD
-  FOREIGN KEY (userId) REFERENCES users (id);
+  FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE;
 ALTER TABLE
   socialNetwork
 ADD
-  FOREIGN KEY (artistId) REFERENCES artists (id);
+  FOREIGN KEY (artistId) REFERENCES artists (id) ON DELETE CASCADE;
 ALTER TABLE
   tracks
 ADD
-  FOREIGN KEY (artistId) REFERENCES artists (id);
+  FOREIGN KEY (artistId) REFERENCES artists (id) ON DELETE CASCADE;
 ALTER TABLE
   artistsShows
 ADD
-  FOREIGN KEY (showId) REFERENCES shows (id),
+  FOREIGN KEY (showId) REFERENCES shows (id) ON DELETE CASCADE,
 ADD
-  FOREIGN KEY (artistId) REFERENCES artists (id);
+  FOREIGN KEY (artistId) REFERENCES artists (id) ON DELETE CASCADE;
 ALTER TABLE
   favoritsArtists
 ADD
-  FOREIGN KEY (userId) REFERENCES users (id),
+  FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE,
 ADD
-  FOREIGN KEY (artistId) REFERENCES artists (id);
+  FOREIGN KEY (artistId) REFERENCES artists (id) ON DELETE CASCADE;
 ALTER TABLE
   upVotes
 ADD
-  FOREIGN KEY (userId) REFERENCES users (id),
+  FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE,
 ADD
-  FOREIGN KEY (artistId) REFERENCES artists (id);
+  FOREIGN KEY (artistId) REFERENCES artists (id) ON DELETE CASCADE;
 
 -- IMPOT MUSICAL STYLE
 INSERT INTO

@@ -94,23 +94,6 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
         return null;
     }
 
-    @Override
-    public boolean deleteById(Integer id) {
-        this.deleteAllFavoriteArtist(id);
-        this.deleteAllUserUpvote(id);
-
-        Artist artist = artistRepository.findByUserId(id);
-        if (artist != null) {
-            artistRepository.deleteById(artist.getId());
-        }
-
-        Pro pro = proRepository.findByUser(id);
-        if (pro != null) {
-            proRepository.deleteById(pro.getId());
-        }
-        return super.deleteById(id);
-
-    }
 
     //
     // add specifics methods for User
