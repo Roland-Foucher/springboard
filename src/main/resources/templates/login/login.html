@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head th:replace="head/head :: head('SpringBoard - Connexion')"></head>
+  <body class="bg-dark">
+    <header th:include="@{/header/navbar}"></header>
+    <!-- show notification on error -->
+    <div th:if="${param.error}" class="alert-danger p-3">
+      email ou mot de passe invalid
+    </div>
+
+    <!-- show notification of logout -->
+    <div th:if="${param.logout}" class="text-danger p-3">
+      Vous avez été déconnecté
+    </div>
+    <main class="m-5 text-white">
+      <div class="w-50 mx-auto p-5">
+        <h2 class="form-signin-heading mb-3">Connexion</h2>
+        <form method="post" th:action="@{/login}">
+          <div class="mb-3">
+            <label for="username" class="form-label">adress email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="username"
+              name="username"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Mot de passe</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-secondary mb-5">
+            Se Connecter
+          </button>
+        </form>
+      </div>
+    </main>
+
+    <footer th:replace="@{footer/footer}"></footer>
+  </body>
+</html>

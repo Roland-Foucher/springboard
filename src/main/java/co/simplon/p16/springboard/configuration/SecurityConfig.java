@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,32 +16,37 @@ import co.simplon.p16.springboard.repository.UserRepository;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
     @Autowired
     private UserRepository repo;
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-        //Ici, rajouter des mvcMatcher("/route-a-proteger").authenticated() pour protéger des pages
-        .mvcMatchers("/user/**").hasRole("USER")
-        .mvcMatchers("/artist/**").hasRole("ARTIST")
-        .mvcMatchers("/myAccount").authenticated()
-        .anyRequest().permitAll()
-        .and().formLogin();
-    
+                .mvcMatchers("/user/**").hasRole("USER")
+                .mvcMatchers("/artist/**").hasRole("ARTIST")
+                .mvcMatchers("/account/**").authenticated()
+                .anyRequest().permitAll()
+                .and()
+                    .formLogin()
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/myAccount")
+                        .permitAll();
+
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(repo).passwordEncoder(passwordEncoder());
-        
-    }
 
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
+    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/webjars/**");
     }
 }

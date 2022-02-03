@@ -18,6 +18,7 @@ import co.simplon.p16.springboard.entity.Artist;
 
 @Service
 public class UploadFile {
+    
     private String path = System.getProperty("user.dir") + "/src/main/resources/static";
     private String photoPath = "/img/covers/";
     private String audioPath = "/sound/";

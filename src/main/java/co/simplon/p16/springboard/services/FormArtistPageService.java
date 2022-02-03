@@ -15,6 +15,7 @@ import co.simplon.p16.springboard.repository.IArtistRepository;
 import co.simplon.p16.springboard.repository.IMusicalStyleRepository;
 import co.simplon.p16.springboard.repository.IShowRepository;
 import co.simplon.p16.springboard.repository.ISocialNetworkRepository;
+import co.simplon.p16.springboard.repository.ITrackRepository;
 import co.simplon.p16.springboard.repository.TrackRepository;
 
 @Service
@@ -29,7 +30,7 @@ public class FormArtistPageService {
     @Autowired
     ISocialNetworkRepository socialNetworkRepository;
     @Autowired
-    TrackRepository trackRepository;
+    ITrackRepository trackRepository;
     @Autowired
     UploadFile uploadFile;
     
