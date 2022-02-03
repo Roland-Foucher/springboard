@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head th:replace="head/head :: head('SpringBoard - Mon Compte')">
-  </head>
+<head th:replace="head/head :: head('SpringBoard - Mon Compte')"></head>
   <body class="bg-dark text-white">
     <header th:include="@{/header/navbar}"></header>
     <main>
@@ -12,7 +11,7 @@
         <div class= "px-5">
           <p><a th:href="@{user/newArtistPage}" sec:authorize="hasRole('ROLE_USER')">🎸 Vous êtes musicien ? Créer une page artiste ! 🎸</a></p>
           <p><a th:href="@{artist/modifyArtistPage/} + ${artistId}" sec:authorize="hasRole('ROLE_ARTIST')">🎸 Modifier Votre Page Artiste 🎸</a></p>
-          <p><a th:href="@{artist/deleteArtistPage} + ${artistId}" sec:authorize="hasRole('ROLE_ARTIST')">Supprimer definitivement la page? 😥</a></p>
+          <p><a th:href="@{artist/deleteArtistPage/}" sec:authorize="hasRole('ROLE_ARTIST')">Supprimer definitivement la page? 😥</a></p>
         </div>
         
       </div>

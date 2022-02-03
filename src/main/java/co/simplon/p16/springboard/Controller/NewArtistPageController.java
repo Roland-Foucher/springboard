@@ -31,6 +31,7 @@ import co.simplon.p16.springboard.repository.IMusicalStyleRepository;
 import co.simplon.p16.springboard.repository.UserRepository;
 import co.simplon.p16.springboard.services.FormArtistPageService;
 import co.simplon.p16.springboard.services.UploadFile;
+import co.simplon.p16.springboard.services.UserService;
 
 @RequestMapping("user/")
 @Controller
@@ -41,7 +42,7 @@ public class NewArtistPageController {
     @Autowired
     UploadFile uploadFile;
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
     @Autowired
     FormArtistPageService formArtistPageService;
 
@@ -59,16 +60,9 @@ public class NewArtistPageController {
 
     @GetMapping("newArtistPage/saveOk/{id}")
     public String saveArtsitPageOk(Model model, @PathVariable int id, Authentication authentication){
-        //update user role in database
-        User user = (User)authentication.getPrincipal();
-        user.setRole("ROLE_ARTIST");
-        userRepository.update(user);
+       
+        userService.setNewRole("ROLE_ARTIST", authentication);
         
-        //update user role connected to don't logout and re-login
-        List<GrantedAuthority> updatedAuthorities = new ArrayList<>(user.getAuthorities());
-        updatedAuthorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
-        Authentication newAuth = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), updatedAuthorities);
-        SecurityContextHolder.getContext().setAuthentication(newAuth);
         model.addAttribute("status", "Votre page à bien été créée !");
         model.addAttribute("id", id);
         return "newArtistPage/savePageOk";

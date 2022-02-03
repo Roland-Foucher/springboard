@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head
+    th:replace="head/head :: head('SpringBoard - supprimer ma page')"
+  ></head>
+  <body class="bg-dark">
+    <header th:include="@{/header/navbar}"></header>
+
+    <main class="text-white text-center mb-5">
+        <h2 th:if="${error}" th:text="${error}" class="text-danger text-start"></h2>
+      <h1 class="p-5">supprimer ma page artiste 😓</h1>
+      <article class="m-5">
+        <h3 class="p-2">
+          Etes vous sur de vouloir supprimer votre page artist ?
+        </h3>
+        <h1 class="fas fa-exclamation-triangle text-danger mb-5"></h1>
+        <form th:action=@{/artist/deleteArtistPage} method="post" class="pb-5">
+          <button class="btn btn-lg btn-danger" type="submit">
+            Supprimer mon compte
+          </button>
+        </form>
+      </article>
+    </main>
+
+    <footer th:replace="@{footer/footer}"></footer>
+  </body>
+</html>

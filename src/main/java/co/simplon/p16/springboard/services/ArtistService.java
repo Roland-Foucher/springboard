@@ -5,10 +5,13 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 
 import co.simplon.p16.springboard.entity.Artist;
+import co.simplon.p16.springboard.entity.Track;
+import co.simplon.p16.springboard.entity.User;
 import co.simplon.p16.springboard.repository.IArtistRepository;
 import co.simplon.p16.springboard.repository.IMusicalStyleRepository;
 import co.simplon.p16.springboard.repository.IShowRepository;
@@ -28,6 +31,8 @@ public class ArtistService {
     ISocialNetworkRepository socialNetworkRepository;
     @Autowired
     TrackRepository trackRepository;
+    @Autowired
+    UploadFile uploadFile;
 
 
     public List<Artist> display10ShuffleArtistsCards() {
@@ -61,6 +66,20 @@ public class ArtistService {
         artist.setSocialNetworkList(socialNetworkRepository.findByArtistId(id));
         artist.setTrackList(trackRepository.findByArtistId(id));
         return artist;
+    }
+
+    public boolean deleteArtistPage(Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        Artist artist = artistRepository.findByUserId(user.getId());
+        List<Track> tracks = trackRepository.findByArtistId(artist.getId());
+        if (artistRepository.deleteById(artist.getId())){
+            uploadFile.deleteFile(artist.getCoverUrl());
+            for (Track track : tracks) {
+                uploadFile.deleteFile(track.getUrl());
+            }
+            return true;
+        }
+        return false;
     }
 
     protected void setArtistRepository(IArtistRepository artistRepository) {
