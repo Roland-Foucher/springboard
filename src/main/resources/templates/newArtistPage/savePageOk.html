@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta th:replace="@{/head/meta}" />
+    <title>Success!</title>
+    <link th:replace="@{/head/link}" />
+  </head>
+  <body class="bg-dark text-white">
+    <header th:include="@{/header/navbar}"></header>
+  <body>
+    <main class="text-center" style="margin-bottom: 20rem ;">
+      <h1 class="pt-4"  th:text="${status}"></h1>
+      <h3><a th:href="'/artistPage/' + ${id}"> -- visualisez votre page ! -- </a></h3>
+    </main>
+
+    <footer th:replace="@{footer/footer}"></footer>
+    <script th:replace="@{footer/script}"></script>
+  </body>
+</html>
