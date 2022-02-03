@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import co.simplon.p16.springboard.entity.Artist;
 import co.simplon.p16.springboard.entity.SocialNetwork;
 import co.simplon.p16.springboard.entity.Track;
+import co.simplon.p16.springboard.entity.User;
 import co.simplon.p16.springboard.repository.IArtistRepository;
 import co.simplon.p16.springboard.repository.IMusicalStyleRepository;
 import co.simplon.p16.springboard.repository.IShowRepository;
@@ -44,9 +45,10 @@ public class FormArtistPageService {
         return artist;
     }
 
-    public Artist setListToUpdateArtistPage(int id) {
-        Artist artist = artistRepository.findById(id);
-        List<SocialNetwork> socialNetworks = socialNetworkRepository.findByArtistId(id);
+    public Artist setListToUpdateArtistPage(User user) {
+        
+        Artist artist = artistRepository.findByUserId(user.getId());
+        List<SocialNetwork> socialNetworks = socialNetworkRepository.findByArtistId(artist.getId());
         while (socialNetworks.size() < 4) {
             socialNetworks.add(new SocialNetwork());
         }

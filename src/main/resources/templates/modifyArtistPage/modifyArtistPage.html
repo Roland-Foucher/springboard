@@ -10,7 +10,7 @@
       <article>
         
         <h2 class="text-danger" th:if="${savePageError}" th:text="${savePageError}"></h2>
-        <form class="p-5" th:action="@{'/artist/modifyArtistPage/' + ${artist.id}}" method="post" enctype="multipart/form-data">
+        <form class="p-5" th:action="@{/artist/modifyArtistPage/}" method="post" enctype="multipart/form-data">
           
           <!-- bloc information -->
           <h3>Vos Informations <span class="text-danger">*</span></h3>

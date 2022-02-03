@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import co.simplon.p16.springboard.entity.Artist;
 import co.simplon.p16.springboard.entity.MusicalStyle;
 import co.simplon.p16.springboard.entity.User;
+import co.simplon.p16.springboard.repository.ArtistRepository;
 import co.simplon.p16.springboard.repository.IMusicalStyleRepository;
 import co.simplon.p16.springboard.repository.TrackRepository;
 import co.simplon.p16.springboard.services.FormArtistPageService;
@@ -33,14 +34,15 @@ public class ModifyArtistPageController {
     @Autowired
     UploadFile uploadFile;
     @Autowired
-    TrackRepository trackRepository;
-    @Autowired
     FormArtistPageService formArtistPageService;
+    @Autowired
+    ArtistRepository artistRepository;
 
-    @GetMapping("modifyArtistPage/{id}")
-    public String modifyArtistPage(@PathVariable int id, Model model) {
+
+    @GetMapping("modifyArtistPage")
+    public String modifyArtistPage(@AuthenticationPrincipal User user, Model model) {
         List<MusicalStyle> styleList = musicalStyleRepository.findAll();
-        Artist artist = formArtistPageService.setListToUpdateArtistPage(id);
+        Artist artist = formArtistPageService.setListToUpdateArtistPage(user);
 
         model.addAttribute("musicalStyles", styleList);
         model.addAttribute("artist", artist);
@@ -55,9 +57,8 @@ public class ModifyArtistPageController {
         return "newArtistPage/savePageOk";
     }
 
-    @PostMapping("modifyArtistPage/{id}")
+    @PostMapping("modifyArtistPage")
     public String saveNewArtistPage(Model model,
-            @PathVariable int id,
             @AuthenticationPrincipal User user,
             MultipartFile imageFile,
             MultipartFile[] audioFiles,
@@ -67,6 +68,7 @@ public class ModifyArtistPageController {
             BindingResult bindingResult) {
         
         // réinjection de l'id
+        int id = artistRepository.findByUserId(user.getId()).getId();
         newArtist.setId(id);
         // réinjection des styles
         List<MusicalStyle> styleList = musicalStyleRepository.findAll();
@@ -85,7 +87,7 @@ public class ModifyArtistPageController {
             return "modifyArtistPage/modifyArtistPage";
         }
 
-        // enregistrement des fichiers s'il ont changés, sinon récupérationd es anciens
+        // enregistrement des fichiers s'il ont changés, sinon récupérationd des anciens
         // fichiers.
         List<String> urlAudioFileList = formArtistPageService.updateAudioFiles(modifyTracks, audioFiles, newArtist);
         String urlCoverFile = formArtistPageService.updateCoverFile(modifyCover, imageFile, newArtist);
