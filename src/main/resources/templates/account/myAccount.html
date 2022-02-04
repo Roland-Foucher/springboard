@@ -4,16 +4,18 @@
   <body class="bg-dark text-white">
     <header th:include="@{/header/navbar}"></header>
     <main>
-      <div class="d-flex justify-content-around" sec:authorize="hasRole('ROLE_ARTIST')">
+      <div
+        class="d-md-flex justify-content-around"
+        sec:authorize="hasRole('ROLE_ARTIST')"
+      >
         <div class="m-3">
-          <h3>Mes stats</h3>
+          <h3 class="text-center">Mes stats</h3>
           <div th:replace="artistCard/statsCard"></div>
         </div>
         <div class="m-3">
-          <h3>Ma Page Artiste</h3>
+          <h3 class="text-center">Ma Page Artiste</h3>
           <div th:replace="artistCard/oneCard"></div>
         </div>
-        
       </div>
       <div
         class="d-flex flex-md-row flex-column-reverse justify-content-between"
