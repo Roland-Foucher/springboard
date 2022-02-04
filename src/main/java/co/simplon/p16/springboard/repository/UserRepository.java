@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
-import co.simplon.p16.springboard.entity.Artist;
-import co.simplon.p16.springboard.entity.Pro;
 import co.simplon.p16.springboard.entity.User;
 
 @Repository

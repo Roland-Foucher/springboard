@@ -44,7 +44,6 @@ public class AccountController {
     public String modifyProfil(Model model, @AuthenticationPrincipal User user){
         model.addAttribute("user", user);
         return "login/register";
-        // TODO redirect to other page or post diffente if user connected or not
     }
 
 }

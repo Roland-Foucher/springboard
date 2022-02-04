@@ -7,12 +7,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,11 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import co.simplon.p16.springboard.entity.Artist;
 import co.simplon.p16.springboard.entity.MusicalStyle;
-
 import co.simplon.p16.springboard.entity.User;
+
 import co.simplon.p16.springboard.repository.IMusicalStyleRepository;
 
-import co.simplon.p16.springboard.repository.UserRepository;
 import co.simplon.p16.springboard.services.FormArtistPageService;
 import co.simplon.p16.springboard.services.UploadFile;
 import co.simplon.p16.springboard.services.UserService;
