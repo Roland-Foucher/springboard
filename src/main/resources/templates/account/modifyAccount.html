@@ -6,7 +6,7 @@
     <p th:if="${feedback}" th:text="${feedback}" class="alert-danger p-3"></p>
     <div class="card w-75 m-auto bg-dark text-white">
       <div class="card-body">
-        <form th:action="@{/register}" method="post">
+        <form th:action="@{/myAccount/modify}" method="post">
           <div th:replace="@{login/registerFormBody}"></div>
         </form>
       </div>
