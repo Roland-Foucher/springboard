@@ -8,7 +8,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -19,9 +19,8 @@ import co.simplon.p16.springboard.entity.Artist;
 @Service
 public class UploadFile {
     
-    private String path = System.getProperty("user.dir") + "/src/main/resources/static";
-    private String photoPath = "/img/covers/";
-    private String audioPath = "/sound/";
+    private String staticPath = "src/main/resources/static";
+
 
     /**
      * Methode to saveFile in server folder. File will be stre with the date, artist
@@ -32,49 +31,24 @@ public class UploadFile {
      *                 entity) ex: /img/covers/
      * @return relative path with fileName to store in database artist entity
      */
-    public String saveFile(MultipartFile file, String relativePath, Artist artist) {
+    public String saveFile(MultipartFile file, Artist artist) throws IOException {
 
-        try {
-            String fullPath = path + relativePath;
-            String fileName = LocalDate.now() + "_" + artist.getArtistName() + "_";
-            fileName += StringUtils.cleanPath(file.getOriginalFilename());
+            String fileName = "/upload/" + UUID.randomUUID() +"_";
+            fileName += "." + StringUtils.getFilenameExtension(file.getOriginalFilename());
 
-            Path path = Paths.get(fullPath + fileName);
+            Path path = Paths.get(staticPath + fileName);
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-            return relativePath + fileName;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+            return fileName;
 
     }
 
-    public List<String> SaveAudioFiles(MultipartFile[] audioFiles, Artist artist) {
-
-        List<String> urlAudioFileList = new ArrayList<>();
-
-        for (MultipartFile audioFile : audioFiles) {
-
-            if (audioFile.getContentType().matches("^audio/.*") && audioFile.getSize() != 0) {
-                urlAudioFileList.add(saveFile(audioFile, audioPath, artist));
-            }
-        }
-        return urlAudioFileList;
-    }
-
-    public String saveImageFile(MultipartFile imageFile, Artist artist) {
-
-        if (imageFile.getContentType().matches("^image/.*") && imageFile.getSize() != 0) {
-            String urlImageFile = saveFile(imageFile, photoPath, artist);
-            return urlImageFile;
-        }
-        return null;
+    public boolean checkFile(MultipartFile file, String pattern){
+        return file.getContentType().matches(pattern) && file.getSize() != 0;
     }
 
     public void deleteFile(String url) {
 
-        Path fileToDeletePath = Paths.get(this.path + url);
+        Path fileToDeletePath = Paths.get(this.staticPath + url);
         try {
             Files.delete(fileToDeletePath);
         } catch (IOException e) {

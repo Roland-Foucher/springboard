@@ -1,5 +1,6 @@
 package co.simplon.p16.springboard.services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class FormArtistPageService {
     ITrackRepository trackRepository;
     @Autowired
     UploadFile uploadFile;
-    
+
     public Artist setListInNewArtist() {
         Artist artist = new Artist();
         List<SocialNetwork> socialNetworks = new ArrayList<>(
@@ -47,7 +48,7 @@ public class FormArtistPageService {
     }
 
     public Artist setListToUpdateArtistPage(User user) {
-        
+
         Artist artist = artistRepository.findByUserId(user.getId());
         List<SocialNetwork> socialNetworks = socialNetworkRepository.findByArtistId(artist.getId());
         while (socialNetworks.size() < 4) {
@@ -89,7 +90,7 @@ public class FormArtistPageService {
         if (!artistRepository.update(artist)) {
             AllOk = false;
         }
-        
+
         // delete old tracks in datablase
         trackRepository.deleteByArtistId(artist.getId());
         // save trackList
@@ -131,25 +132,39 @@ public class FormArtistPageService {
         return true;
     }
 
-    public String updateCoverFile(boolean modifyCover, MultipartFile coverFile, Artist artist) {
+    public String updateCoverFile(boolean modifyCover, MultipartFile coverFile, Artist artist) throws IOException {
 
         if (modifyCover) {
             String oldCoverUrl = artistRepository.findById(artist.getId()).getCoverUrl();
             uploadFile.deleteFile(oldCoverUrl);
-            return uploadFile.saveImageFile(coverFile, artist);
+            if (uploadFile.checkFile(coverFile, "^image/.*")) {
+                return uploadFile.saveFile(coverFile, artist);
+            }
+            return null;
         } else {
             return artistRepository.findById(artist.getId()).getCoverUrl();
         }
     }
 
-    public List<String> updateAudioFiles(boolean modifyTracks, MultipartFile[] audioFiles, Artist artist) {
+    public List<String> updateAudioFiles(boolean modifyTracks, MultipartFile[] audioFiles, Artist artist)
+            throws IOException {
 
         if (modifyTracks) {
+            // delete old files
             List<Track> oldTrackList = trackRepository.findByArtistId(artist.getId());
             for (Track track : oldTrackList) {
                 uploadFile.deleteFile(track.getUrl());
             }
-            return uploadFile.SaveAudioFiles(audioFiles, artist);
+
+            // save new files
+            List<String> urlAudioFileList = new ArrayList<>();
+            for (MultipartFile file : audioFiles) {
+                if (uploadFile.checkFile(file, "^audio/.*")) {
+                    urlAudioFileList.add(uploadFile.saveFile(file, artist));
+                }
+            }
+            return urlAudioFileList;
+
         } else {
             List<String> audioFilesUrlList = new ArrayList<>();
             trackRepository.findByArtistId(artist.getId()).forEach((el) -> {
