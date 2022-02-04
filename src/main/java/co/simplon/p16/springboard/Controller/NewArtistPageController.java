@@ -1,5 +1,6 @@
 package co.simplon.p16.springboard.Controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,8 +101,29 @@ public class NewArtistPageController {
         }
 
         // enregistrement des fichiers
-        List<String> urlAudioFileList = uploadFile.SaveAudioFiles(audioFiles, artist);
-        String urlCoverFile = uploadFile.saveImageFile(imageFile, artist);
+        String urlCoverFile = "";
+        List<String> urlAudioFileList = new ArrayList<>();
+
+        if(uploadFile.checkFile(imageFile, "^image/.*")){
+            try {
+                urlCoverFile = uploadFile.saveFile(imageFile, artist);
+            } catch (IOException e) {
+                e.printStackTrace();
+                model.addAttribute("savePageError", "Un problème est survenu lors de la sauvegarde de vos fichier");
+                return "newArtistPage/newArtistPage";
+            }
+        }
+        for (MultipartFile audioFile : audioFiles) {
+            if(uploadFile.checkFile(audioFile, "^audio/.*")){
+                try {
+                    urlAudioFileList.add(uploadFile.saveFile(audioFile, artist));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    model.addAttribute("savePageError", "Un problème est survenu lors de la sauvegarde de vos fichier");
+                    return "newArtistPage/newArtistPage";
+                }
+            }
+        }
 
         // check files are save on server
         if (!urlAudioFileList.isEmpty() || !urlCoverFile.isEmpty()) {

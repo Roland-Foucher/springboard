@@ -1,5 +1,7 @@
 package co.simplon.p16.springboard.Controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -89,9 +91,18 @@ public class ModifyArtistPageController {
 
         // enregistrement des fichiers s'il ont changés, sinon récupérationd des anciens
         // fichiers.
-        List<String> urlAudioFileList = formArtistPageService.updateAudioFiles(modifyTracks, audioFiles, newArtist);
-        String urlCoverFile = formArtistPageService.updateCoverFile(modifyCover, imageFile, newArtist);
+        List<String> urlAudioFileList = new ArrayList<>();
+        String urlCoverFile = "";
 
+        try {
+            urlAudioFileList = formArtistPageService.updateAudioFiles(modifyTracks, audioFiles, newArtist);
+            urlCoverFile = formArtistPageService.updateCoverFile(modifyCover, imageFile, newArtist);
+        } catch (IOException e) {
+            e.printStackTrace();
+            model.addAttribute("savePageError", "Un problème est survenu lors de la sauvegarde de vos fichier");
+            return "modifyArtistPage/modifyArtistPage";
+        }
+        
         // création des éléments dans la database
         if (!urlAudioFileList.isEmpty() && !urlCoverFile.isEmpty()) {
             if (formArtistPageService.updateArtistPage(newArtist, urlAudioFileList, urlCoverFile, user.getId())) {
