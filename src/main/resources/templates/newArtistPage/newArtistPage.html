@@ -10,7 +10,7 @@
       <article>
         
         <h2 class="text-danger" th:if="${savePageError}" th:text="${savePageError}"></h2>
-        <form class="p-5" th:action="@{/user/newArtistPage/upload}" method="POST" enctype="multipart/form-data" novalidate>
+        <form class="p-5" th:action="@{/user/newArtistPage/upload}" method="POST" enctype="multipart/form-data">
           
           <!-- bloc information -->
           <h3>Vos Informations <span class="text-danger">*</span></h3>

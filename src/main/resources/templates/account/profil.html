@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head th:replace="head/head :: head('SpringBoard')"></head>
+  <body class="bg-dark">
+    <header th:include="@{/header/navbar}"></header>
+   
+    <main class="m-4">
+      <h1 class="card-img-top fas fa-user-circle text-white text-center mb-5"></h1>
+      <div class="card bg-dark text-white m-auto border-secondary w-25">
+        
+        <div class="card-body p-4">
+          <h3 class="card-text" th:text="${user.firstName+ ' ' + user.lastName}"></h3>
+          <h3 class="card-text pb-2" th:text="${user.email}"></h3>
+          <p class="card-text" sec:authorize="hasRole('ROLE_USER')">Profil Standard </p>
+          <p class="card-text" sec:authorize="hasRole('ROLE_ARTIST')">Profil Artist</p>
+          <p class="card-text" sec:authorize="hasRole('ROLE_Pro')">Profil Pro</p>
+        </div>
+        
+      </div>
+      <h4 class="text-center p-3 mb-5"><a th:href="@{modify/}">modifier mon compte</a></h4>
+    </main>
+
+    <footer th:replace="@{footer/footer}"></footer>
+    
+  </body>
+</html>
