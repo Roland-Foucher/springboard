@@ -212,6 +212,10 @@ public class Artist {
         TrackList = trackList;
     }
 
+    public void addListenCount(){
+        this.listenCount+=1;
+    }
+
     @Override
     public String toString() {
         return "Artist [artistName=" + artistName + ", bio=" + bio + ", city=" + city + ", contact=" + contact

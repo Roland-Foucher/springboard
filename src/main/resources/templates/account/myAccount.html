@@ -1,26 +1,55 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head th:replace="head/head :: head('SpringBoard - Mon Compte')"></head>
+  <head th:replace="head/head :: head('SpringBoard - Mon Compte')"></head>
   <body class="bg-dark text-white">
     <header th:include="@{/header/navbar}"></header>
     <main>
-      <div class="d-flex justify-content-between">
-        <div>
-          <h2 class="fas fa-star m-5">Mes favoris</h2>
+      <div class="d-flex justify-content-around" sec:authorize="hasRole('ROLE_ARTIST')">
+        <div class="m-3">
+          <h3>Mes stats</h3>
+          <div th:replace="artistCard/statsCard"></div>
         </div>
-        <div class= "px-5">
-          <p><a th:href="@{user/newArtistPage}" sec:authorize="hasRole('ROLE_USER')">🎸 Vous êtes musicien ? Créer une page artiste ! 🎸</a></p>
-          <p><a th:href="@{artist/modifyArtistPage/}" sec:authorize="hasRole('ROLE_ARTIST')">🎸 Modifier Votre Page Artiste 🎸</a></p>
-          <p><a th:href="@{artist/deleteArtistPage/}" sec:authorize="hasRole('ROLE_ARTIST')">Supprimer definitivement la page? 😥</a></p>
+        <div class="m-3">
+          <h3>Ma Page Artiste</h3>
+          <div th:replace="artistCard/oneCard"></div>
         </div>
         
       </div>
-      
+      <div
+        class="d-flex flex-md-row flex-column-reverse justify-content-between"
+      >
+        <div>
+          <h2 class="fas fa-star m-5">Mes favoris</h2>
+        </div>
+        <div class="px-5">
+          <p>
+            <a
+              th:href="@{user/newArtistPage}"
+              sec:authorize="hasRole('ROLE_USER')"
+              >🎸 Vous êtes musicien ? Créer une page artiste ! 🎸</a
+            >
+          </p>
+          <p>
+            <a
+              th:href="@{artist/modifyArtistPage/}"
+              sec:authorize="hasRole('ROLE_ARTIST')"
+              >🎸 Modifier Votre Page Artiste 🎸</a
+            >
+          </p>
+          <p>
+            <a
+              th:href="@{artist/deleteArtistPage/}"
+              sec:authorize="hasRole('ROLE_ARTIST')"
+              >Supprimer definitivement la page? 😥</a
+            >
+          </p>
+        </div>
+      </div>
+
       <div class="text-dark">
         <article th:replace="@{/artistCard/artistCard}"></article>
       </div>
     </main>
     <footer th:replace="@{footer/footer}"></footer>
-    
   </body>
 </html>

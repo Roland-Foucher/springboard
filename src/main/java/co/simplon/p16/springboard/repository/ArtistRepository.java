@@ -242,6 +242,7 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
         return super.findListByInteger(userId, findByUpVotesQuery);
     }
 
+ 
 
     /**
      * methode to add a user show in database. call shwoRepository methode save()

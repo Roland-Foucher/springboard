@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head th:replace="head/head :: head('SpringBoard - ' + ${artist.artistName})"></head>
+  <head
+    th:replace="head/head :: head('SpringBoard - ' + ${artist.artistName})"
+  ></head>
   <body class="bg-dark text-white">
     <header th:include="@{/header/navbar}"></header>
     <main>
       <h1
-        class="text-center m-auto pt-5   text-danger"
+        class="text-center m-auto pt-5 text-danger"
         th:text="${artist.artistName}"
       ></h1>
       <section class="container-fluid mt-5 mb-5 pt-3">
