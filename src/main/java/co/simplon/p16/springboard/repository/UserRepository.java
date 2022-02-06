@@ -3,7 +3,6 @@ package co.simplon.p16.springboard.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,11 +22,6 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
     private final String deleteSingleFavoritQuery = "DELETE FROM favoritsArtists WHERE userId=? AND artistId=?";
     private final String deleteAllUserFavoritQuery = "DELETE FROM favoritsArtists WHERE userId=?";
 
-    // get other repository for delete user
-    @Autowired
-    private ArtistRepository artistRepository;
-    @Autowired
-    private ProRepository proRepository;
 
     // define query from global repository
     public UserRepository() {
@@ -147,26 +141,6 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
             throw new UsernameNotFoundException("User not found");
         }
         return user;
-    }
-
-    //
-    // GETTER AND SETTER
-    //
-
-    public ArtistRepository getArtistRepository() {
-        return artistRepository;
-    }
-
-    public void setArtistRepository(ArtistRepository artistRepository) {
-        this.artistRepository = artistRepository;
-    }
-
-    public ProRepository getProRepository() {
-        return proRepository;
-    }
-
-    public void setProRepository(ProRepository proRepository) {
-        this.proRepository = proRepository;
     }
 
 

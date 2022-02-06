@@ -14,11 +14,6 @@ import co.simplon.p16.springboard.entity.Show;
 @Repository
 public class ArtistRepository extends GlobalRepository<Artist> implements IArtistRepository {
 
-    // get other repository for delete user with foreign keys
-    @Autowired
-    private SocialNetworkRepository socialNetworkRepository;
-    @Autowired
-    private TrackRepository trackRepository;
     @Autowired
     private ShowRepository showRepository;
 
@@ -168,7 +163,6 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
     // Add specifics methods
     //
 
-   
     @Override
     public List<Artist> findAllSortedByVotes() {
 
@@ -218,6 +212,7 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
         return super.findListByString(showVenue, findByShowVenueQuery);
 
     }
+
     /**
      * Find by show date after the specified date
      */
@@ -242,14 +237,13 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
         return super.findListByInteger(userId, findByUpVotesQuery);
     }
 
- 
-
     /**
      * methode to add a user show in database. call shwoRepository methode save()
-     *  
+     * 
      * @param artistId id of artist that have this show
-     * @param show Show entity to add in database 
-     * @return globalRepository methode saveOrDeleteOnManyToManyTable() to implements junction table. 
+     * @param show     Show entity to add in database
+     * @return globalRepository methode saveOrDeleteOnManyToManyTable() to
+     *         implements junction table.
      */
     @Override
     public boolean saveShow(Integer artistId, Show show) {
@@ -273,22 +267,7 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
     //
     // GETTER AND SETTERS
     //
-    
-    public SocialNetworkRepository getSocialNetworkRepository() {
-        return socialNetworkRepository;
-    }
 
-    public void setSocialNetworkRepository(SocialNetworkRepository socialNetworkRepository) {
-        this.socialNetworkRepository = socialNetworkRepository;
-    }
-
-    public TrackRepository getTrackRepository() {
-        return trackRepository;
-    }
-
-    public void setTrackRepository(TrackRepository trackRepository) {
-        this.trackRepository = trackRepository;
-    }
 
     public ShowRepository getShowRepository() {
         return showRepository;
@@ -297,7 +276,5 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
     public void setShowRepository(ShowRepository showRepository) {
         this.showRepository = showRepository;
     }
-
-
 
 }
