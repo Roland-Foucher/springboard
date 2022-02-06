@@ -72,7 +72,7 @@ public class ArtistServiceTest {
     void testShuffleArtistCards() {
         when(artistRepository.findAll()).thenReturn(artistsList);
         when(musicalStyleRepository.findById(anyInt())).thenReturn(musicalStyle);
-        List<Artist> list = artistService.display10ShuffleArtistsCards();
+        List<Artist> list = artistService.display8ShuffleArtistsCards();
         assertEquals("rock", list.get(0).getStyleName());
         
 

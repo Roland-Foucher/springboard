@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import co.simplon.p16.springboard.entity.User;
@@ -31,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute @Valid User user, BindingResult bindingResult, Model model) {
+    public String registerUser(@Valid User user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "login/register";
         }
@@ -44,8 +43,12 @@ public class AuthController {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
         user.setRole("ROLE_USER");
-        userRepository.save(user);
-        return "redirect:/login";
+        if (userRepository.save(user)){
+            return "redirect:/login";
+        }else{
+            model.addAttribute("feedback", "Une erreur technique s'est produite, merci de réessayer ultérieurement");
+            return "login/register";
+        }
     }
 
     @GetMapping("/login")

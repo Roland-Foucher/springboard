@@ -34,6 +34,13 @@ public class FormArtistPageService {
     @Autowired
     UploadFile uploadFile;
 
+    private final String imgPattern = "^image/.*";
+    private final String audioPattern = "^audio/.*";
+
+    /**
+     * methode use with empty form, new artist page
+     * inject empty socialNetworks and tracks to artist to make a new artist page
+     */
     public Artist setListInNewArtist() {
         Artist artist = new Artist();
         List<SocialNetwork> socialNetworks = new ArrayList<>(
@@ -46,6 +53,12 @@ public class FormArtistPageService {
         return artist;
     }
 
+    /**
+     * methode use for update artist page.
+     * 
+     * @param user connected user to update artsit
+     * @return artist whith this socialNetworks and tracks
+     */
     public Artist setListToUpdateArtistPage(User user) {
 
         Artist artist = artistRepository.findByUserId(user.getId());
@@ -61,6 +74,16 @@ public class FormArtistPageService {
         return artist;
     }
 
+    /**
+     * after submit save form and save files in server
+     * methode to save all artist attributs in database
+     * 
+     * @param artist artist to save in database
+     * @param urlAudioList path of all audio files in server
+     * @param urlCover path of cover file in server
+     * @param userId user connected (linked to artist)
+     * @return boolean allOk, check all step of the method
+     */
     public boolean saveArtistPage(Artist artist, List<String> urlAudioList, String urlCover, Integer userId) {
         boolean allOk = true;
 
@@ -78,6 +101,16 @@ public class FormArtistPageService {
         return allOk;
     }
 
+    /**
+     * after submit update form and update files in server
+     * methode to update artist in database. delete old track and socialnetorks in database before save them
+     * 
+     * @param artist artist to save in database
+     * @param urlAudioList path of all audio files in server
+     * @param urlCover path of cover file in server
+     * @param userId user connected (linked to artist)
+     * @return boolean allOk, check all step of the method
+     */
     public boolean updateArtistPage(Artist artist, List<String> urlAudioList, String urlCover, Integer userId) {
         boolean AllOk = true;
         Artist oldArtist = artistRepository.findById(artist.getId());
@@ -103,6 +136,12 @@ public class FormArtistPageService {
 
     }
 
+    /**
+     * save all tracks in database
+     * @param artist artist to link id
+     * @param urlAudioList list of path track
+     * @return true if all track are saved in database
+     */
     public boolean saveTrackList(Artist artist, List<String> urlAudioList) {
         // save trackList
         List<Track> trackList = artist.getTrackList();
@@ -117,6 +156,11 @@ public class FormArtistPageService {
         return true;
     }
 
+    /**
+     * save all socialNetworks in database
+     * @param artist artist to link id
+     * @return true if all socialNetworks are saved in database
+     */
     public boolean saveSocialNetwork(Artist artist) {
         // save social Networks
         List<SocialNetwork> socialNetworksList = artist.getSocialNetworkList();
@@ -136,7 +180,7 @@ public class FormArtistPageService {
         if (modifyCover) {
             String oldCoverUrl = artistRepository.findById(artist.getId()).getCoverUrl();
             uploadFile.deleteFile(oldCoverUrl);
-            if (uploadFile.checkFile(coverFile, "^image/.*")) {
+            if (uploadFile.checkFile(coverFile, imgPattern)) {
                 return uploadFile.saveFile(coverFile, artist);
             }
             return null;
@@ -158,7 +202,7 @@ public class FormArtistPageService {
             // save new files
             List<String> urlAudioFileList = new ArrayList<>();
             for (MultipartFile file : audioFiles) {
-                if (uploadFile.checkFile(file, "^audio/.*")) {
+                if (uploadFile.checkFile(file, audioPattern)) {
                     urlAudioFileList.add(uploadFile.saveFile(file, artist));
                 }
             }

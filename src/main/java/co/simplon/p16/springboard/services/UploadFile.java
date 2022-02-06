@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -34,9 +33,8 @@ public class UploadFile {
             fileName += "." + StringUtils.getFilenameExtension(file.getOriginalFilename());
 
             Path path = Paths.get(staticPath + fileName);
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(file.getInputStream(), path);
             return fileName;
-
     }
 
     public boolean checkFile(MultipartFile file, String pattern){

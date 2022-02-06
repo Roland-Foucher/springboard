@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-
 import co.simplon.p16.springboard.entity.Artist;
 import co.simplon.p16.springboard.entity.Track;
 import co.simplon.p16.springboard.entity.User;
@@ -35,8 +34,13 @@ public class ArtistService {
     @Autowired
     UploadFile uploadFile;
 
-
-    public List<Artist> display10ShuffleArtistsCards() {
+    /**
+     * display 8 random Artists cards in index page.
+     * add style in all artists.
+     * 
+     * @return list of 8 artists
+     */
+    public List<Artist> display8ShuffleArtistsCards() {
         List<Artist> artistsList = artistRepository.findAll();
         artistsList.forEach((el) -> {
             el.setStyleName(musicalStyleRepository.findById(el.getMusicalStyleId()).getStyle());
@@ -51,6 +55,12 @@ public class ArtistService {
         return tenArtistsList;
     }
 
+    /**
+     * select favorits artists to display them in user account page.
+     * inject styles in artists
+     * @param userId user id connected
+     * @return list of favorits artists
+     */
     public List<Artist> displayFavoritArtistCards(Integer userId) {
         List<Artist> artistsList = artistRepository.findByFavorites(userId);
         artistsList.forEach((el) -> {
@@ -60,6 +70,12 @@ public class ArtistService {
         return artistsList;
     }
 
+    /**
+     * add all attributs to artist - styleName, showList, socialNetworks, trackList
+     * add a listen count when loading page
+     * @param id artist id to display page
+     * @return artist with all attributs
+     */
     public Artist displayArtistPage(Integer id) {
         Artist artist = artistRepository.findById(id);
         artist.addListenCount();
@@ -71,11 +87,16 @@ public class ArtistService {
         return artist;
     }
 
-    public boolean deleteArtistPage(Authentication authentication){
+    /**
+     * delete artist and files that linked to artist
+     * @param authentication to get user connected
+     * @return true if artist is deleted false, if not
+     */
+    public boolean deleteArtistPage(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Artist artist = artistRepository.findByUserId(user.getId());
         List<Track> tracks = trackRepository.findByArtistId(artist.getId());
-        if (artistRepository.deleteById(artist.getId())){
+        if (artistRepository.deleteById(artist.getId())) {
             uploadFile.deleteFile(artist.getCoverUrl());
             for (Track track : tracks) {
                 uploadFile.deleteFile(track.getUrl());
@@ -84,7 +105,9 @@ public class ArtistService {
         }
         return false;
     }
-
+    //
+    // getter and setter test
+    //
     protected void setArtistRepository(IArtistRepository artistRepository) {
         this.artistRepository = artistRepository;
     }

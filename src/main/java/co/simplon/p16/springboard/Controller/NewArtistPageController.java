@@ -75,6 +75,7 @@ public class NewArtistPageController {
         // réinjection des styles
         List<MusicalStyle> styleList = musicalStyleRepository.findAll();
         model.addAttribute("musicalStyles", styleList);
+        
                 
         // user form validation
 

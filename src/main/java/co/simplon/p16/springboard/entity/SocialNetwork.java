@@ -21,12 +21,14 @@ public class SocialNetwork {
         this.name = name;
         this.url = url;
     }
+
     public SocialNetwork(Integer id, String url, String name, Integer artistId) {
         this.id = id;
         this.url = url;
         this.name = name;
         this.artistId = artistId;
     }
+
     public SocialNetwork() {
     }
 
@@ -36,18 +38,23 @@ public class SocialNetwork {
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getUrl() {
         return url;
     }
+
     public void setUrl(String url) {
         this.url = url;
     }
+
     public Integer getArtistId() {
         return artistId;
     }
+
     public void setArtistId(Integer artistId) {
         this.artistId = artistId;
     }
@@ -55,6 +62,7 @@ public class SocialNetwork {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
