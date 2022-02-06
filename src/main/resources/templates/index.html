@@ -5,7 +5,9 @@
     <header th:include="@{/header/navbar}"></header>
    
     <main class="mx-4">
-      <article th:replace="@{/artistCard/artistCard}" ></article>
+      <article>
+        <div th:replace="@{/artistCard/artistCard}"></div>
+      </article>
     </main>
 
     <footer th:replace="@{footer/footer}"></footer>

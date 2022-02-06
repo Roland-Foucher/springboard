@@ -37,10 +37,7 @@ public class ArtistService {
 
 
     public List<Artist> display10ShuffleArtistsCards() {
-        List<Artist> artistsList = artistRepository.findAll();
-        artistsList.forEach((el) -> {
-            el.setStyleName(musicalStyleRepository.findById(el.getMusicalStyleId()).getStyle());
-        });
+        List<Artist> artistsList = displayAllArtistCards();
         Collections.shuffle(artistsList);
         List<Artist> tenArtistsList = new ArrayList<>();
         int artistsInList = artistsList.size() < 9 ? artistsList.size() : 8;
@@ -53,6 +50,14 @@ public class ArtistService {
 
     public List<Artist> displayFavoritArtistCards(Integer userId) {
         List<Artist> artistsList = artistRepository.findByFavorites(userId);
+        artistsList.forEach((el) -> {
+            el.setStyleName(musicalStyleRepository.findById(el.getMusicalStyleId()).getStyle());
+        });
+
+        return artistsList;
+    }
+    public List<Artist> displayAllArtistCards() {
+        List<Artist> artistsList = artistRepository.findAll();
         artistsList.forEach((el) -> {
             el.setStyleName(musicalStyleRepository.findById(el.getMusicalStyleId()).getStyle());
         });
