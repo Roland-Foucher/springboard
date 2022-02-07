@@ -1,18 +1,18 @@
 <!-- audio tracks -->
 <div class="container">
   <div class="row">
-    <div class="mb-3 col-md-6" th:each="track, itemStat : ${artist.trackList}">
+    <div class="mb-3 col-md-6" th:each="track: ${artist.trackList}">
       <label for="audioName" class="form-label">Nom Titre</label>
       <input
         type="text"
         class="form-control"
         id="audioName"
         placeholder="Master of Puppets"
-        th:field="${artist.trackList[__${itemStat.index}__].name}"
+        th:field="${artist.trackList[__${trackStat.index}__].name}"
         accept="audio/*"
       />
       <label for="audio" class="form-label">Piste Audio</label>
-      <input class="form-control" type="file" id="audio" name="audioFiles" th:placeholder=${artist.trackList[__${itemStat.index}__].name}/>
+      <input class="form-control" type="file" id="audio" name="audioFiles" th:placeholder=${artist.trackList[__${trackStat.index}__].name}/>
     </div>
   </div>
 </div>
