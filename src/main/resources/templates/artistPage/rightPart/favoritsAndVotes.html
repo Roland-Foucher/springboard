@@ -20,10 +20,10 @@
   const voteCountDOM = document.getElementById("voteCount");
 
   // get Thymeleaf variables
-  const artistId = /*[[${artist.id}]]*/ "default";
   let favorite = /*[[${favorite}]]*/ "default";
   let upvote = /*[[${upVote}]]*/ "default";
   let voteCount = /*[[${artist.voteCount}]]*/ "default";
+  
 
   // switch between upvotes classes
   function upVoteClass() {
@@ -80,8 +80,8 @@
       });
   }
 
-  // take upvote on click heart button
-  upVoteButton.addEventListener("click", () => {
+    // take upvote on click heart button
+    upVoteButton.addEventListener("click", () => {
     takeUpvote();
   });
 
@@ -89,5 +89,8 @@
   favoriteButton.addEventListener("click", () => {
     takeFavorite();
   });
+  
+
+
   /*]]>*/
 </script>

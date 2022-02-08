@@ -1,13 +1,60 @@
+<figure th:each="track : ${artist.trackList}">
+  <figcaption th:text="${track.name}"></figcaption>
+  <audio controls th:src="${track.url}" class="w-100 p-2" th:id="${track.id}">
+    Your browser does not support the
+    <code>audio</code> element.
+  </audio>
+</figure>
 
-    <figure th:each="track : ${artist.trackList}" id="audio">
-      <figcaption th:text="${track.name}"></figcaption>
-      <audio controls th:src="${track.url}" class="w-100 p-2">
-        Your browser does not support the
-        <code>audio</code> element.
-      </audio>
-    </figure>
+<script th:inline="javascript">
+  /*<![CDATA[*/
 
-    <script>
-      audioPlayer = document.getElementById("audio")
-      
-    </script>
+  // init artistId
+  const artistId = /*[[${artist.id}]]*/ "default";
+
+  // init trackId array
+  let trackId = [];
+
+  //
+  // loop on track in thymeleaf
+  //
+
+  /*[# th:each="track : ${artist.trackList}"]*/
+    trackId.push(/*[[${track.id}]]*/ "default");
+  /*[/]*/
+
+  //
+  // init audioplayers array of DOM
+  //
+
+  audioPlayers = [];
+  for (let index = 0; index < trackId.length; index++) {
+    audioPlayers[index] = document.getElementById(trackId[index]);
+  }
+
+  //
+  // fetch to increase listen count
+  //
+
+  async function increaseListenCount() {
+    await fetch("/api/artistPage/" + artistId + "/listenCount")
+      .then((response) => {
+        if (response.status == 200) {
+          console.log(response);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  //
+  // loop in all players to add event listener on playing
+  //
+
+  for (const audioPlayer of audioPlayers) {
+    audioPlayer.addEventListener("playing", () => increaseListenCount());
+  }
+
+  /*]]>*/
+</script>
