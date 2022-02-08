@@ -36,22 +36,4 @@ public class ArtistPageController {
         return "artistPage/artistPage";
     }
 
-    @PostMapping("/artistPage/{id}/favorite")
-    public String takeFavoritArtist(@PathVariable int id, @AuthenticationPrincipal User user) {
-        if (user != null) {
-            userService.takeFavoritArtist(user.getId(), id);
-            return "redirect:/artistPage/{id}";
-        }
-        return "redirect:/login";
-    }
-
-    @PostMapping("/artistPage/{id}/upVote")
-    public String likeArtist(@PathVariable int id, @AuthenticationPrincipal User user){
-        if (user != null) {
-            userService.takeUpVoteToArtist(user.getId(), id);
-            return "redirect:/artistPage/{id}";
-        }
-        return "redirect:/login";
-    }
-
 }

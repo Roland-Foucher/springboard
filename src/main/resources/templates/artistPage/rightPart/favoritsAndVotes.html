@@ -1,28 +1,93 @@
-<div class="text-end pt-2 d-flex" style="font-size: x-large">
-    <!-- favorites -->
-    <form
-      th:action="@{/artistPage/} + ${artist.id} + '/favorite'"
-      method="post"
-    >
-      <button
-        class="btn text-danger btn-lg bg-dark px-2"
-        th:classappend="${favorite} ? 'fas fa-star' : 'far fa-star'"
-        type="submit"
-      ></button>
-    </form>
-    <!-- upvote -->
-    <form
-      th:action="@{/artistPage/} + ${artist.id} + '/upVote'"
-      method="post"
-    >
-      <button
-        class="btn text-danger btn-lg bg-dark"
-        th:classappend="${upVote} ? 'fas fa-heart' : 'far fa-heart'"
-        type="submit"
-      ></button>
-    </form>
-    <!-- upvotes count -->
-    <div>
-      <p th:text="${artist.voteCount}">upVotes :</p>
-    </div>
+<div class="text-end d-flex" style="font-size: x-large">
+  <!-- favorites -->
+  <a id="favorite"></a>
+
+  <!-- upvote -->
+  <a id="upvote"></a>
+
+  <!-- upvotes count -->
+  <div class="m-auto">
+    <p  class="m-auto" th:text="${artist.voteCount}" id="voteCount">upVotes :</p>
+  </div>
 </div>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+
+  // get DOM elements
+  const upVoteButton = document.getElementById("upvote");
+  const favoriteButton = document.getElementById("favorite");
+  const voteCountDOM = document.getElementById("voteCount");
+
+  // get Thymeleaf variables
+  const artistId = /*[[${artist.id}]]*/ "default";
+  let favorite = /*[[${favorite}]]*/ "default";
+  let upvote = /*[[${upVote}]]*/ "default";
+  let voteCount = /*[[${artist.voteCount}]]*/ "default";
+
+  // switch between upvotes classes
+  function upVoteClass() {
+    upVoteButton.className = upvote
+      ? "btn text-danger btn-lg m-auto border-0 bg-dark fas fa-heart"
+      : "btn text-danger btn-lg m-auto border-0 bg-dark far fa-heart";
+  }
+
+  // switch between favorites classes
+  function favoriteClass() {
+    favoriteButton.className = favorite
+      ? "btn text-danger btn-lg m-auto bg-dark px-2 fas fa-star"
+      : "btn text-danger btn-lg m-auto bg-dark px-2 far fa-star";
+  }
+
+  // select the good class on init page
+  document.addEventListener("DOMContentLoaded", upVoteClass());
+  document.addEventListener("DOMContentLoaded", favoriteClass());
+
+  // fetch server to push or delete an upvote
+  async function takeUpvote() {
+    await fetch("/api/artistPage/" + artistId + "/upVote")
+      .then((response) => {
+        if (response.redirected) {
+          console.log(response)
+          window.location.href = response.url;
+        }
+        if (response.status == 200) {
+          upvote = !upvote;
+          upVoteClass();
+          voteCountDOM.innerText = upvote ? (voteCount += 1) : (voteCount -= 1);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  // fetch server to push or delete favorites
+  async function takeFavorite() {
+    await fetch("/api/artistPage/" + artistId + "/favorite")
+      .then((response) => {
+        if (response.redirected) {
+          console.log(response);
+          window.location.href = response.url;
+        }
+        if (response.status == 200) {
+          favorite = !favorite;
+          favoriteClass();
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  // take upvote on click heart button
+  upVoteButton.addEventListener("click", () => {
+    takeUpvote();
+  });
+
+  // take favorite on click star button
+  favoriteButton.addEventListener("click", () => {
+    takeFavorite();
+  });
+  /*]]>*/
+</script>

@@ -29,12 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .mvcMatchers("/user/**").hasRole("USER")
                 .mvcMatchers("/artist/**").hasRole("ARTIST")
+                .mvcMatchers("/api/artistPage/{id}/favorite").authenticated()
+                .mvcMatchers("/api/artistPage/{id}/upVote").authenticated()
                 .mvcMatchers("/account/**").authenticated()
                 .anyRequest().permitAll()
                 .and().formLogin()
                     .loginPage("/login")
-                    .defaultSuccessUrl("/myAccount");
-            
+                    .defaultSuccessUrl("/myAccount", true)
+                    ;
     }
 
     /**

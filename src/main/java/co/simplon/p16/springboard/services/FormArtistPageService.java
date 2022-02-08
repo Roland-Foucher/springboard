@@ -174,7 +174,15 @@ public class FormArtistPageService {
         }
         return true;
     }
-
+    /**
+     * methode to update coverFile in server if the file was modified in the update form
+     * Delete old Cover before save the new Cover if modifyCover is true or return old cover url.
+     * @param modifyCover the boolean return in the form => cover was change or not
+     * @param coverFile new coverFile (null if not changed)
+     * @param artist artist that update his page
+     * @return path of the vcover file in server
+     * @throws IOException on save file maybe exception when save in server
+     */
     public String updateCoverFile(boolean modifyCover, MultipartFile coverFile, Artist artist) throws IOException {
 
         if (modifyCover) {

@@ -1,8 +1,13 @@
 
-    <figure th:each="track : ${artist.trackList}">
+    <figure th:each="track : ${artist.trackList}" id="audio">
       <figcaption th:text="${track.name}"></figcaption>
       <audio controls th:src="${track.url}" class="w-100 p-2">
         Your browser does not support the
         <code>audio</code> element.
       </audio>
     </figure>
+
+    <script>
+      audioPlayer = document.getElementById("audio")
+      
+    </script>

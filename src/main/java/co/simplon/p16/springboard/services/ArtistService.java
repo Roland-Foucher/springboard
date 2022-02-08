@@ -78,8 +78,6 @@ public class ArtistService {
      */
     public Artist displayArtistPage(Integer id) {
         Artist artist = artistRepository.findById(id);
-        artist.addListenCount();
-        artistRepository.update(artist);
         artist.setStyleName(musicalStyleRepository.findById(artist.getMusicalStyleId()).getStyle());
         artist.setShowList(showRepository.findByArtist(id));
         artist.setSocialNetworkList(socialNetworkRepository.findByArtistId(id));
@@ -104,6 +102,12 @@ public class ArtistService {
             return true;
         }
         return false;
+    }
+
+    public boolean addListenCount(Integer id){
+        Artist artist = artistRepository.findById(id);
+        artist.addListenCount();
+        return artistRepository.update(artist);
     }
     //
     // getter and setter test
