@@ -1,4 +1,4 @@
-package co.simplon.p16.springboard.Controller;
+package co.simplon.p16.springboard.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

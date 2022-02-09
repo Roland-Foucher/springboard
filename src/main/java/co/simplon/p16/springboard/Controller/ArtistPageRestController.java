@@ -1,4 +1,4 @@
-package co.simplon.p16.springboard.Controller;
+package co.simplon.p16.springboard.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.p16.springboard.entity.User;
-import co.simplon.p16.springboard.repository.ArtistRepository;
 import co.simplon.p16.springboard.services.ArtistService;
 import co.simplon.p16.springboard.services.UserService;
 
@@ -51,5 +50,4 @@ public class ArtistPageRestController {
         }
     }
 
-    
 }
