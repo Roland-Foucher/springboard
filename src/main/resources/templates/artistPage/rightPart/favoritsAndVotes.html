@@ -48,10 +48,10 @@
     await fetch("/api/artistPage/" + artistId + "/upVote")
       .then((response) => {
         if (response.redirected) {
-          console.log(response)
           window.location.href = response.url;
         }
         if (response.status == 200) {
+          console.log(response)
           upvote = !upvote;
           upVoteClass();
           voteCountDOM.innerText = upvote ? (voteCount += 1) : (voteCount -= 1);
@@ -67,7 +67,6 @@
     await fetch("/api/artistPage/" + artistId + "/favorite")
       .then((response) => {
         if (response.redirected) {
-          console.log(response);
           window.location.href = response.url;
         }
         if (response.status == 200) {

@@ -42,45 +42,28 @@ public class UserRepository extends GlobalRepository<User> implements IUserRepos
     }
 
     @Override
-    protected void injectParamatersToSaveStatement(User user) {
-        try {
+    protected void injectParamatersToSaveStatement(User user) throws SQLException {
             stmt.setString(1, user.getFirstName());
             stmt.setString(2, user.getLastName());
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPassword());
             stmt.setString(5, user.getRole());
-        } catch (SQLException e) {
-            System.out.println("error on inject parameters on user to save statement");
-            e.printStackTrace();
-        }
     }
 
     @Override
-    protected void injectParamatersToUpdateStatement(User user) {
+    protected void injectParamatersToUpdateStatement(User user) throws SQLException {
         injectParamatersToSaveStatement(user);
-        try {
             stmt.setInt(6, user.getId());
-        } catch (SQLException e) {
-            System.out.println("error on inject parameters on user to update statement");
-            e.printStackTrace();
-        }
     }
 
     @Override
-    protected User instanciateObject(ResultSet result) {
-
-        try {
+    protected User instanciateObject(ResultSet result) throws SQLException {
             return new User(result.getInt("id"),
                     result.getString("firstName"),
                     result.getString("lastName"),
                     result.getString("email"),
                     result.getString("password"),
                     result.getString("role"));
-        } catch (SQLException e) {
-            System.out.println("error when instanciate User object on find query");
-            e.printStackTrace();
-        }
-        return null;
     }
 
 

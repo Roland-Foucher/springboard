@@ -32,47 +32,30 @@ public class ProRepository extends GlobalRepository<Pro> implements IProReposito
     }
 
     @Override
-    protected void injectParamatersToSaveStatement(Pro pro) {
-        try {
-            stmt.setString(1, pro.getComagnyName());
-            stmt.setString(2, pro.getActivity());
-            stmt.setString(3, pro.getContact());
-            stmt.setString(4, pro.getCity());
-            stmt.setString(5, pro.getSiret());
-            stmt.setInt(6, pro.getUserId());
-
-        } catch (SQLException e) {
-            System.out.println("error when inject parameters to save query");
-            e.printStackTrace();
-        }
+    protected void injectParamatersToSaveStatement(Pro pro) throws SQLException {
+        stmt.setString(1, pro.getComagnyName());
+        stmt.setString(2, pro.getActivity());
+        stmt.setString(3, pro.getContact());
+        stmt.setString(4, pro.getCity());
+        stmt.setString(5, pro.getSiret());
+        stmt.setInt(6, pro.getUserId());
     }
 
     @Override
-    protected void injectParamatersToUpdateStatement(Pro pro) {
+    protected void injectParamatersToUpdateStatement(Pro pro) throws SQLException {
         injectParamatersToSaveStatement(pro);
-        try {
-            stmt.setInt(7, pro.getId());
-        } catch (SQLException e) {
-            System.out.println("error when inject parameters to update query");
-            e.printStackTrace();
-        }
+        stmt.setInt(7, pro.getId());
     }
 
     @Override
-    protected Pro instanciateObject(ResultSet result) {
-        try {
-            return new Pro(result.getInt("id"),
-                    result.getString("companyName"),
-                    result.getString("activity"),
-                    result.getString("contact"),
-                    result.getString("city"),
-                    result.getString("siret"),
-                    result.getInt("userId"));
-        } catch (SQLException e) {
-            System.out.println("error on instanciate pro object");
-            e.printStackTrace();
-        }
-        return null;
+    protected Pro instanciateObject(ResultSet result) throws SQLException {
+        return new Pro(result.getInt("id"),
+                result.getString("companyName"),
+                result.getString("activity"),
+                result.getString("contact"),
+                result.getString("city"),
+                result.getString("siret"),
+                result.getInt("userId"));
     }
 
     //
