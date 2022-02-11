@@ -14,11 +14,6 @@ import co.simplon.p16.springboard.entity.Show;
 @Repository
 public class ArtistRepository extends GlobalRepository<Artist> implements IArtistRepository {
 
-    // get other repository for delete user with foreign keys
-    @Autowired
-    private SocialNetworkRepository socialNetworkRepository;
-    @Autowired
-    private TrackRepository trackRepository;
     @Autowired
     private ShowRepository showRepository;
 
@@ -109,66 +104,49 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
     }
 
     @Override
-    protected void injectParamatersToSaveStatement(Artist artist) {
-        try {
-            stmt.setString(1, artist.getArtistName());
-            stmt.setString(2, artist.getCoverUrl());
-            stmt.setString(3, artist.getContact());
-            stmt.setString(4, artist.getWebSite());
-            stmt.setString(5, artist.getCity());
-            stmt.setInt(6, artist.getVoteCount());
-            stmt.setString(7, artist.getBio());
-            stmt.setInt(8, artist.getListenCount());
-            stmt.setBoolean(9, artist.getIsOnArtistList());
-            stmt.setInt(10, artist.getMusicalStyleId());
-            stmt.setInt(11, artist.getUserId());
+    protected void injectParamatersToSaveStatement(Artist artist) throws SQLException {
 
-        } catch (SQLException e) {
-            System.out.println("error on inject parameters on statement for save artist");
-            e.printStackTrace();
-        }
+        stmt.setString(1, artist.getArtistName());
+        stmt.setString(2, artist.getCoverUrl());
+        stmt.setString(3, artist.getContact());
+        stmt.setString(4, artist.getWebSite());
+        stmt.setString(5, artist.getCity());
+        stmt.setInt(6, artist.getVoteCount());
+        stmt.setString(7, artist.getBio());
+        stmt.setInt(8, artist.getListenCount());
+        stmt.setBoolean(9, artist.getIsOnArtistList());
+        stmt.setInt(10, artist.getMusicalStyleId());
+        stmt.setInt(11, artist.getUserId());
     }
 
     @Override
-    protected void injectParamatersToUpdateStatement(Artist artist) {
+    protected void injectParamatersToUpdateStatement(Artist artist) throws SQLException {
 
-        try {
-            injectParamatersToSaveStatement(artist);
-            stmt.setInt(12, artist.getId());
-        } catch (SQLException e) {
-            System.out.println("error on inject parameters in statement for update artist");
-            e.printStackTrace();
-        }
+        injectParamatersToSaveStatement(artist);
+        stmt.setInt(12, artist.getId());
     }
 
     @Override
-    protected Artist instanciateObject(ResultSet result) {
+    protected Artist instanciateObject(ResultSet result) throws SQLException {
 
-        try {
-            return new Artist(result.getInt("id"),
-                    result.getString("artistName"),
-                    result.getString("coverUrl"),
-                    result.getString("contact"),
-                    result.getString("webSite"),
-                    result.getString("city"),
-                    result.getString("bio"),
-                    result.getInt("listenCount"),
-                    result.getInt("voteCount"),
-                    result.getBoolean("isOnArtistList"),
-                    result.getInt("musicalStyleId"),
-                    result.getInt("userId"));
-        } catch (SQLException e) {
-            System.out.println("error on instanciate Artist Object");
-            e.printStackTrace();
-        }
-        return null;
+        return new Artist(result.getInt("id"),
+                result.getString("artistName"),
+                result.getString("coverUrl"),
+                result.getString("contact"),
+                result.getString("webSite"),
+                result.getString("city"),
+                result.getString("bio"),
+                result.getInt("listenCount"),
+                result.getInt("voteCount"),
+                result.getBoolean("isOnArtistList"),
+                result.getInt("musicalStyleId"),
+                result.getInt("userId"));
     }
 
     //
     // Add specifics methods
     //
 
-   
     @Override
     public List<Artist> findAllSortedByVotes() {
 
@@ -218,6 +196,7 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
         return super.findListByString(showVenue, findByShowVenueQuery);
 
     }
+
     /**
      * Find by show date after the specified date
      */
@@ -242,14 +221,13 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
         return super.findListByInteger(userId, findByUpVotesQuery);
     }
 
- 
-
     /**
      * methode to add a user show in database. call shwoRepository methode save()
-     *  
+     * 
      * @param artistId id of artist that have this show
-     * @param show Show entity to add in database 
-     * @return globalRepository methode saveOrDeleteOnManyToManyTable() to implements junction table. 
+     * @param show     Show entity to add in database
+     * @return globalRepository methode saveOrDeleteOnManyToManyTable() to
+     *         implements junction table.
      */
     @Override
     public boolean saveShow(Integer artistId, Show show) {
@@ -273,22 +251,6 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
     //
     // GETTER AND SETTERS
     //
-    
-    public SocialNetworkRepository getSocialNetworkRepository() {
-        return socialNetworkRepository;
-    }
-
-    public void setSocialNetworkRepository(SocialNetworkRepository socialNetworkRepository) {
-        this.socialNetworkRepository = socialNetworkRepository;
-    }
-
-    public TrackRepository getTrackRepository() {
-        return trackRepository;
-    }
-
-    public void setTrackRepository(TrackRepository trackRepository) {
-        this.trackRepository = trackRepository;
-    }
 
     public ShowRepository getShowRepository() {
         return showRepository;
@@ -297,7 +259,5 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
     public void setShowRepository(ShowRepository showRepository) {
         this.showRepository = showRepository;
     }
-
-
 
 }

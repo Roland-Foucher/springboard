@@ -20,23 +20,12 @@ import co.simplon.p16.springboard.entity.User;
 public class UserRepositoryTest {
 
     UserRepository userRepository;
-    ArtistRepository artistRepository;
-    ProRepository proRepository;
-    SocialNetworkRepository socialNetworkRepository;
-    TrackRepository trackRepository;
+  
 
     @BeforeEach
     public void init() {
         userRepository = new UserRepository();
-        artistRepository = new ArtistRepository();
-        proRepository = new ProRepository();
-        socialNetworkRepository = new SocialNetworkRepository();
-        trackRepository = new TrackRepository();
 
-        artistRepository.setSocialNetworkRepository(socialNetworkRepository);
-        artistRepository.setTrackRepository(trackRepository);
-        userRepository.setArtistRepository(artistRepository);
-        userRepository.setProRepository(proRepository);
 
         DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
@@ -44,10 +33,6 @@ public class UserRepositoryTest {
                 .addScript("data.sql")
                 .build();
         userRepository.setDataSource(dataSource);
-        artistRepository.setDataSource(dataSource);
-        proRepository.setDataSource(dataSource);
-        trackRepository.setDataSource(dataSource);
-        socialNetworkRepository.setDataSource(dataSource);
     }
 
     @Test

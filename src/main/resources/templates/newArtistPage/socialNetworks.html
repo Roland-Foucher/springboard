@@ -1,12 +1,12 @@
  <!-- social networks -->
- <div class="mb-4" th:each=" socialNetwork, itemStat : ${artist.socialNetworkList}">
+ <div class="mb-4" th:each=" socialNetwork : ${artist.socialNetworkList}">
     <label for="socialUrl1">Reseau social - URL et NOM</label>
     <input
       type="text"
       class="form-control"
       id="socialUrl1"
       placeholder="Metallica.facebook.com"
-      th:field="${artist.socialNetworkList[__${itemStat.index}__].url}"
+      th:field="${artist.socialNetworkList[__${socialNetworkStat.index}__].url}"
      
     />
     <input
@@ -14,7 +14,7 @@
       class="form-control mt-2"
       id="socialUrl1"
       placeholder="facebook"
-      th:field="${artist.socialNetworkList[__${itemStat.index}__].name}"
+      th:field="${artist.socialNetworkList[__${socialNetworkStat.index}__].name}"
       
     />
     </div>

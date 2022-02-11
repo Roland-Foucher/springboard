@@ -35,40 +35,27 @@ public class ShowRepository extends GlobalRepository<Show> implements IShowRepos
     }
 
     @Override
-    protected void injectParamatersToSaveStatement(Show show) {
-        try {
-            stmt.setDate(1, Date.valueOf(show.getDate()));
-            stmt.setString(2, show.getAdress());
-            stmt.setString(3, show.getVenue());
-        } catch (SQLException e) {
-            System.out.println("error when inject parameters in query on save show");
-            e.printStackTrace();
-        }
+    protected void injectParamatersToSaveStatement(Show show) throws SQLException {
+        stmt.setDate(1, Date.valueOf(show.getDate()));
+        stmt.setString(2, show.getAdress());
+        stmt.setString(3, show.getVenue());
+
     }
 
     @Override
-    protected void injectParamatersToUpdateStatement(Show show) {
+    protected void injectParamatersToUpdateStatement(Show show) throws SQLException {
         injectParamatersToSaveStatement(show);
-        try {
-            stmt.setInt(4, show.getId());
-        } catch (SQLException e) {
-            System.out.println("error when inject parameters in query on update show");
-            e.printStackTrace();
-        }
+        stmt.setInt(4, show.getId());
+
     }
 
     @Override
-    protected Show instanciateObject(ResultSet result) {
-        try {
-            return new Show(result.getInt("id"),
-                    result.getDate("date").toLocalDate(),
-                    result.getString("venue"),
-                    result.getString("adress"));
-        } catch (SQLException e) {
-            System.out.println("error on instanciate show object wen find query");
-            e.printStackTrace();
-        }
-        return null;
+    protected Show instanciateObject(ResultSet result) throws SQLException {
+        return new Show(result.getInt("id"),
+                result.getDate("date").toLocalDate(),
+                result.getString("venue"),
+                result.getString("adress"));
+
     }
 
     @Override

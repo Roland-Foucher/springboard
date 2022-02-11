@@ -34,40 +34,25 @@ public class SocialNetworkRepository extends GlobalRepository<SocialNetwork> imp
     }
 
     @Override
-    protected void injectParamatersToSaveStatement(SocialNetwork socialNetwork) {
-        try {
-            stmt.setString(1, socialNetwork.getUrl());
-            stmt.setString(2, socialNetwork.getName());
-            stmt.setInt(3, socialNetwork.getArtistId());
-        } catch (SQLException e) {
-            System.out.println("error when inject parameters in query on save socialNetwork");
-            e.printStackTrace();
-        }
+    protected void injectParamatersToSaveStatement(SocialNetwork socialNetwork) throws SQLException {
+        stmt.setString(1, socialNetwork.getUrl());
+        stmt.setString(2, socialNetwork.getName());
+        stmt.setInt(3, socialNetwork.getArtistId());
     }
 
     @Override
-    protected void injectParamatersToUpdateStatement(SocialNetwork socialNetwork) {
+    protected void injectParamatersToUpdateStatement(SocialNetwork socialNetwork) throws SQLException {
         injectParamatersToSaveStatement(socialNetwork);
-        try {
-            stmt.setInt(4, socialNetwork.getId());
-        } catch (SQLException e) {
-            System.out.println("error when inject parameters in query on update socialNetwork");
-            e.printStackTrace();
-        }
+        stmt.setInt(4, socialNetwork.getId());
     }
 
     @Override
-    protected SocialNetwork instanciateObject(ResultSet result) {
-        try {
-            return new SocialNetwork(result.getInt("id"),
-                    result.getString("url"),
-                    result.getString("name"),
-                    result.getInt("artistId"));
-        } catch (SQLException e) {
-            System.out.println("error when instanciate socialNetwork object on find query");
-            e.printStackTrace();
-        }
-        return null;
+    protected SocialNetwork instanciateObject(ResultSet result) throws SQLException {
+
+        return new SocialNetwork(result.getInt("id"),
+                result.getString("url"),
+                result.getString("name"),
+                result.getInt("artistId"));
     }
 
     //

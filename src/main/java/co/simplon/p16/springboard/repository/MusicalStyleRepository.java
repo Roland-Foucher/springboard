@@ -14,7 +14,6 @@ public class MusicalStyleRepository extends GlobalRepository<MusicalStyle> imple
     public MusicalStyleRepository() {
         this.findAllQuery = "SELECT * FROM musicalStyle";
         this.findByIdQuery = "SELECT * FROM musicalStyle WHERE id=?";
-
     }
 
     //
@@ -22,14 +21,9 @@ public class MusicalStyleRepository extends GlobalRepository<MusicalStyle> imple
     //
 
     @Override
-    protected MusicalStyle instanciateObject(ResultSet result) {
-        try {
-            return new MusicalStyle(result.getInt("id"), result.getString("styleName"));
-        } catch (SQLException e) {
-            System.out.println("error when instanciate MusicalStyle");
-            e.printStackTrace();
-        }
-        return null;
+    protected MusicalStyle instanciateObject(ResultSet result) throws SQLException {
+
+        return new MusicalStyle(result.getInt("id"), result.getString("styleName"));
     }
 
 }

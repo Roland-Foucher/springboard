@@ -21,43 +21,52 @@ public class Show {
         this.venue = venue;
         this.adress = adress;
     }
+
     public Show(LocalDate date, String venue, String adress) {
         this.date = date;
         this.venue = venue;
         this.adress = adress;
     }
+
     public Show() {
     }
 
     //
     // GETTERS AND SETTERS
     //
-    
+
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public LocalDate getDate() {
         return date;
     }
+
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
     public String getVenue() {
         return venue;
     }
+
     public void setVenue(String venue) {
         this.venue = venue;
     }
+
     public String getAdress() {
         return adress;
     }
+
     public void setAdress(String adress) {
         this.adress = adress;
     }
-    
+
     //
     // TO STRING
     //
@@ -65,6 +74,5 @@ public class Show {
     public String toString() {
         return "Show [adress=" + adress + ", date=" + date + ", id=" + id + ", venue=" + venue + "]";
     }
-
 
 }

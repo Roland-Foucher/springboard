@@ -25,20 +25,15 @@ import co.simplon.p16.springboard.entity.Show;
 
     
     ArtistRepository artistRepository;
-    SocialNetworkRepository socialNetworkRepository;
-    TrackRepository trackRepository;
     ShowRepository showRepository;
     
 
     @BeforeEach
      void init() {
         artistRepository = new ArtistRepository();
-        socialNetworkRepository = new SocialNetworkRepository();
-        trackRepository = new TrackRepository();
         showRepository = new ShowRepository();
 
-        artistRepository.setSocialNetworkRepository(socialNetworkRepository);
-        artistRepository.setTrackRepository(trackRepository);
+
         artistRepository.setShowRepository(showRepository);
        
         DataSource dataSource = new EmbeddedDatabaseBuilder()
@@ -48,8 +43,6 @@ import co.simplon.p16.springboard.entity.Show;
                 .build();
 
         artistRepository.setDataSource(dataSource);
-        socialNetworkRepository.setDataSource(artistRepository.getDataSource());
-        trackRepository.setDataSource(artistRepository.getDataSource());
         showRepository.setDataSource(artistRepository.getDataSource());
 
 

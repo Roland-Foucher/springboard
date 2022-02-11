@@ -1,13 +1,11 @@
 package co.simplon.p16.springboard.entity;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -30,7 +28,7 @@ public class User implements UserDetails {
     @NotBlank
     @Email
     private String email;
-    
+
     @NotBlank
     @Min(6)
     private String password;
@@ -127,7 +125,7 @@ public class User implements UserDetails {
     //
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public List<SimpleGrantedAuthority> getAuthorities() {
 
         return List.of(new SimpleGrantedAuthority(role));
     }

@@ -86,7 +86,13 @@ public class Artist {
         if (value == 1 || value == -1) {
             this.voteCount += value;
         }
+    }
 
+    /**
+     * increase the listenCount
+     */
+    public void addListenCount() {
+        this.listenCount += 1;
     }
 
     //
@@ -212,17 +218,6 @@ public class Artist {
         TrackList = trackList;
     }
 
-    public void addListenCount(){
-        this.listenCount+=1;
-    }
-
-    @Override
-    public String toString() {
-        return "Artist [artistName=" + artistName + ", bio=" + bio + ", city=" + city + ", contact=" + contact
-                + ", coverUrl=" + coverUrl + ", id=" + id + ", listenCount=" + listenCount + ", musicalStyleId="
-                + musicalStyleId + ", userId=" + userId + ", voteCount=" + voteCount + ", webSite=" + webSite + "]";
-    }
-
     public Boolean getIsOnArtistList() {
         return isOnArtistList;
     }
@@ -231,5 +226,11 @@ public class Artist {
         this.isOnArtistList = isOnArtistList;
     }
 
+    @Override
+    public String toString() {
+        return "Artist [artistName=" + artistName + ", bio=" + bio + ", city=" + city + ", contact=" + contact
+                + ", coverUrl=" + coverUrl + ", id=" + id + ", listenCount=" + listenCount + ", musicalStyleId="
+                + musicalStyleId + ", userId=" + userId + ", voteCount=" + voteCount + ", webSite=" + webSite + "]";
+    }
 
 }

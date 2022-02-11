@@ -1,4 +1,4 @@
-package co.simplon.p16.springboard.Controller;
+package co.simplon.p16.springboard.controller;
 
 import javax.validation.Valid;
 
@@ -38,7 +38,7 @@ public class AccountController {
 
     @GetMapping("")
     public String showMyAccountPage(Model model, @AuthenticationPrincipal User user) {
-        System.out.println(user.getRole());
+       
         if (user.getRole().equals("ROLE_ARTIST")) {
             Artist artist = artistRepository.findByUserId(user.getId());
             

@@ -112,7 +112,7 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
             e.printStackTrace();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
-            
+
         }
 
         return false;
@@ -346,7 +346,7 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
      * @param result result of the query when find on database
      * @return Object instanciated
      */
-    protected T instanciateObject(ResultSet result) {
+    protected T instanciateObject(ResultSet result) throws SQLException {
 
         return null;
     }
@@ -356,7 +356,7 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
      * 
      * @param object object to save on database
      */
-    protected void injectParamatersToSaveStatement(T object) {
+    protected void injectParamatersToSaveStatement(T object) throws SQLException {
 
     }
 
@@ -365,7 +365,7 @@ public class GlobalRepository<T> implements IGlobalRepository<T> {
      * 
      * @param object to save on database
      */
-    protected void injectParamatersToUpdateStatement(T object) {
+    protected void injectParamatersToUpdateStatement(T object) throws SQLException {
     }
 
     /**

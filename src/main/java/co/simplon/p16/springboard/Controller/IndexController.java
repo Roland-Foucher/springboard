@@ -1,4 +1,4 @@
-package co.simplon.p16.springboard.Controller;
+package co.simplon.p16.springboard.controller;
 
 
 
@@ -20,7 +20,7 @@ public class IndexController {
     @GetMapping("/")
     public String showIndexPage(Model model) {
 
-        model.addAttribute("artists", artistService.display10ShuffleArtistsCards());
+        model.addAttribute("artists", artistService.display8ShuffleArtistsCards());
        
 
         return "index";

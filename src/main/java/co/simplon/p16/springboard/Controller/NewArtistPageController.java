@@ -1,4 +1,4 @@
-package co.simplon.p16.springboard.Controller;
+package co.simplon.p16.springboard.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,6 +75,7 @@ public class NewArtistPageController {
         // réinjection des styles
         List<MusicalStyle> styleList = musicalStyleRepository.findAll();
         model.addAttribute("musicalStyles", styleList);
+        
                 
         // user form validation
 

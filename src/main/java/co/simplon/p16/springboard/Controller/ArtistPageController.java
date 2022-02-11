@@ -1,4 +1,4 @@
-package co.simplon.p16.springboard.Controller;
+package co.simplon.p16.springboard.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -6,8 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
 import co.simplon.p16.springboard.entity.Artist;
 import co.simplon.p16.springboard.entity.User;
 import co.simplon.p16.springboard.services.ArtistService;
@@ -34,24 +32,6 @@ public class ArtistPageController {
             model.addAttribute("upVote", userService.checkIfArtistIsUpvoted(user.getId(), id));
         }
         return "artistPage/artistPage";
-    }
-
-    @PostMapping("/artistPage/{id}/favorite")
-    public String takeFavoritArtist(@PathVariable int id, @AuthenticationPrincipal User user) {
-        if (user != null) {
-            userService.takeFavoritArtist(user.getId(), id);
-            return "redirect:/artistPage/{id}";
-        }
-        return "redirect:/login";
-    }
-
-    @PostMapping("/artistPage/{id}/upVote")
-    public String likeArtist(@PathVariable int id, @AuthenticationPrincipal User user){
-        if (user != null) {
-            userService.takeUpVoteToArtist(user.getId(), id);
-            return "redirect:/artistPage/{id}";
-        }
-        return "redirect:/login";
     }
 
 }

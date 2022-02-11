@@ -29,41 +29,26 @@ public class TrackRepository extends GlobalRepository<Track> implements ITrackRe
     //
 
     @Override
-    protected Track instanciateObject(ResultSet result) {
-        try {
-            return new Track(result.getInt("id"), result.getString("name"), result.getString("url"),
-                    result.getInt("artistId"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("error on instanciate object track when find query");
-        }
-        return null;
-    }
+    protected Track instanciateObject(ResultSet result) throws SQLException {
 
-    @Override
-    protected void injectParamatersToSaveStatement(Track track) {
-        try {
-            stmt.setString(1, track.getName());
-            stmt.setString(2, track.getUrl());
-            stmt.setInt(3, track.getArtistId());
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("error on inject parameters on track to save statement");
-        }
+        return new Track(result.getInt("id"), result.getString("name"), result.getString("url"),
+                result.getInt("artistId"));
 
     }
 
     @Override
-    protected void injectParamatersToUpdateStatement(Track track) {
-        try {
-            injectParamatersToSaveStatement(track);
-            stmt.setInt(4, track.getId());
-        } catch (SQLException e) {
-            System.out.println("error on inject parameters on track to update statement ");
-            e.printStackTrace();
-        }
+    protected void injectParamatersToSaveStatement(Track track) throws SQLException {
 
+        stmt.setString(1, track.getName());
+        stmt.setString(2, track.getUrl());
+        stmt.setInt(3, track.getArtistId());
+    }
+
+    @Override
+    protected void injectParamatersToUpdateStatement(Track track) throws SQLException {
+
+        injectParamatersToSaveStatement(track);
+        stmt.setInt(4, track.getId());
     }
 
     @Override

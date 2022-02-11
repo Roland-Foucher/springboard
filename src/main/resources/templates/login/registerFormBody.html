@@ -1,14 +1,4 @@
 <div>
-  <label for="email">Nom</label>
-  <input
-    th:classappend="${#fields.hasErrors('user.lastName')}?'is-invalid'"
-    type="text"
-    required
-    id="email"
-    class="form-control mb-3 bg-light"
-    th:field="${user.lastName}"
-  />
-  <p class="invalid-feedback" th:errors="${user.lastName}"></p>
   <label for="email">Prenom</label>
   <input
     th:classappend="${#fields.hasErrors('user.firstName')}?'is-invalid'"
@@ -19,6 +9,18 @@
     th:field="${user.firstName}"
   />
   <p class="invalid-feedback" th:errors="${user.lastName}"></p>
+
+  <label for="email">Nom</label>
+  <input
+    th:classappend="${#fields.hasErrors('user.lastName')}?'is-invalid'"
+    type="text"
+    required
+    id="email"
+    class="form-control mb-3 bg-light"
+    th:field="${user.lastName}"
+  />
+  <p class="invalid-feedback" th:errors="${user.lastName}"></p>
+
   <label for="email">Email :</label>
   <input
     th:classappend="${#fields.hasErrors('user.email')}?'is-invalid'"
