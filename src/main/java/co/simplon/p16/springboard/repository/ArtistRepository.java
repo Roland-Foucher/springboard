@@ -72,9 +72,6 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
             FROM artists, artistsShows, shows
             WHERE shows.id = artistsShows.showId AND artistsShows.artistId = artists.id AND shows.date > ?""";
 
-    private final String deleteAllFavoritsByArtistId = "DELETE FROM favoritsArtists WHERE artistId=?";
-    private final String deleteAllUpVoteByArtistId = "DELETE FROM upVotes WHERE artistId=?";
-    private final String deleteAllShowByArtistId = "DELETE FROM artistsShows WHERE artistId=?";
 
     private final String saveShowQuery = "INSERT INTO artistsShows VALUES (?,?)";
 
@@ -234,18 +231,6 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
         showRepository.save(show);
         return super.saveOrDeleteOnManyToManyTable(artistId, show.getId(), saveShowQuery);
 
-    }
-
-    public Integer deleteAllFavorits(Integer ArtistId) {
-        return super.deleteByInteger(ArtistId, deleteAllFavoritsByArtistId);
-    }
-
-    public Integer deleteAllupVote(Integer ArtistId) {
-        return super.deleteByInteger(ArtistId, deleteAllUpVoteByArtistId);
-    }
-
-    public Integer deleteAllShows(Integer ArtistId) {
-        return super.deleteByInteger(ArtistId, deleteAllShowByArtistId);
     }
 
     //
