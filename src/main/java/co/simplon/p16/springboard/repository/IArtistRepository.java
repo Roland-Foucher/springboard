@@ -9,6 +9,8 @@ import co.simplon.p16.springboard.entity.Show;
 public interface IArtistRepository extends IGlobalRepository<Artist> {
     List<Artist> findAllSortedByVotes();
 
+    List<Artist> findAllPagineList(int pageIndex);
+
     List<Artist> findAllSortedByListenCount();
 
     List<Artist> findAllHaveShow();

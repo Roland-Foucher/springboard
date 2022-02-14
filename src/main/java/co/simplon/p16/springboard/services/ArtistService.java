@@ -69,6 +69,14 @@ public class ArtistService {
 
         return artistsList;
     }
+    public List<Artist> displayAllArtistCards() {
+        List<Artist> artistsList = artistRepository.findAll();
+        artistsList.forEach((el) -> {
+            el.setStyleName(musicalStyleRepository.findById(el.getMusicalStyleId()).getStyle());
+        });
+
+        return artistsList;
+    }
 
     /**
      * add all attributs to artist - styleName, showList, socialNetworks, trackList
