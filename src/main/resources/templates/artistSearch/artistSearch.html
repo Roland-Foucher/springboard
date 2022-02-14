@@ -5,31 +5,32 @@
     <header th:include="@{/header/navbar}"></header>
 
     <main class="mx-4">
-      <form method="get" th:action="@{search}">
+      <form th:action="@{/artistSearch/0}">
         <div class="d-flex m-2 p-3">
           <input
             class="form-control"
             type="search"
-            th:name="${searchBar}"
+            name="search"
             placeholder="artist"
-            aria-label="Search"
+            aria-label="search"
           />
           <button class="btn btn-outline-secondary mx-2" type="submit">
             Search
           </button>
         </div>
+
         <div
           class="container-fluid border-bottom border-top border-secondary p-3"
         >
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-md-3 text-center" th:each="style : ${styles}">
               <input
+                
                 type="checkbox"
                 class="btn-check"
-                th:name="${style.id}"
+                th:value="${style}"
                 th:id="${style.id}"
                 autocomplete="off"
-                
               />
               <label
                 class="btn btn-outline-secondary m-2"
@@ -38,17 +39,28 @@
                 th:text="${style.style}"
               ></label>
             </div>
-          </div>
-        </div>
-        <div class="container">
-          <div class="row">
-            <aside class="col-3"></aside>
-            <article class="col-9">
-              <div th:replace="@{/artistCard/artistCard}"></div>
-            </article>
-          </div>
+          </div> -->
         </div>
       </form>
+      <div class="container">
+        <div class="row">
+          <aside class="col-3"></aside>
+          <article class="col-9">
+            <div th:replace="@{/artistCard/artistCard}"></div>
+            <nav aria-label="Page navigation">
+              <ul class="pagination justify-content-center">
+                <li class="page-item" th:each="page : ${pages}">
+                  <a
+                    class="page-link text-dark"
+                    th:href="@{'/artistSearch/' + ${page}}"
+                    th:text="${page}"
+                  ></a>
+                </li>
+              </ul>
+            </nav>
+          </article>
+        </div>
+      </div>
     </main>
 
     <footer th:replace="@{footer/footer}"></footer>

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import co.simplon.p16.springboard.entity.Artist;
@@ -24,8 +25,9 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
     private final String findByUserIdQuery = "SELECT * FROM artists WHERE userId=?";
     private final String findAllSortedByVoteQuery = "SELECT * FROM artists ORDER BY voteCount DESC";
     private final String findAllSortedByLisenCountQuery = "SELECT * FROM artists ORDER BY listenCount DESC";
-    private final String findByArtistNameQuery = "SELECT * FROM artists WHERE artistName = ?";
-    private final String findByCityQuery = "SELECT * FROM artists WHERE city = ?";
+    private final String findByArtistNameQuery = "SELECT * FROM artists WHERE artistName LIKE ?";
+    private final String findByCityQuery = "SELECT * FROM artists WHERE city LIKE ?";
+    private final String findAllWithPagination = "SELECT * FROM artists LIMIT 8 OFFSET ?";
 
     // query to find artists have show without duplicated result
     private final String findAllHaveShowQuery = """
@@ -125,7 +127,6 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
 
     @Override
     protected Artist instanciateObject(ResultSet result) throws SQLException {
-
         return new Artist(result.getInt("id"),
                 result.getString("artistName"),
                 result.getString("coverUrl"),
@@ -218,6 +219,12 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
         return super.findListByInteger(userId, findByUpVotesQuery);
     }
 
+    @Override
+    public List<Artist> findAllPagineList(int pageIndex) {
+        return super.findListByInteger(pageIndex *= 8, findAllWithPagination);
+       
+    }
+
     /**
      * methode to add a user show in database. call shwoRepository methode save()
      * 
@@ -233,6 +240,26 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
 
     }
 
+    public Integer numberOfArtist(){
+        Integer artistCount = 0;
+            try {
+                connection = dataSource.getConnection();
+                stmt = connection.prepareStatement("SELECT COUNT(*) FROM artists");
+                ResultSet result = stmt.executeQuery();
+                if (result.next()) {
+                    artistCount = result.getInt("COUNT(*)");
+                }
+                return artistCount;
+    
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                DataSourceUtils.releaseConnection(connection, dataSource);
+            }
+    
+            return null;
+    }
+
     //
     // GETTER AND SETTERS
     //
@@ -244,5 +271,7 @@ public class ArtistRepository extends GlobalRepository<Artist> implements IArtis
     public void setShowRepository(ShowRepository showRepository) {
         this.showRepository = showRepository;
     }
+
+
 
 }

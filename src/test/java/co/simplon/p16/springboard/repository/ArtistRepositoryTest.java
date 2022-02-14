@@ -67,6 +67,16 @@ import co.simplon.p16.springboard.entity.Show;
         }
 
         @Test
+        void testFindWIthPagination(){
+            assertEquals(2, artistRepository.findAllPagineList(0).size());
+        }
+
+        @Test 
+        void numberOfArtist(){
+            assertEquals(2, artistRepository.numberOfArtist());
+        }
+
+        @Test
          void testFindAllArtist() {
             
             assertNotEquals(0,artistRepository.findAll().size());
