@@ -13,7 +13,7 @@ import co.simplon.p16.springboard.services.ArtistService;
 import co.simplon.p16.springboard.services.UserService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/artistPage/{id}")
 public class ArtistPageRestController {
 
     @Autowired
@@ -22,7 +22,7 @@ public class ArtistPageRestController {
     @Autowired
     ArtistService artistService;
 
-    @GetMapping("/artistPage/{id}/favorite")
+    @GetMapping("/favorite")
    
     public ResponseEntity<String> takeFavoritArtist(@PathVariable int id, @AuthenticationPrincipal User user) {
         if(userService.takeFavoritArtist(user.getId(), id)){
@@ -32,7 +32,7 @@ public class ArtistPageRestController {
         }
     }
 
-    @GetMapping("/artistPage/{id}/upVote")
+    @GetMapping("/upVote")
     public ResponseEntity<String> likeArtist(@PathVariable int id, @AuthenticationPrincipal User user) {
         if (userService.takeUpVoteToArtist(user.getId(), id)) {
             return ResponseEntity.ok().build();
@@ -41,7 +41,7 @@ public class ArtistPageRestController {
         }
     }
 
-    @GetMapping("/artistPage/{id}/listenCount")
+    @GetMapping("/listenCount")
     public ResponseEntity<String> listenCountIncrease(@PathVariable int id, @AuthenticationPrincipal User user) {
         if (artistService.addListenCount(id)) {
             return ResponseEntity.ok().build();
