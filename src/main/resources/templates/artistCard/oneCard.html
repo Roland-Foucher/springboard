@@ -9,7 +9,7 @@
       <h5 class="card-title" th:text="${artist.artistName}"></h5>
       <p class="card-text" th:text="${artist.styleName}"></p>
       <a
-        th:href="@{'artistPage/'+${artist.id}}"
+        th:href="@{'/artistPage/'+${artist.id}}"
         class="btn btn-outline-secondary"
         >Ecouter</a
       >

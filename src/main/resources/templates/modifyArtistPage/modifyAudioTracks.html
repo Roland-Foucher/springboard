@@ -7,13 +7,13 @@
     name="modifyTracks"
     value="true"
   />
-  <label for="changeTracks">voulez vous changer les pistes audio ?</label>
+  <label for="changeTracks">Voulez vous changer les pistes audio ?</label>
 </div>
 <!-- audio tracks -->
 <div class="container d-none" id="audioTracks">
   <div class="row">
     <div class="mb-3 col-md-6" th:each="track, itemStat : ${artist.trackList}">
-      <label for="audioName" class="form-label">Nom Titre</label>
+      <label for="audioName" class="form-label">Nom du Titre</label>
       <input
         type="text"
         class="form-control"

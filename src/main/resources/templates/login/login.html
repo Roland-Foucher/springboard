@@ -5,7 +5,7 @@
     <header th:include="@{/header/navbar}"></header>
     <!-- show notification on error -->
     <div th:if="${param.error}" class="alert-danger p-3">
-      email ou mot de passe invalid
+      Email ou mot de passe invalide
     </div>
 
     <!-- show notification of logout -->
@@ -17,7 +17,7 @@
         <h2 class="form-signin-heading mb-3">Connexion</h2>
         <form method="post" th:action="@{/login}">
           <div class="mb-3">
-            <label for="username" class="form-label">adress email</label>
+            <label for="username" class="form-label">Adresse e-mail</label>
             <input
               type="email"
               class="form-control"
@@ -37,7 +37,7 @@
             />
           </div>
           <button type="submit" class="btn btn-secondary mb-5">
-            Se Connecter
+            Se connecter
           </button>
         </form>
       </div>
