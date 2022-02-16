@@ -59,7 +59,7 @@ public class NewArtistPageController {
        
         userService.setNewRole("ROLE_ARTIST", authentication);
         
-        model.addAttribute("status", "Votre page à bien été créée !");
+        model.addAttribute("status", "Votre page a bien été créée !");
         model.addAttribute("id", id);
         return "newArtistPage/savePageOk";
     }

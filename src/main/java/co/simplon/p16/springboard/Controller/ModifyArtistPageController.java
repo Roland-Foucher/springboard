@@ -53,7 +53,7 @@ public class ModifyArtistPageController {
 
     @GetMapping("modifyArtistPage/modifyOk/{id}")
     public String saveArtsitPageOk(@PathVariable int id, Model model){
-        model.addAttribute("status", "Votre page à bien été Modifiée !");
+        model.addAttribute("status", "Votre page a bien été Modifiée !");
         model.addAttribute("id", id);
         return "newArtistPage/savePageOk";
     }
