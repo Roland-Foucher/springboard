@@ -4,7 +4,7 @@
     th:replace="head/head :: head('SpringBoard - ' + ${artist.artistName})"
   ></head>
   <body class="bg-dark text-white">
-    <header th:include="@{/header/navbar}"></header>
+    <header th:include="@{header/navbar}"></header>
     <main>
       <h1
         class="text-center m-auto pt-5 text-danger"
@@ -13,9 +13,9 @@
       <section class="container-fluid mt-5 mb-5 pt-3">
         <div class="row">
           <!-- Left part -->
-          <article th:replace="@{/artistPage/leftPart}"></article>
+          <article th:replace="@{artistPage/leftPart}"></article>
           <!-- right part -->
-          <aside th:replace="@{/artistPage/rightPart}"></aside>
+          <aside th:replace="@{artistPage/rightPart}"></aside>
         </div>
       </section>
     </main>

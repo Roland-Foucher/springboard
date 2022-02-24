@@ -2,7 +2,7 @@
 <html lang="fr">
   <head th:replace="head/head :: head('SpringBoard - Mon Compte')"></head>
   <body class="bg-dark text-white">
-    <header th:include="@{/header/navbar}"></header>
+    <header th:include="@{header/navbar}"></header>
     <main>
       <div
         class="d-md-flex justify-content-around"
@@ -49,7 +49,7 @@
       </div>
 
       <article class="text-dark">
-        <div th:replace="@{/artistCard/artistCard}"></div>
+        <div th:replace="@{artistCard/artistCard}"></div>
       </article>
     </main>
     <footer th:replace="@{footer/footer}"></footer>

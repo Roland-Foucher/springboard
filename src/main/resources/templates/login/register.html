@@ -2,7 +2,7 @@
 <html lang="fr">
   <head th:replace="head/head :: head('SpringBoard - Nouveau Compte')"></head>
   <body class="bg-dark">
-    <header th:include="@{/header/navbar}"></header>
+    <header th:include="@{header/navbar}"></header>
     <p th:if="${feedback}" th:text="${feedback}" class="alert-danger p-3"></p>
     <div class="card col-12 col-md-6 m-auto bg-dark text-white">
       <div class="card-body">

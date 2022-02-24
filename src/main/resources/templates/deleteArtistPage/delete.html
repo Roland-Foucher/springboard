@@ -4,7 +4,7 @@
     th:replace="head/head :: head('SpringBoard - supprimer ma page')"
   ></head>
   <body class="bg-dark">
-    <header th:include="@{/header/navbar}"></header>
+    <header th:include="@{header/navbar}"></header>
 
     <main class="text-white text-center mb-5">
         <h2 th:if="${error}" th:text="${error}" class="text-danger text-start"></h2>
