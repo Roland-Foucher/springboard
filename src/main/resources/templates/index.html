@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="head/head :: head('SpringBoard')"></head>
+  <head th:replace="/head/head :: head('SpringBoard')"></head>
   <body class="bg-dark">
-    <header th:include="@{/header/navbar}"></header>
+    <header th:include="@{header/navbar}"></header>
    
     <main class="mx-4">
       <article>
-        <div th:replace="@{/artistCard/artistCard}"></div>
+        <div th:replace="@{artistCard/artistCard}"></div>
       </article>
     </main>
 
