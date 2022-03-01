@@ -20,7 +20,7 @@
   //
 
   /*[# th:each="track : ${artist.trackList}"]*/
-    trackId.push(/*[[${track.id}]]*/ "default");
+  trackId.push(/*[[${track.id}]]*/ "default");
   /*[/]*/
 
   //
@@ -37,15 +37,11 @@
   //
 
   async function increaseListenCount() {
-    await fetch("/api/artistPage/" + artistId + "/listenCount")
-      .then((response) => {
-        if (response.status == 200) {
-          console.log(response);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      const response = await fetch("/api/artistPage/" + artistId + "/listenCount");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   //

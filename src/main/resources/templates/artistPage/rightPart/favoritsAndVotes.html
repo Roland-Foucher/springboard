@@ -7,7 +7,7 @@
 
   <!-- upvotes count -->
   <div class="m-auto">
-    <p  class="m-auto" th:text="${artist.voteCount}" id="voteCount">upVotes :</p>
+    <p class="m-auto" th:text="${artist.voteCount}" id="voteCount">upVotes :</p>
   </div>
 </div>
 
@@ -23,7 +23,7 @@
   let favorite = /*[[${favorite}]]*/ "default";
   let upvote = /*[[${upVote}]]*/ "default";
   let voteCount = /*[[${artist.voteCount}]]*/ "default";
-  
+
 
   // switch between upvotes classes
   function upVoteClass() {
@@ -45,50 +45,52 @@
 
   // fetch server to push or delete an upvote
   async function takeUpvote() {
-    await fetch("/api/artistPage/" + artistId + "/upVote")
-      .then((response) => {
-        if (response.redirected) {
-          window.location.href = response.url;
-        }
-        if (response.status == 200) {
-          console.log(response)
-          upvote = !upvote;
-          upVoteClass();
-          voteCountDOM.innerText = upvote ? (voteCount += 1) : (voteCount -= 1);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      const response = await fetch("/api/artistPage/" + artistId + "/upVote")
+
+      if (response.redirected) {
+        return window.location.href = response.url;
+      }
+      if (response.status == 200) {
+        console.log(response)
+        upvote = !upvote;
+        upVoteClass();
+        voteCountDOM.innerText = upvote ? (voteCount += 1) : (voteCount -= 1);
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
+
+  // take upvote on click heart button
+  upVoteButton.addEventListener("click", () => {
+    takeUpvote();
+  });
 
   // fetch server to push or delete favorites
   async function takeFavorite() {
-    await fetch("/api/artistPage/" + artistId + "/favorite")
-      .then((response) => {
-        if (response.redirected) {
-          window.location.href = response.url;
-        }
-        if (response.status == 200) {
-          favorite = !favorite;
-          favoriteClass();
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      const response = await fetch("/api/artistPage/" + artistId + "/favorite")
+
+      if (response.redirected) {
+        return window.location.href = response.url;
+      }
+      if (response.status == 200) {
+        favorite = !favorite;
+        favoriteClass();
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-    // take upvote on click heart button
-    upVoteButton.addEventListener("click", () => {
-    takeUpvote();
-  });
+
 
   // take favorite on click star button
   favoriteButton.addEventListener("click", () => {
     takeFavorite();
   });
-  
+
 
 
   /*]]>*/
