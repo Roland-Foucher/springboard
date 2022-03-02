@@ -3,7 +3,7 @@
 <head th:replace="head/head :: head('SpringBoard - modifier artist')"></head>
 
   <body class="bg-dark text-white">
-    <header th:include="@{/header/navbar}"></header>
+    <header th:include="@{header/navbar}"></header>
   <body class=" ">
     <main>
       <h1 class="text-center ">Modifier ma page 🎸</h1>
@@ -18,9 +18,9 @@
             <div class="row">
               
               <!-- info Block -->
-              <div class="card-body  col-md-5 mx-3" th:include="@{/newArtistPage/info}"></div>
+              <div class="card-body  col-md-5 mx-3" th:include="@{newArtistPage/info}"></div>
               <!-- socialNetworks -->
-              <div class="card-body col-md-5 mx-3" th:include="@{/newArtistPage/socialNetworks}"></div>
+              <div class="card-body col-md-5 mx-3" th:include="@{newArtistPage/socialNetworks}"></div>
             </div>
           </div>
           <!-- bloc audio tracks -->
@@ -28,13 +28,13 @@
           <h3 class="mt-5">Vos pistes audio <span class="text-danger">*</span></h3>
           <p>Merci d'enregistrer au moins une piste avec son titre </p>
           
-          <div th:replace="@{/modifyArtistPage/modifyAudioTracks}"></div>
+          <div th:replace="@{modifyArtistPage/modifyAudioTracks}"></div>
             
 
           <!-- bloc cover -->
-          <h3 class="mt-5">Votre photo de page <span class="text-danger">*</span></h3>
+          <h3 class="mt-5">Votre photo artiste <span class="text-danger">*</span></h3>
           
-        <div th:replace="@{/modifyArtistPage/modifyCover}"></div>
+        <div th:replace="@{modifyArtistPage/modifyCover}"></div>
               
            
             

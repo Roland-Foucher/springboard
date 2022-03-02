@@ -2,14 +2,14 @@
 <html lang="fr">
 <head th:replace="head/head :: head('SpringBoard')"></head>
   <body class="bg-dark">
-    <header th:include="@{/header/navbar}"></header>
+    <header th:include="@{header/navbar}"></header>
    
     <main class="m-4">
       <h1 class="card-img-top fas fa-user-circle text-white text-center mb-5"></h1>
       <div class="card bg-dark text-white m-auto border-secondary card col-12 col-md-6">
         
         <div class="card-body p-4">
-          <h3 class="card-text" th:text="${'Prenom : ' + user.firstName}"></h3>
+          <h3 class="card-text" th:text="${'Prénom : ' + user.firstName}"></h3>
           <h3 class="card-text" th:text="${'Nom : ' + user.lastName}"></h3>
           <h3 class="card-text pb-2" th:text="${'E-mail : ' + user.email}"></h3>
           <p class="card-text" sec:authorize="hasRole('ROLE_USER')">Profil Standard </p>

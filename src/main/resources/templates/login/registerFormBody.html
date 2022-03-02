@@ -1,5 +1,5 @@
 <div>
-  <label for="email">Prenom</label>
+  <label for="email">Prénom</label>
   <input
     th:classappend="${#fields.hasErrors('user.firstName')}?'is-invalid'"
     type="text"
@@ -21,7 +21,7 @@
   />
   <p class="invalid-feedback" th:errors="${user.lastName}"></p>
 
-  <label for="email">Email :</label>
+  <label for="email">E-mail :</label>
   <input
     th:classappend="${#fields.hasErrors('user.email')}?'is-invalid'"
     type="email"
@@ -31,7 +31,7 @@
     th:field="${user.email}"
   />
   <p class="invalid-feedback" th:errors="${user.email}"></p>
-  <label for="password">Password :</label>
+  <label for="password">Mot de passe :</label>
   <input
     th:classappend="${#fields.hasErrors('user.password')}?'is-invalid'"
     type="password"
@@ -43,5 +43,5 @@
   />
   <p class="invalid-feedback" th:errors="${user.password}"></p>
 
-  <button class="btn btn-secondary mt-3">Register</button>
+  <button class="btn btn-secondary mt-3">S'enregistrer</button>
 </div>

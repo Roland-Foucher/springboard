@@ -32,7 +32,7 @@ public class ArtistSearchController {
             @RequestParam(required = false) String search) {
 
         model.addAttribute("styles", musicalStyleRepository.findAll());
-        if (search == null|| search.isEmpty()) {
+        if (search == null || search.isEmpty()) {
             List<Artist> artistList = artistRepository.findAllPagineList(page);
             model.addAttribute("artists", artistList);
             List<Integer> pages = new ArrayList<>();
